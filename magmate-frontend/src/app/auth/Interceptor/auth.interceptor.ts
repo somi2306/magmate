@@ -23,6 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
       '/my-favorites',
       '/profile',
       '/events/my-favorites',
+      
 
       // pour POST, PUT, DELETE
       // Ajoute ici les autres routes privées

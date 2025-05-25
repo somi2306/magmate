@@ -4,14 +4,14 @@
     <button class="back-btn" (click)="goBack()">
       <i class="fa fa-arrow-left"></i> Retour aux événements
     </button>
-    <div class="actions" >
-      <button 
-        class="favorite-btn" 
+    <div class="actions">
+      <button
+        class="favorite-btn"
         [class.active]="isFavorite"
         (click)="toggleFavorite()"
       >
         <i class="fa" [ngClass]="isFavorite ? 'fa-star' : 'fa-star-o'"></i>
-        {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+        {{ isFavorite ? "Retirer des favoris" : "Ajouter aux favoris" }}
       </button>
     </div>
   </div>
@@ -29,20 +29,36 @@
   </div>
 
   <!-- Event details -->
-  <div *ngIf="event " class="event-card">
+  <div *ngIf="event" class="event-card">
     <div class="event-header">
       <span class="event-type" [ngClass]="event.type.toLowerCase()">
-        {{ event.type === 'EVENT' ? 'Événement' : 'Activité' }}
+        {{ event.type === "EVENT" ? "Événement" : "Activité" }}
       </span>
       <h1 class="event-title">{{ event.title }}</h1>
     </div>
 
-    <div class="event-banner" [style.backgroundImage]="'url(' + event.imageUrl + ')'"></div>
+    <div
+      class="event-banner"
+      [style.backgroundImage]="'url(' + event.imageUrl + ')'"
+      (click)="openImageModal(event.imageUrl)"
+      style="cursor: zoom-in"
+      title="Agrandir l'image"
+    ></div>
+
+    <!-- Modale d'image plein écran -->
+    <div class="image-modal" *ngIf="modalImageUrl" (click)="closeImageModal()">
+      <img [src]="modalImageUrl" alt="Agrandissement" />
+      <span
+        class="close-btn"
+        (click)="closeImageModal(); $event.stopPropagation()"
+        >&times;</span
+      >
+    </div>
 
     <div class="event-info">
       <div class="info-item">
         <i class="fa fa-calendar"></i>
-        <span>{{ event.date | date:'EEEE d MMMM y à HH:mm' }}</span>
+        <span>{{ event.date | date : "EEEE d MMMM y à HH:mm" }}</span>
       </div>
       <div class="info-item">
         <i class="fa fa-map-marker"></i>

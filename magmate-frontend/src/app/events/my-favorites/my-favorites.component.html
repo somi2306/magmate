@@ -1,45 +1,46 @@
-<h1>Mes favoris</h1>
-<div *ngIf="favorites.length === 0">Aucun favori pour le moment.</div>
-<div class="events-grid">
-  <div
-    *ngFor="let event of favorites"
-    class="event-card"
-    (click)="viewEventDetails(event.id)"
-  >
+<div class="my-favorites">
+  <button class="back-btn" (click)="goBack()">Retour</button>
+
+  <div *ngIf="favorites.length === 0">Aucun favori pour le moment.</div>
+  <div class="events-grid">
     <div
-      class="card-image"
-      [style.backgroundImage]="'url(' + event.imageUrl + ')'"
+      *ngFor="let event of favorites"
+      class="event-card"
+      (click)="viewEventDetails(event.id)"
     >
-      <span class="event-type" [ngClass]="event.type.toLowerCase()">
-        {{ event.type === "EVENT" ? "Événement" : "Activité" }}
-      </span>
-    </div>
-    <div class="card-content">
-      <h3 class="event-title">{{ event.title }}</h3>
-      <p class="event-date">
-        <i class="fa fa-calendar"></i>
-        {{ event.date | date : "dd/MM/yyyy HH:mm" }}
-      </p>
-      <p class="event-location">
-        <i class="fa fa-map-marker"></i>
-        {{ event.city }} - {{ event.lieu }}
-      </p>
-      <p class="event-description">
-        {{ event.description | slice : 0 : 100 }}{{ event.description.length > 100 ? "..." : "" }}
-      </p>
-      <div class="card-actions">
-        <button
-          class="details-btn"
-          (click)="viewEventDetails(event.id); $event.stopPropagation()"
-        >
-          Voir détails
-        </button>
-        <button
-          class="favorite-btn active"
-          (click)="toggleFavorite(event, $event)"
-        >
-          <i class="fa fa-star" style="color: gold"></i>
-        </button>
+      <div
+        class="card-image"
+        [style.backgroundImage]="'url(' + event.imageUrl + ')'"
+      >
+        <span class="event-type" [ngClass]="event.type.toLowerCase()">
+          {{ event.type === "EVENT" ? "Événement" : "Activité" }}
+        </span>
+      </div>
+      <div class="card-content">
+        <h3 class="event-title">{{ event.title }}</h3>
+        <p class="event-date">
+          <i class="fa fa-calendar"></i>
+          {{ event.date | date : "dd/MM/yyyy HH:mm" }}
+        </p>
+        <p class="event-location">
+          <i class="fa fa-map-marker"></i>
+          {{ event.city }} - {{ event.lieu }}
+        </p>
+
+        <div class="card-actions">
+          <button
+            class="details-btn"
+            (click)="viewEventDetails(event.id); $event.stopPropagation()"
+          >
+            Voir détails
+          </button>
+          <button
+            class="favorite-btn active"
+            (click)="toggleFavorite(event, $event)"
+          >
+            <i class="fa fa-star" style="color: gold"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>

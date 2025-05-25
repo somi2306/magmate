@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventsService } from '../events.service';
 import { Event, EventType } from '../event.model';
-import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-events-list',
@@ -23,7 +22,6 @@ export class EventsListComponent implements OnInit {
 
   constructor(
     private eventsService: EventsService,
-    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -37,9 +35,7 @@ export class EventsListComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     console.log('Événements  :');
-    this.authService.isAuthenticated().subscribe((isAuth) => {
-    this.isAuthenticated = isAuth;
-  });
+    
 
 
     this.eventsService.getAllEvents().subscribe({

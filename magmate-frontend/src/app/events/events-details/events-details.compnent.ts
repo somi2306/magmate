@@ -16,6 +16,8 @@ export class EventsDetailsComponent implements OnInit {
   error = '';
   isCreator = false;
   isFavorite = false;
+  modalImageUrl: string | null = null;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -131,6 +133,14 @@ export class EventsDetailsComponent implements OnInit {
       });
     }
   }
+
+  openImageModal(url: string) {
+  this.modalImageUrl = url;
+}
+
+closeImageModal() {
+  this.modalImageUrl = null;
+}
 
   goBack(): void {
     this.router.navigate(['/events']);

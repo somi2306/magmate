@@ -1,19 +1,10 @@
 /* Import Roboto pour la cohérence */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
-:root {
-  --primary-color: #c0392b;
-  --card-color: #fff;
-  --border-color: #eee;
-  --box-shadow: 0 4px 16px rgba(192, 57, 43, 0.07);
-  --box-shadow-hover: 0 12px 32px rgba(192, 57, 43, 0.18);
-  --text-color: #222;
-  --secondary-bg: linear-gradient(135deg, #fdecea 0%, #fafafa 100%);
-}
+
 
 body, .events-container {
   font-family: 'Roboto', Arial, sans-serif;
-  background: var(--secondary-bg);
   color: var(--text-color);
   margin: 0 2%;
 }
@@ -21,7 +12,6 @@ body, .events-container {
 .events-container {
   padding: 20px 0;
   min-height: 100vh;
-  background: var(--secondary-bg);
 }
 
 .header {
@@ -147,8 +137,10 @@ body, .events-container {
 
 .card-image {
   height: 180px;
-  background-size: cover;
+  background-size: contain; /* <-- change cover en contain */
+  background-repeat: no-repeat;
   background-position: center;
+  background-color: #f6f6f6; /* optionnel : couleur de fond neutre */
   position: relative;
   transition: filter 0.25s;
 }

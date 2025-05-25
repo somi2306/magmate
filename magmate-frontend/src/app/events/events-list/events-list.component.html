@@ -88,12 +88,9 @@
         </p>
         <p class="event-location">
           <i class="fa fa-map-marker"></i>
-          {{ event.city }} - {{ event.lieu }}
+          {{ event.city }}
         </p>
-        <p class="event-description">
-          {{ event.description | slice : 0 : 100
-          }}{{ event.description.length > 100 ? "..." : "" }}
-        </p>
+        
 
         <div class="card-actions">
           <button

@@ -51,4 +51,7 @@ export class MyFavoritesComponent implements OnInit {
       });
     }
   }
+  goBack(): void {
+  this.router.navigate(['/events']); // Redirige vers la liste des événements
+}
 }

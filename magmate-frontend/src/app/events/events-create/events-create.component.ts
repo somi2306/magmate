@@ -23,17 +23,14 @@ export class EventsCreateComponent implements OnInit {
 
   // Liste prédéfinie de villes françaises (à adapter selon vos besoins)
   cities = [
-    'Paris',
-    'Lyon',
-    'Marseille',
-    'Lille',
-    'Bordeaux',
-    'Toulouse',
-    'Nice',
-    'Nantes',
-    'Strasbourg',
-    'Montpellier',
-  ];
+    "Agadir", "Aït Melloul", "Al Hoceïma", "Azrou", "Beni Mellal", "Berkane", "Boujdour",
+    "Casablanca", "Chefchaouen", "Chichaoua", "Dakhla", "Dcheira El Jihadia", "El Jadida",
+    "Errachidia", "Essaouira", "Fès", "Guercif", "Ifrane", "Inezgane",
+    "Kénitra", "Khémisset", "Khouribga", "Laâyoune", "Larache", "Marrakech", "Meknès",
+    "Mohammédia", "Nador", "Oujda", "Rabat", "Salé", "Safi", "Sefrou", "Settat",
+    "Sidi Kacem", "Sidi Slimane", "Taourirt", "Taza", "Témara", "Tétouan", "Taroudant",
+    "Taounate", "Tiznit", "Youssoufia"
+];
 
   constructor(
     private fb: FormBuilder,
