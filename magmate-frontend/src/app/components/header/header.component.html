@@ -1,13 +1,9 @@
 <div class="navigation">
-
   <div class="nav__header">
     <div class="nav__logo">
-
       <a routerLink="/" class="logo">
-  <img src="images/logo1.png" alt="Magmate" class="logo-icon">
-
- 
-</a>
+        <img src="images/logo1.png" alt="Magmate" class="logo-icon" />
+      </a>
     </div>
     <div class="nav__menu__btn" id="menu-btn">
       <i class="ri-menu-line"></i>
@@ -16,7 +12,7 @@
   <ul class="nav__links" id="nav-links">
     <li><a routerLink="/">Accueil</a></li>
     <li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>
-    <li><a href="#événement" (click)="smoothScroll($event)">Événement</a></li>
+    <li><a [routerLink]="['/events']" (click)="smoothScroll($event)">Événement</a></li>
     <li><a  [routerLink]="['/prestataires']" (click)="smoothScroll($event)">Service de prestataire</a></li>
     
 <li class="nav__item dropdown" (click)="toggleTranslationDropdown()" (mouseleave)="hideTranslationDropdown()">

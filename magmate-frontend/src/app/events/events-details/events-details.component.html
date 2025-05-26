@@ -1,0 +1,90 @@
+<div class="all">
+  <div class="event-details-container">
+    <!-- Barre de navigation -->
+    <div class="navigation-bar">
+      <button class="back-btn" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i> Retour aux événements
+      </button>
+      <div class="actions">
+        <button
+          class="favorite-btn"
+          [class.active]="isFavorite"
+          (click)="toggleFavorite()"
+        >
+          <i class="fa" [ngClass]="isFavorite ? 'fa-star' : 'fa-star-o'"></i>
+          {{ isFavorite ? "Retirer des favoris" : "Ajouter aux favoris" }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="loader-container">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="error" class="error-message">
+      <i class="fa fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+      <button (click)="goBack()">Retourner à la liste</button>
+    </div>
+
+    <!-- Event details -->
+    <div *ngIf="event" class="event-card">
+      <div class="event-header">
+        <span class="event-type" [ngClass]="event.type.toLowerCase()">
+          {{ event.type === "EVENT" ? "Événement" : "Activité" }}
+        </span>
+        <h1 class="event-title">{{ event.title }}</h1>
+      </div>
+
+      <div
+        class="event-banner"
+        [style.backgroundImage]="'url(' + event.imageUrl + ')'"
+        (click)="openImageModal(event.imageUrl)"
+        style="cursor: zoom-in"
+        title="Agrandir l'image"
+      ></div>
+
+      <!-- Modale d'image plein écran -->
+      <div
+        class="image-modal"
+        *ngIf="modalImageUrl"
+        (click)="closeImageModal()"
+      >
+        <img [src]="modalImageUrl" alt="Agrandissement" />
+        <span
+          class="close-btn"
+          (click)="closeImageModal(); $event.stopPropagation()"
+          >&times;</span
+        >
+      </div>
+
+      <div class="event-info">
+        <div class="info-item">
+          <i class="fa fa-calendar"></i>
+          <span>{{ event.date | date : "EEEE d MMMM y à HH:mm" }}</span>
+        </div>
+        <div class="info-item">
+          <i class="fa fa-map-marker"></i>
+          <span>{{ event.city }} - {{ event.lieu }}</span>
+        </div>
+      </div>
+
+      <div class="event-description">
+        <h2>Description</h2>
+        <p>{{ event.description }}</p>
+      </div>
+
+      <!-- Actions du créateur -->
+      <div *ngIf="isCreator" class="creator-actions">
+        <button class="edit-btn" (click)="editEvent()">
+          <i class="fa fa-pencil"></i> Modifier
+        </button>
+        <button class="delete-btn" (click)="deleteEvent()">
+          <i class="fa fa-trash"></i> Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       remember: [false],
     });
   }
-  
+
   ngOnInit(): void {
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (user) {
