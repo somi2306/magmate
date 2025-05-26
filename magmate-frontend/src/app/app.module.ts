@@ -42,6 +42,8 @@ import { ConnectionSendComponent } from './components/connection-send/connection
 import { ConnectionRequestsComponent } from './components/connection-requests/connection-requests.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Pipe, PipeTransform } from '@angular/core';
+import { TranslationComponent } from './components/translation/translation.component';
+import { CurrencyComponent } from './components/currency/currency.component';
 
 @Pipe({
   name: 'initial',
@@ -95,6 +97,7 @@ const socketConfig: SocketIoConfig = {
     ConnectionSendComponent,
     ConnectionRequestsComponent,
 
+
     
     
     EventsComponent,
@@ -107,6 +110,8 @@ const socketConfig: SocketIoConfig = {
   imports: [
     HomeComponent, // Moved from imports to declarations
     TranslationCurrencyComponent, // Moved from imports to declarations
+        TranslationComponent,
+    CurrencyComponent,
     MessagerieComponent,//check
     BrowserModule,
     CommonModule,

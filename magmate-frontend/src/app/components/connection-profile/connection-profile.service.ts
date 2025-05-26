@@ -3,14 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../auth/auth.service'; 
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ConnectionProfileService {
   private API = 'http://localhost:3000'; // Modifier l'URL de base
 
-  constructor(private http: HttpClient,private authService: AuthService) {}
-
-
+  constructor(private http: HttpClient, private authService: AuthService) {
+    // Intercepteur pour les erreurs
+    this.http = http;
+  }
   
   // Nouvelle méthode pour récupérer un profil spécifique
   getSpecificUserProfile(userId: string): Promise<any> {
@@ -19,7 +22,12 @@ export class ConnectionProfileService {
 
 
   sendUserRequest(receiverId: string): Observable<any> {
-    return this.http.post(`${this.API}/user/send/${receiverId}`, {});
+    return this.http.post(`${this.API}/user/send/${receiverId}`, {}).pipe(
+      catchError(error => {
+        console.error('Error sending request:', error);
+        return throwError(() => new Error('Échec de l\'envoi de la demande'));
+      })
+    );
   }
 
   getUserRequestStatus(receiverId: string): Observable<{ status: string }> {

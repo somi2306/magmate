@@ -11,62 +11,44 @@
   </div>
   <ul class="nav__links" id="nav-links">
     <li><a routerLink="/">Accueil</a></li>
-    <!--<li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>-->
-    <li>
-      <a [routerLink]="['/marketplace']" (click)="smoothScroll($event)"
-        >Marketplace</a
-      >
-    </li>
+    <li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>
     <li><a [routerLink]="['/events']" (click)="smoothScroll($event)">Événement</a></li>
-    <li>
-      <a [routerLink]="['/prestataires']" (click)="smoothScroll($event)"
-        >Service de prestataire</a
-      >
-    </li>
-    <li>
-      <a routerLink="/translation-currency">Service de traduction et monnaie</a>
-    </li>
+    <li><a  [routerLink]="['/prestataires']" (click)="smoothScroll($event)">Service de prestataire</a></li>
+    
+<li class="nav__item dropdown" (click)="toggleTranslationDropdown()" (mouseleave)="hideTranslationDropdown()">
+      <a class="dropbtn">Service de traduction et monnaie <i class="ri-arrow-down-s-line"></i></a>
+      <div class="dropdown-menu" [class.open]="showTranslationDropdown">
+                <a class="dropdown-item" routerLink="/translation" >
+          <i class="ri-translate-2"></i> Service de Traduction
+        </a>
+        <a class="dropdown-item" routerLink="/currency" >
+          <i class="ri-money-euro-box-line"></i> Convertisseur de Monnaie
+        </a>
 
-    <!--  
-    <li class="nav__profile">
-      <a routerLink="/profile">
-        <img src="images/header-bg1.jpg" alt="header" class="nav__profile-pic" />
+      </div> 
+    </li>
+    
+<li class="nav__profile">
+  <div class="profile-dropdown">
+    <img 
+      [src]="profilePhotoUrl" 
+      alt="Photo de profil" 
+      class="nav__profile-pic"
+      (error)="profilePhotoUrl = 'images/default-profile.png'"
+      (click)="toggleDropdown()"
+    />
+    <div class="dropdown-menu" *ngIf="showDropdown">
+      <a class="dropdown-item" routerLink="/profile" (click)="hideDropdown()">
+        <i class="ri-user-line"></i> Profil
       </a>
-    </li>
--->
-    <li class="nav__profile">
-      <div class="profile-dropdown">
-        <img
-          [src]="profilePhotoUrl"
-          alt="Photo de profil"
-          class="nav__profile-pic"
-          (error)="profilePhotoUrl = 'images/default-profile.png'"
-          (click)="toggleDropdown()"
-        />
-        <div class="dropdown-menu" *ngIf="showDropdown">
-          <a
-            class="dropdown-item"
-            routerLink="/profile"
-            (click)="hideDropdown()"
-          >
-            <i class="ri-user-line"></i> Profil
-          </a>
-          <a
-            class="dropdown-item"
-            routerLink="/messagerie"
-            (click)="hideDropdown()"
-          >
-            <i class="ri-message-2-line"></i> Messagerie
-            <span
-              class="notification-badge"
-              *ngIf="totalUnreadMessages > 0"
-              [class.pulse]="isPulsing"
-            >
-              {{ totalUnreadMessages > 99 ? "99+" : totalUnreadMessages }}
-            </span>
-          </a>
-        </div>
-      </div>
-    </li>
+<a class="dropdown-item" routerLink="/messagerie" (click)="hideDropdown()">
+  <i class="ri-message-2-line"></i> Messagerie
+  <span class="notification-badge" *ngIf="totalUnreadMessages > 0" [class.pulse]="isPulsing">
+    {{ totalUnreadMessages > 99 ? '99+' : totalUnreadMessages }}
+  </span>
+</a>
+    </div>
+  </div>
+</li>
   </ul>
 </div>

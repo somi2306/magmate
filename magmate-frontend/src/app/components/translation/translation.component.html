@@ -1,0 +1,219 @@
+
+
+<header class="section__container header__container" id="home"  ><!--hehe encore une fois-->
+    <div class="header__content" >
+      <h1><span>Venez</span> et créez un voyage mémorable</h1>
+      <p class="section__description">
+        Brisez les barrières linguistiques et communiquez facilement 
+      </p>
+      
+    </div>
+    <div class="header__image" style="margin-top: 100px;">
+      <!-- Vidéo 1 -->
+      <div class="video-container">
+        <video class="header-video" loop playsinline webkit-playsinline>
+          <source src="videos/header-1.mp4" type="video/mp4">
+          
+        </video>
+        <button class="play-btn" aria-label="Play video"><i class="ri-play-fill"></i></button>
+        <button class="sound-btn" data-muted="true">
+          <i class="ri-volume-mute-fill"></i>
+        </button>
+      </div>
+      
+      <!-- Vidéo 2 -->
+      <div class="video-container">
+        <video class="header-video" loop playsinline webkit-playsinline>
+          <source src="videos/header-2.mp4" type="video/mp4">
+        </video>
+        <button class="play-btn" aria-label="Play video"><i class="ri-play-fill"></i></button>
+        <button class="sound-btn" data-muted="true">
+          <i class="ri-volume-mute-fill"></i>
+        </button>
+      </div>
+      
+      <!-- Vidéo 3 -->
+      <div class="video-container">
+        <video class="header-video" loop playsinline webkit-playsinline>
+          <source src="videos/header-3.mp4" type="video/mp4">
+        </video>
+        <button class="play-btn" aria-label="Play video"><i class="ri-play-fill"></i></button>
+        <button class="sound-btn" data-muted="true">
+          <i class="ri-volume-mute-fill"></i>
+        </button>
+      </div>
+      
+      <img src="images/bg.png" alt="Background decoration">
+    </div>
+  </header>
+
+  <div class="falling-letters-container">
+    <div *ngFor="let letter of fallingLetters" 
+         class="falling-letter {{letter.type}}"
+         [style.left.%]="letter.left"
+         [style.animation-duration.s]="letter.duration"
+         [style.animation-delay.s]="letter.delay">
+      {{letter.char}}
+    </div>
+  </div>
+
+  <section class="section__container choose__container" id="about">
+    <div class="choose__image">
+      <img src="images/choose1.jpg" alt="choose" />
+    </div>
+    <div class="choose__content">
+
+      <h2 class="section__header"><span>Traduisez</span> votre texte </h2>  
+      <ul class="choose__list">
+        <li>
+          <span><i class="ri-translate-2"></i></span>
+          <div>
+            <h4>Traduction vers l'arabe depuis n'importe quelle langue</h4>
+            <p>
+              Traduire instantanément du français, de l'anglais ou toute autre langue vers l'arabe, avec précision et fluidité.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span><i class="ri-translate"></i></span> <!-- Autre icône de traduction (inversée) -->
+          <div>
+            <h4>Traduction depuis l'arabe vers n'importe quelle langue</h4>
+            <p>
+              Bénéficiez d'une traduction rapide et fiable de l'arabe vers le français, l'anglais ou toute autre langue de votre choix.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span><i class="ri-file-upload-line"></i></span> <!-- Icône d'importation -->
+          <div>
+            <h4>Importation de fichiers & téléchargement facile</h4>
+            <p>
+              Importez un PDF ou une image, et notre outil en extrait le texte pour le traduire. Vous pouvez ensuite télécharger les phrases traduites en un clic.
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- Translation Section -->
+  <!-- Translation Section -->
+
+  <!-- Translation Section -->
+  <section class="section__container translation__container" id="translation">
+    <h2 class="section__header"><span>Traduction</span> en temps réel</h2>
+  
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button" 
+                [class.active]="activeTab === 'translator'" 
+                (click)="activeTab = 'translator'">
+          Traducteur
+        </button>
+        <button class="tab-button" 
+                [class.active]="activeTab === 'common-phrases'" 
+                (click)="activeTab = 'common-phrases'">
+          Phrases courantes
+        </button>
+      </div>
+      
+      
+      <!-- Onglet Traducteur -->
+      <div id="translator" class="tab-content" [class.active]="activeTab === 'translator'">
+        <div class="translation-wrapper">
+          <div class="card input-wrapper">
+            <div class="from">
+              <span class="heading">De :</span>
+              <div class="dropdown-container" id="input-language">
+                <div class="dropdown-toggle">
+                  <ion-icon name="globe-outline"></ion-icon>
+                  <span class="selected" data-value="auto">détection automatique</span>
+                  <ion-icon name="chevron-down-outline"></ion-icon>
+                </div>
+                <ul class="dropdown-menu"></ul>
+              </div>
+              <!-- ici, mettre input-speaker et PAS output-speaker -->
+              <button id="input-speaker" class="speaker-btn" title="Lire le texte">
+                <ion-icon name="volume-high-outline"></ion-icon>
+              </button>
+            </div>
+            
+            <div class="text-area">
+              <textarea
+                id="input-text"
+                cols="30"
+                rows="10"
+                placeholder="Entrez votre texte ici"
+              ></textarea>
+              <div class="chars"><span id="input-chars">0</span> / 5000</div>
+            </div>
+            <div class="card-bottom">
+              <p>Ou choisissez votre document !</p>
+              <label for="upload-document">
+                <span id="upload-title">Choisir le fichier</span>
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <input type="file" id="upload-document" hidden accept=".pdf,.jpg,.jpeg,.png" />
+              </label>
+            </div>
+          </div>
+  
+          <div class="card output-wrapper">
+            <div class="to">
+              <span class="heading">à :</span>
+              <div class="dropdown-container" id="output-language">
+                <div class="dropdown-toggle">
+                  <ion-icon name="globe-outline"></ion-icon>
+                  <span class="selected" data-value="en">English</span>
+                  <ion-icon name="chevron-down-outline"></ion-icon>
+                </div>
+                <ul class="dropdown-menu"></ul>
+              </div>
+              <!-- ici, mettre output-speaker et PAS input-speaker -->
+              <button id="output-speaker" class="speaker-btn" title="Lire le texte">
+                <ion-icon name="volume-high-outline"></ion-icon>
+              </button>
+            </div>
+            
+            <textarea
+              id="output-text"
+              cols="30"
+              rows="10"
+              placeholder= " Le texte traduit apparaîtra ici "
+              disabled
+            ></textarea>
+            <div class="card-bottom">
+              <p>Télécharger en tant que document !</p>
+              <button id="download-btn">
+                <span>Télécharger</span>
+                <ion-icon name="cloud-download-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="translate-btn-container">
+          <button id="translate-btn" class="btn">
+            <span>Traduire</span>
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Onglet Phrases courantes -->
+<!-- Onglet Phrases courantes -->
+<div id="common-phrases" class="tab-content" [class.active]="activeTab === 'common-phrases'">
+
+
+  <div *ngFor="let phrase of commonPhrases" class="phrase" (click)="onPhraseClick(phrase)">
+    <div class="translation-en">{{ phrase.translation }}</div>   <!-- Anglais -->
+    <div class="translation-ar">{{ phrase.arabic }}</div>         <!-- Arabe -->
+
+  </div>
+</div>
+
+
+    </div>
+  </section>
+
+<br/>

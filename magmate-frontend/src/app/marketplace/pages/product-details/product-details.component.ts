@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService1 } from '../../services/product1.service';
 import { CommentService } from '../../services/comment.service';
@@ -8,7 +8,7 @@ import { CreateReclamationDto } from '../../dto/create-reclamation.dto';
 import { Avis } from '../../models/avis.model';
 import { CreateAvisDto } from '../../dto/create-avis.dto';
 import { AuthService } from '../../../auth/auth.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { ChangeDetectorRef } from '@angular/core';
@@ -22,7 +22,7 @@ import { UserProfile } from '../../../components/connection-profile/connection-p
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, OnDestroy {
   productId!: number;
   product!: Produit;
   comments: Avis[] = [];
@@ -32,13 +32,11 @@ export class ProductDetailsComponent implements OnInit {
   rating: number = 0;
 
   reclamationData: CreateReclamationDto = {
-    idCible: 0,  // Initialisation à 0, sera mis à jour avec l'ID du produit lors de la soumission
+    idCible: 0,
     description: '',
-    pieceJointe: '',  
-    email: '', 
-     
+    pieceJointe: '',
+    email: '',
   };
-  /*zineb*/
   currentUserProfile!: UserProfile;
   ownerUserProfile!: UserProfile;
   requestStatus: string = 'not-sent';
@@ -52,25 +50,22 @@ export class ProductDetailsComponent implements OnInit {
     private commentService: CommentService,
     private reclamationService: ReclamationService,
     private route: ActivatedRoute,
-    private authService: AuthService, // Injection de AuthService
-    private router: Router ,// Injection de Router
+    private authService: AuthService,
+    private router: Router,
     private cdr: ChangeDetectorRef,
-     private connectionService: ConnectionProfileService,
+    private connectionService: ConnectionProfileService,
   ) {}
 
   ngOnInit(): void {
     this.productId = +this.route.snapshot.paramMap.get('id')!;
-    
-    // Vérifiez si l'utilisateur est connecté
+
     this.authService.getIdToken().then((token) => {
       if (token) {
-        // Si l'utilisateur est connecté, continuez le chargement des produits
         if (this.productId) {
           this.loadProductDetails();
           this.loadComments();
         }
       } else {
-        // Si l'utilisateur n'est pas connecté, rediriger vers la page de login
         this.router.navigate(['/login']);
       }
     });
@@ -119,33 +114,30 @@ export class ProductDetailsComponent implements OnInit {
     if (this.reclamationData.description) {
       try {
         const token = await this.authService.getIdToken();
-  
+
         if (!token) {
           console.error('Utilisateur non authentifié');
           return;
         }
-  
+
         const user = firebase.auth().currentUser;
-        const userEmail = user ? user.email : '';  // Récupérer l'email de l'utilisateur
-  
+        const userEmail = user ? user.email : '';
+
         if (!userEmail) {
           console.error('Email utilisateur non trouvé');
           return;
-        }
-  
+          }
+
         const newReclamationData: CreateReclamationDto = {
           description: this.reclamationData.description,
-          idCible: this.productId,  // L'ID du produit concerné
+          idCible: this.productId,
           pieceJointe: this.reclamationData.pieceJointe,
-          email: userEmail,  // Envoyer l'email de l'utilisateur
+          email: userEmail,
         };
-  
-        // Appeler le service pour ajouter la réclamation
+
         this.reclamationService.addReclamation(this.productId, newReclamationData).subscribe(
           (newReclamation: any) => {
             console.log('Nouvelle réclamation ajoutée:', newReclamation);
-            
-         
             this.reclamationData.description = '';
             this.reclamationData.pieceJointe = '';
           },
@@ -160,41 +152,37 @@ export class ProductDetailsComponent implements OnInit {
       alert('Veuillez entrer une description pour la réclamation.');
     }
   }
-  
+
 
   async addComment() {
     if (this.newComment && this.rating > 0) {
       try {
         const token = await this.authService.getIdToken();
-  
+
         if (!token) {
           console.error('Utilisateur non authentifié');
           return;
         }
-  
+
         const user = firebase.auth().currentUser;
-        const userEmail = user ? user.email : '';  // Récupérer l'email de l'utilisateur
-  
+        const userEmail = user ? user.email : '';
+
         if (!userEmail) {
           console.error('Email utilisateur non trouvé');
           return;
         }
-  
+
         const newCommentData: CreateAvisDto = {
           commentaire: this.newComment,
           note: this.rating,
           idProduit: this.productId,
-          email: userEmail,  // Envoyer l'email de l'utilisateur
+          email: userEmail,
         };
-  
-        // Appeler le service pour ajouter le commentaire
+
         this.commentService.addComment(this.productId, newCommentData).subscribe(
           (newComment: Avis) => {
             console.log('Nouveau commentaire ajouté:', newComment);
-           
             this.comments.push(newComment);
-            
-            
             this.newComment = '';
             this.rating = 0;
             this.loadComments();
@@ -210,10 +198,7 @@ export class ProductDetailsComponent implements OnInit {
       alert('Veuillez entrer un commentaire et une note.');
     }
   }
-  
-  
-  
-  
+
   setRating(star: number) {
     this.rating = star;
   }
@@ -221,9 +206,7 @@ export class ProductDetailsComponent implements OnInit {
   closeReclamationForm() {
     this.showReclamationForm = false;
   }
-  
-  
-/* zineb */
+
 
   ngOnDestroy() {
     if (this.statusCheckInterval) {
@@ -253,12 +236,12 @@ export class ProductDetailsComponent implements OnInit {
       const response = await firstValueFrom(
         this.connectionService.getUserRequestStatus(ownerId)
       );
-      
+
       if (this.requestStatus !== response.status) {
         this.requestStatus = response.status;
         this.saveStateToStorage(ownerId);
       }
-      
+
       if (response.status === 'waiting-for-current-user-response') {
         await this.findCurrentRequestId(ownerId);
       }
@@ -272,8 +255,8 @@ export class ProductDetailsComponent implements OnInit {
       const requests = await firstValueFrom(
         this.connectionService.getReceivedRequests()
       );
-      const request = requests.find(r => 
-        r.creator.id === ownerId && 
+      const request = requests.find(r =>
+        r.creator.id === ownerId &&
         r.receiver.id === this.currentUserProfile.id
       );
       if (request && this.currentRequestId !== request.id) {
@@ -285,129 +268,89 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-async contactSeller(): Promise<void> {
+  async contactSeller(): Promise<void> {
     console.log('[DEBUG] Début de contactSeller()');
-    const ownerId = this.product?.magasin?.proprietaire?.id;
+    const ownerId = this.product?.magasin?.proprietaire?.id; // Assurez-vous que le chemin est correct pour obtenir l'ID du propriétaire
     console.log('[DEBUG] ID du propriétaire:', ownerId);
 
     if (!ownerId) {
-        console.error('[ERROR] Propriétaire ID non trouvé');
-        return;
+      console.error('[ERROR] Propriétaire ID non trouvé');
+      this.error = "Informations du propriétaire manquantes";
+      return;
     }
 
     this.isLoadingConnection = true;
     this.error = null;
 
     try {
-        // 1. Charger l'état actuel
-        this.loadStateFromStorage(ownerId);
+      const currentUserId = await this.authService.getUserIdByToken();
+      if (!currentUserId) {
+        throw new Error("Impossible de récupérer l'utilisateur courant.");
+      }
 
-        // 2. Récupérer les profils utilisateurs
-        const currentUserId = await this.authService.getUserIdByToken();
-        if (!currentUserId) {
-            throw new Error("Impossible de récupérer l'utilisateur courant.");
+      const [currentProfile, ownerProfile] = await Promise.all([
+        this.connectionService.getSpecificUserProfile(currentUserId),
+        this.connectionService.getSpecificUserProfile(ownerId)
+      ]);
+
+      if (!currentProfile || !ownerProfile) {
+        throw new Error("Échec du chargement des profils");
+      }
+
+      this.currentUserProfile = currentProfile;
+      this.ownerUserProfile = ownerProfile;
+
+      // 1. Vérifier le statut actuel de la requête de connexion
+      const statusResponse = await firstValueFrom(this.connectionService.getUserRequestStatus(ownerId));
+      const currentStatus = statusResponse.status;
+      console.log('[DEBUG] Statut actuel de la requête:', currentStatus);
+
+      if (['accepted', 'pending', 'waiting-for-current-user-response'].includes(currentStatus)) {
+        // Si une interaction est déjà en cours ou acceptée, nous redirigeons directement
+        console.log('[DEBUG] Requête existante ou acceptée. Redirection vers la messagerie.');
+        this.router.navigate(['/messagerie'], {
+          queryParams: { recipientId: ownerId }
+        });
+      } else {
+        // Si aucune requête n'existe, ou si elle est 'rejected', nous envoyons une nouvelle requête
+        console.log('[DEBUG] Création ou mise à jour de la demande de connexion.');
+        const sendRequestResponse = await firstValueFrom(
+          this.connectionService.sendUserRequest(ownerId)
+        );
+
+        if (sendRequestResponse && (sendRequestResponse as any).error) {
+          // Si sendUserRequest renvoie une erreur (par exemple "Request already exists"), nous la traitons
+          // en redirigeant vers la messagerie, car cela signifie qu'une requête existe déjà.
+          console.warn('[WARN] sendUserRequest a renvoyé une erreur (probablement "Request already exists"). Redirection vers la messagerie.');
+          this.router.navigate(['/messagerie'], {
+            queryParams: { recipientId: ownerId }
+          });
+        } else {
+          console.log('[DEBUG] Demande envoyée/mise à jour avec succès. Redirection vers la messagerie.');
+          this.router.navigate(['/messagerie'], {
+            queryParams: { recipientId: ownerId }
+          });
         }
+      }
 
-        const [currentProfile, ownerProfile] = await Promise.all([
-            this.connectionService.getSpecificUserProfile(currentUserId),
-            this.connectionService.getSpecificUserProfile(ownerId)
-        ]);
-
-        this.currentUserProfile = currentProfile;
-        this.ownerUserProfile = ownerProfile;
-
-        // 3. Vérifier le statut actuel
-        await this.checkRequestStatus(ownerId);
-
-        // 4. Logique de redirection
-        if (this.requestStatus === 'accepted') {
-            // Cas 1: Déjà connectés → redirection directe
-            console.log('[DEBUG] Utilisateurs déjà connectés - redirection');
-            this.router.navigate(['/messagerie'], {
-                queryParams: { recipientId: ownerId }
-            });
-        } else if (this.requestStatus === 'pending' || 
-                  this.requestStatus === 'waiting-for-current-user-response') {
-            // Cas 2: Demande en attente → redirection quand même
-            console.log('[DEBUG] Demande existante - redirection');
-            this.router.navigate(['/messagerie'], {
-                queryParams: { recipientId: ownerId }
-            });
-        } else if (this.requestStatus === 'not-sent') {
-            // Cas 3: Aucune demande → création et acceptation automatique
-            console.log('[DEBUG] Envoi nouvelle demande');
-            const response = await firstValueFrom(
-                this.connectionService.sendUserRequest(ownerId)
-            );
-
-            if (response && (response as any).error) {
-                throw new Error((response as any).error);
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 500));
-            await this.acceptRequestAutomatically(ownerId);
-            
-            console.log('[DEBUG] Redirection après création demande');
-            this.router.navigate(['/messagerie'], {
-                queryParams: { recipientId: ownerId }
-            });
-        }
-
-        this.startStatusChecking(ownerId);
     } catch (err: any) {
-        console.error('[ERROR] Erreur complète:', err);
-        this.error = err.message || "Échec de l'envoi de la demande";
+      console.error('[ERROR] Erreur complète:', err);
+      this.error = err.message || "Échec de l'opération de contact";
     } finally {
-        this.isLoadingConnection = false;
-        this.cdr.detectChanges();
+      this.isLoadingConnection = false;
+      this.cdr.detectChanges();
     }
-}
-
-private async acceptRequestAutomatically(ownerId: string) {
-  await new Promise(resolve => setTimeout(resolve, 1000)); // Délai explicite
-  
-  const requests = await firstValueFrom(
-    this.connectionService.getReceivedRequests()
-  );
-  
-  const request = requests.find(r => 
-    r.creator.id === ownerId && // Note: inversion par rapport à votre code original
-    r.receiver.id === this.currentUserProfile.id &&
-    r.status === 'pending'
-  );
-  
-  if (request) {
-    await firstValueFrom(
-      this.connectionService.respondToUserRequest(request.id, 'accepted')
-    );
-    this.requestStatus = 'accepted';
-    this.saveStateToStorage(ownerId);
-  }
-}
-
-  private startStatusChecking(ownerId: string) {
-    if (this.statusCheckInterval) {
-      clearInterval(this.statusCheckInterval);
-    }
-    
-    this.statusCheckInterval = setInterval(async () => {
-      await this.checkRequestStatus(ownerId);
-      this.cdr.detectChanges(); // Forcer la détection des changements
-    }, 10000); // Vérifier toutes les 10 secondes
   }
 
   getConnectionStatusMessage(): string {
     switch (this.requestStatus) {
       case 'not-sent': return 'Aucune demande envoyée';
       case 'pending': return 'Demande envoyée - En attente de réponse';
-      case 'accepted': return 'Vous êtes connectés';
+      case 'accepted': return 'Nous sommes connectés';
       case 'rejected': return 'Demande refusée';
-      case 'waiting-for-current-user-response': 
-        return 'Cet utilisateur vous a envoyé une demande';
+      case 'waiting-for-current-user-response':
+        return 'Cet utilisateur nous a envoyé une demande';
       default: return 'Statut inconnu';
     }
   }
-
-  
-  
 }
