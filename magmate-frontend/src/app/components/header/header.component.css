@@ -87,7 +87,7 @@ html, body {
   top: 0;
   left: 0;
   z-index: 1000;
-  padding: 1rem 0;
+  margin-right: 1rem;
   transition: background-color 0.3s ease;
   font-family: "DM Sans", sans-serif;/*hehe solution de écriture unifié */
 }

@@ -1,16 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany,ManyToMany, OneToOne  } from 'typeorm';
-
-
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  OneToOne,
+} from 'typeorm';
 import { UserRequestEntity } from './userrequest.entity';
 import { ConversationEntity } from '../../messagerie/models/conversation.entity';
 import { MessageEntity } from '../../messagerie/models/message.entity';
 import { avisprestataire } from 'src/prestataire/entities/avisprestataire.entity';
 import { Reclamationprestataire } from 'src/prestataire/entities/reclamationprestataire.entity';
-
 import { Prestataire } from 'src/prestataire/entities/prestataire.entity';
 import { Avis } from 'src/marketplace/entities/avis.entity';
 import { Reclamation } from 'src/marketplace/entities/reclamation.entity';
 import { Magasin } from 'src/marketplace/entities/magasin.entity';
+import { Favorite } from 'src/events/entities/favorite.entity';
+import { Event } from 'src/events/entities/event.entity';
 
 enum UserRole {
   ADMIN = 'admin',
@@ -21,7 +27,7 @@ enum UserRole {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-/*
+  /*
   @Column({ unique: true, nullable: true })
   firebaseUid: string; // Ajoutez cette ligne
 
@@ -47,7 +53,7 @@ export class User {
   @Column({ name: 'registration_date', default: () => 'CURRENT_TIMESTAMP' })
   registrationDate: Date;
 
-    // 🔗 Relation OneToOne avec Prestataire
+  // 🔗 Relation OneToOne avec Prestataire
   @OneToOne(() => Prestataire, (prestataire) => prestataire.utilisateur, {
     nullable: true,
   })
@@ -71,27 +77,24 @@ export class User {
   )
   Reclamations: Reclamationprestataire[];
 
-  
-    @OneToMany(
-      () => UserRequestEntity,
-      (userRequest) => userRequest.creator,
-    )
-    sentUserRequests: UserRequestEntity[];
-  
-    @OneToMany(
-      () => UserRequestEntity,
-      (userRequest) => userRequest.receiver,
-    )
-    receivedUserRequests: UserRequestEntity[];
+  @OneToMany(() => UserRequestEntity, (userRequest) => userRequest.creator)
+  sentUserRequests: UserRequestEntity[];
 
-    @ManyToMany(
-      () => ConversationEntity,
-      (conversationEntity) => conversationEntity.users,
-    )
-    conversations: ConversationEntity[];
-  
-    @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.user)
-    messages: MessageEntity[];
-    
-  }
+  @OneToMany(() => UserRequestEntity, (userRequest) => userRequest.receiver)
+  receivedUserRequests: UserRequestEntity[];
 
+  @ManyToMany(
+    () => ConversationEntity,
+    (conversationEntity) => conversationEntity.users,
+  )
+  conversations: ConversationEntity[];
+
+  @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.user)
+  messages: MessageEntity[];
+
+  @OneToMany(() => Event, (event) => event.createdBy)
+  events: Event[];
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorites: Favorite[];
+}

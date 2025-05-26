@@ -17,7 +17,7 @@
         >Marketplace</a
       >
     </li>
-    <li><a href="#événement" (click)="smoothScroll($event)">Événement</a></li>
+    <li><a [routerLink]="['/events']" (click)="smoothScroll($event)">Événement</a></li>
     <li>
       <a [routerLink]="['/prestataires']" (click)="smoothScroll($event)"
         >Service de prestataire</a
