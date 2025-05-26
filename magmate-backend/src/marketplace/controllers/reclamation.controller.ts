@@ -16,16 +16,19 @@ export class ReclamationController {
   }
 
   // Route pour ajouter une réclamation à un produit
-  @Post(':productId')
-  @UseGuards(FirebaseAuthGuard)  // Applique le guard pour s'assurer que l'utilisateur est authentifié
-  async addReclamation(
+ @Post(':productId')
+@UseGuards(FirebaseAuthGuard)
+async addReclamation(
     @Param('productId') productId: number,
     @Body() createReclamationDto: CreateReclamationDto,
-    @GetUser() user: RequestWithUser['user'] // Récupère l'utilisateur authentifié à partir du token Firebase
-  ) {
-    createReclamationDto.idCible = productId;  // Lier l'ID du produit concerné à la réclamation
-
-    // Appeler le service pour créer la réclamation
-    return this.reclamationService.createReclamation(createReclamationDto, user);
-  }
+    @GetUser() user: RequestWithUser['user']
+) {
+    // Utilisez l'email de l'utilisateur authentifié plutôt que celui du DTO
+    createReclamationDto.idCible = productId;
+    
+    return this.reclamationService.createReclamation(
+        createReclamationDto, 
+        user.email
+    );
+}
 }

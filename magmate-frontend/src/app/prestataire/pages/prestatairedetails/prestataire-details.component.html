@@ -26,7 +26,14 @@
 
       <div class="button-group">
         <button class="report-button" (click)="openReclamationModal()">Signaler le prestataire</button>
-<button class="contact-button" (click)="contactPrestataire()">Contacter le prestataire</button>
+        <button (click)="contactPrestataire()" [disabled]="isLoadingConnection">
+  {{ isLoadingConnection ? 'Chargement...' : 'Contacter le prestataire' }}
+</button>
+
+<div *ngIf="connectionError" class="error-message">{{ connectionError }}</div>
+<div *ngIf="requestStatus !== 'not-sent'" class="connection-status">
+  Statut: {{ getConnectionStatusMessage() }}
+</div>
       </div>
     </div>
   </div>

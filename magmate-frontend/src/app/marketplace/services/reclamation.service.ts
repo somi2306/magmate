@@ -14,9 +14,18 @@ export class ReclamationService {
   constructor(private http: HttpClient) {}
 
   // Méthode pour ajouter une réclamation pour un produit
-  addReclamation(productId: number, reclamationData: CreateReclamationDto): Observable<any> {
+// Méthode pour ajouter une réclamation pour un produit
+addReclamation(productId: number, reclamationData: CreateReclamationDto): Observable<any> {
+    // Pour debugger le contenu de l'objet
+    console.log('Données de réclamation:', reclamationData);
+    
+    // Alternative si vous voulez vraiment itérer sur les propriétés
+    Object.entries(reclamationData).forEach(([key, value]) => {
+        console.log(key, value);
+    });
+
     return this.http.post(`${this.apiUrl}/${productId}`, reclamationData);  // Effectuer un appel POST
-  }
+}
 
  
 }

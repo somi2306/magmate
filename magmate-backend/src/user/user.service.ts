@@ -10,8 +10,8 @@ import { Observable, from, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import UserRequestEntity from './entities/userrequest.entity';
 
-import { switchMap } from 'rxjs/operators'; // Import de 'switchMap'
-import { UserRequestStatus } from './entities/userrequest.entity';  // Adaptez le chemin en fonction de la localisation de votre fichier
+import { switchMap } from 'rxjs/operators';
+import { UserRequestStatus } from './entities/userrequest.entity';
 import { In } from 'typeorm';
 import { tap } from 'rxjs/operators';
 
@@ -25,7 +25,6 @@ export class UserService {
     private readonly userRequestRepository: Repository<UserRequestEntity>,
   ) {}
 
-  // Méthode pour récupérer le profil
   async getProfile(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
 
@@ -42,58 +41,50 @@ export class UserService {
     }
     return user.id;
   }
-  
-  
+
 
   findUserById(id: string): Observable<User> {
-    // Nettoyage de l'UUID pour enlever les caractères indésirables (espaces, retours à la ligne)
-    const cleanId = id.trim(); 
-  
+    const cleanId = id.trim();
+
     return from(
       this.userRepository.findOne({
         where: { id: cleanId },
-        relations: ['avis', 'reclamations', 'magasins', 'sentUserRequests', 'receivedUserRequests'],  // Ajuste les relations selon tes besoins
+        relations: ['avis', 'reclamations', 'magasins', 'sentUserRequests', 'receivedUserRequests'],
       })
     ).pipe(
       map((user: User) => {
         if (!user) {
           throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
-        delete user.password;  // Supprime le mot de passe avant d'envoyer les informations sensibles
+        delete user.password;
         return user;
       })
     );
   }
 
-    // Méthode pour creer un utilisateur
-    async createUser(createUserDto: CreateUserDto): Promise<User> {
-      // Vérification si l'email existe déjà
-      const userExists = await this.userRepository.findOne({
-        where: { email: createUserDto.email },
-      });
-  
-      if (userExists) {
-        throw new HttpException(
-          " Cet email n'est pas valide ",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      //Si l'email n'existe pas, on le crée
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
-  
-      const user = this.userRepository.create({
-        ...createUserDto,
-        password: hashedPassword,
-      });
-  
-      return this.userRepository.save(user);
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const userExists = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+
+    if (userExists) {
+      throw new HttpException(
+        " Cet email n'est pas valide ",
+        HttpStatus.BAD_REQUEST,
+      );
     }
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
+    const user = this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+
+    return this.userRepository.save(user);
+  }
 
 
-    
-    
-  /*zineb */
   hasRequestBeenSentOrReceived(
     creator: User,
     receiver: User,
@@ -112,55 +103,59 @@ export class UserService {
       }),
     );
   }
+
+  // MODIFICATION ICI
   async sendUserRequest(
     receiverId: string,
-    creatorPayload: any, // Le payload Firebase, pas une entité User
+    creatorPayload: any,
   ): Promise<UserRequestEntity | { error: string }> {
-    // 1. Trouver l'utilisateur créateur dans la base de données
-    const creator = await this.userRepository.findOne({ 
-      where: { email: creatorPayload.email } 
+    const creator = await this.userRepository.findOne({
+      where: { email: creatorPayload.email }
     });
-  
+
     if (!creator) {
-      return { error: 'Creator user not found in database' };
+      return { error: 'Utilisateur créateur introuvable dans la base de données' };
     }
-  
+
     if (receiverId === creator.id) {
-      return { error: 'Cannot send request to yourself' };
+      return { error: 'Impossible de vous envoyer une demande' };
     }
-  
-    // 2. Trouver le receiver
-    const receiver = await this.userRepository.findOne({ 
-      where: { id: receiverId } 
+
+    const receiver = await this.userRepository.findOne({
+      where: { id: receiverId }
     });
-  
+
     if (!receiver) {
-      return { error: 'Receiver not found' };
+      return { error: 'Récepteur non trouvé' };
     }
-  
-    // 3. Vérifier si une demande existe déjà
-    const existingRequest = await this.userRequestRepository.findOne({
+
+    let userRequest = await this.userRequestRepository.findOne({
       where: [
         { creator: { id: creator.id }, receiver: { id: receiver.id } },
         { creator: { id: receiver.id }, receiver: { id: creator.id } },
       ],
     });
-  
-    if (existingRequest) {
-      return { error: 'Request already exists between these users' };
+
+    if (userRequest) {
+      // Si la requête existe déjà, on la met à jour au statut ACCEPTED
+      if (userRequest.status !== UserRequestStatus.ACCEPTED) {
+        userRequest.status = UserRequestStatus.ACCEPTED;
+        return this.userRequestRepository.save(userRequest);
+      }
+      // Si elle est déjà ACCEPTED, on retourne la requête existante
+      return userRequest;
+    } else {
+      // Si la requête n'existe pas, on la crée avec le statut ACCEPTED
+      userRequest = this.userRequestRepository.create({
+        creator: { id: creator.id },
+        receiver: { id: receiver.id },
+        status: UserRequestStatus.ACCEPTED
+      });
+      return this.userRequestRepository.save(userRequest);
     }
-  
-    // 4. Créer et sauvegarder la nouvelle demande
-    const userRequest = this.userRequestRepository.create({
-      creator: { id: creator.id }, // Référence seulement par ID
-      receiver: { id: receiver.id },
-      status: UserRequestStatus.ACCEPTED
-    });
-  
-    return this.userRequestRepository.save(userRequest);
   }
-  
-  
+
+
   getUserRequestStatus(
     receiverId: string,
     currentUser: User,
@@ -181,20 +176,20 @@ export class UserService {
         if (!userRequest) {
           return { status: 'not-sent' };
         }
-  
+
         if (userRequest.receiver.id === currentUser.id) {
           return { status: 'waiting-for-current-user-response' };
         }
-  
+
         return { status: userRequest.status };
       }),
     );
   }
-  
+
   getUserRequestUserById(userRequestId: number): Observable<UserRequestEntity> {
     return from(
       this.userRequestRepository.findOne({
-        where: { id: userRequestId },  // Utilisez directement un objet et non un tableau
+        where: { id: userRequestId },
       })
     ).pipe(
       map((userRequest) => {
@@ -205,7 +200,7 @@ export class UserService {
       })
     );
   }
-  
+
   respondToUserRequest(
     statusResponse: UserRequestStatus,
     userRequestId: number,
@@ -215,16 +210,16 @@ export class UserService {
         if (!userRequest) {
           throw new HttpException('Demande non trouvée', HttpStatus.NOT_FOUND);
         }
-  
+
         userRequest.status = statusResponse;
-  
+
         return from(this.userRequestRepository.save(userRequest)).pipe(
           map((updatedRequest: UserRequestEntity) => updatedRequest.status),
         );
       }),
     );
   }
-  
+
   getUserRequestsFromRecipients(
     currentUser: User,
   ): Observable<UserRequestEntity[]> {
@@ -235,7 +230,7 @@ export class UserService {
       }),
     );
   }
-  
+
 
   getUsers(currentUser: User): Observable<User[]> {
     return from(
@@ -249,7 +244,7 @@ export class UserService {
     ).pipe(
       map((requests: UserRequestEntity[]) => {
         const userIds: string[] = [];
-  
+
         for (const req of requests) {
           if (req.creator.id === currentUser.id) {
             userIds.push(req.receiver.id);
@@ -257,14 +252,14 @@ export class UserService {
             userIds.push(req.creator.id);
           }
         }
-  
+
         return userIds;
       }),
       switchMap((userIds: string[]) => {
         if (userIds.length === 0) {
           return of([]);
         }
-  
+
         return from(
           this.userRepository.find({
             where: { id: In(userIds) },
@@ -272,7 +267,6 @@ export class UserService {
         );
       }),
       map((users: User[]) => {
-        // Optionnel : nettoyer les mots de passe
         return users.map((user) => {
           delete user.password;
           return user;
@@ -280,58 +274,4 @@ export class UserService {
       }),
     );
   }
-  
-  
-
-
-  /*
-  // // Méthode pour mettre à jour le profil
-  // async updateProfile(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-  //   // const user = await this.userRepository.findOne({ where: { id } });
-  //   // if (!user) {
-  //   //   throw new Error('Utilisateur non trouvé');
-  //   // }
-  //   const user = await this.getProfile(id);
-    
-  //   if (updateUserDto.fname) user.fname = updateUserDto.fname;
-  //   if (updateUserDto.lname) user.lname = updateUserDto.lname;
-  //   if (updateUserDto.photo) user.photo = updateUserDto.photo;
-    
-  //   if (updateUserDto.email && user.email !== updateUserDto.email) {
-  //     const userExists = await this.userRepository.findOne({
-  //       where: { email: updateUserDto.email },
-  //     });
-  //     if (userExists) {
-  //       throw new HttpException(
-  //         " Cet email n'est pas valide ",
-  //         HttpStatus.BAD_REQUEST,
-  //       );
-  //     } else {
-  //       user.email = updateUserDto.email;
-  //     }
-  //   }
-    
-  //   if (updateUserDto.password) {
-  //     const samePassword = await bcrypt.compare(
-  //       updateUserDto.password,
-  //       user.password,
-  //     );
-  //     if (samePassword) {
-  //       throw new HttpException(
-  //         "Le mot de passe doit être différent de l'ancien",
-  //         HttpStatus.BAD_REQUEST,
-  //       );
-  //     }
-
-  //     const salt = await bcrypt.genSalt();
-  //     user.password = await bcrypt.hash(updateUserDto.password, salt);
-  //   }
-
-  //   return this.userRepository.save(user);
-  // }
-*/
-
-
-
-  
 }
