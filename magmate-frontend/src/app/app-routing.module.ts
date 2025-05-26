@@ -32,10 +32,13 @@ import { ProductUpdateComponent } from './marketplace/pages/product-update/produ
 import { ConnectionProfileComponent } from './components/connection-profile/connection-profile.component';
 import { ConnectionSendComponent } from './components/connection-send/connection-send.component';
 import { ConnectionRequestsComponent } from './components/connection-requests/connection-requests.component';
+import { TranslationComponent } from './components/translation/translation.component';
+import { CurrencyComponent } from './components/currency/currency.component';
 const routes: Routes = [
   
   { path: 'translation-currency', component: TranslationCurrencyComponent },
-
+{ path: 'translation', component: TranslationComponent },
+  { path: 'currency', component: CurrencyComponent },
   { path: '', component: HomeComponent },
   { path: 'prestataires', component: AccueilPrestataireComponent },
   { path: 'signup', component: SignupComponent },

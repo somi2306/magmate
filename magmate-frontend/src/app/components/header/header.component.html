@@ -15,19 +15,23 @@
   </div>
   <ul class="nav__links" id="nav-links">
     <li><a routerLink="/">Accueil</a></li>
-    <!--<li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>-->
     <li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>
     <li><a href="#événement" (click)="smoothScroll($event)">Événement</a></li>
     <li><a  [routerLink]="['/prestataires']" (click)="smoothScroll($event)">Service de prestataire</a></li>
-    <li><a routerLink="/translation-currency">Service de traduction et monnaie</a></li>
     
-<!--  
-    <li class="nav__profile">
-      <a routerLink="/profile">
-        <img src="images/header-bg1.jpg" alt="header" class="nav__profile-pic" />
-      </a>
+<li class="nav__item dropdown" (click)="toggleTranslationDropdown()" (mouseleave)="hideTranslationDropdown()">
+      <a class="dropbtn">Service de traduction et monnaie <i class="ri-arrow-down-s-line"></i></a>
+      <div class="dropdown-menu" [class.open]="showTranslationDropdown">
+                <a class="dropdown-item" routerLink="/translation" >
+          <i class="ri-translate-2"></i> Service de Traduction
+        </a>
+        <a class="dropdown-item" routerLink="/currency" >
+          <i class="ri-money-euro-box-line"></i> Convertisseur de Monnaie
+        </a>
+
+      </div> 
     </li>
--->  
+    
 <li class="nav__profile">
   <div class="profile-dropdown">
     <img 
@@ -52,4 +56,3 @@
 </li>
   </ul>
 </div>
-

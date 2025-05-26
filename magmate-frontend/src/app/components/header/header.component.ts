@@ -5,6 +5,7 @@ import { AuthService } from '../../auth/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Subscription } from 'rxjs';
 import { MessagerieService  } from '../messagerie/services/messagerie.service'; // Ajustez le chemin
+
 @Component({
   selector: 'app-header',
   standalone: false,
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   totalUnreadMessages = 0;
   private messagerieSubscription?: Subscription;
   isPulsing = false;
+  showTranslationDropdown = false; // Add this line
 
   constructor(
     private profileService: ProfileService,
@@ -35,6 +37,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideDropdown(): void {
     this.showDropdown = false;
   }
+
+toggleTranslationDropdown() { // Add this method
+  this.showTranslationDropdown = !this.showTranslationDropdown;
+}
+
+hideTranslationDropdown() { // Add this method
+  this.showTranslationDropdown = false;
+}
 
 async ngOnInit(): Promise<void> {
   this.authStateSubscription = this.afAuth.authState.subscribe(async user => {
@@ -112,34 +122,3 @@ private async initMessagerieNotifications() {
   }
 }
 }
-
-
-
-
-/**
- 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
-
-@Injectable({ providedIn: 'root' })
-export class ProfileService {
-  private API = 'http://localhost:3000/profile';
-
-  constructor(private http: HttpClient) {}
-
-  
-
-  getProfile(): Promise<any> {
-    return firstValueFrom(this.http.get(this.API));
-  }
-
-  updateProfilePhoto(photoData: FormData): Promise<any> {
-    return firstValueFrom(this.http.patch(${this.API}/update-photo, photoData));
-  }
-  
-  
-
-}
-
- */

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+// Dans prestataire-details.component.ts
+import { Component, OnInit, OnDestroy } from '@angular/core'; // Ajout de OnDestroy
 import { ActivatedRoute } from '@angular/router';
 import { PrestatairedetailsService } from '../../services/prestatairedetails.service';
 import { CommentPrestataireService } from '../../services/comment-prestataire.service';
@@ -13,7 +14,8 @@ import { Router } from '@angular/router';
 import { ConnectionProfileService } from '../../../components/connection-profile/connection-profile.service';
 import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../../components/connection-profile/connection-profile.model';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs'; // Ajout de OnDestroy
+
 
 @Component({
   selector: 'app-prestataire-details',
@@ -21,7 +23,7 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./prestataire-details.component.css'],
   standalone: false,
 })
-export class PrestataireDetailsComponent implements OnInit {
+export class PrestataireDetailsComponent implements OnInit, OnDestroy { // Implémenter OnDestroy
   prestataire: any = null;
   showReclamationForm: boolean = false;
   comments: CommentPrestataire[] = [];
@@ -243,92 +245,113 @@ openReclamationModal() {
   }
 
   
-  async contactPrestataire(): Promise<void> {
-    console.log('[DEBUG] Début de contactPrestataire()');
-    const prestataireId = this.prestataire?.utilisateur?.id;
-    console.log('[DEBUG] ID du prestataire:', prestataireId);
-
-    if (!prestataireId) {
-      console.error('[ERROR] ID prestataire non trouvé');
-      return;
-    }
-
-    this.isLoadingConnection = true;
-    this.connectionError = null;
-
-    try {
-      // 1. Charger l'état actuel
-      this.loadStateFromStorage(prestataireId);
-
-      // 2. Récupérer les profils utilisateurs
-      const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
-      if (!userString) {
-        throw new Error("Utilisateur non connecté");
-      }
-      
-      const user = JSON.parse(userString);
-      const email = user.email;
-
-      const response = await lastValueFrom(this.prestatireservice.getUuidByEmail(email));
-      const currentUserId = response.uuid;
-
-      const [currentProfile, prestataireProfile] = await Promise.all([
-        this.connectionService.getSpecificUserProfile(currentUserId),
-        this.connectionService.getSpecificUserProfile(prestataireId)
-      ]);
-
-      this.currentUserProfile = currentProfile;
-      this.prestataireUserProfile = prestataireProfile;
-
-      // 3. Vérifier le statut actuel
-      await this.checkRequestStatus(prestataireId);
-
-      // 4. Logique de redirection
-      if (this.requestStatus === 'accepted') {
-        // Cas 1: Déjà connectés → redirection directe
-        console.log('[DEBUG] Utilisateurs déjà connectés - redirection');
-        this.router.navigate(['/messagerie'], {
-          queryParams: { recipientId: prestataireId }
-        });
-      } else if (this.requestStatus === 'pending' || 
-                this.requestStatus === 'waiting-for-current-user-response') {
-        // Cas 2: Demande en attente → redirection quand même
-        console.log('[DEBUG] Demande existante - redirection');
-        this.router.navigate(['/messagerie'], {
-          queryParams: { recipientId: prestataireId }
-        });
-      } else if (this.requestStatus === 'not-sent') {
-        // Cas 3: Aucune demande → création et acceptation automatique
-        console.log('[DEBUG] Envoi nouvelle demande');
-        const response = await firstValueFrom(
-          this.connectionService.sendUserRequest(prestataireId)
-        );
-
-        if (response && (response as any).error) {
-          throw new Error((response as any).error);
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-        await this.acceptRequestAutomatically(prestataireId);
-        
-        console.log('[DEBUG] Redirection après création demande');
-        this.router.navigate(['/messagerie'], {
-          queryParams: { recipientId: prestataireId }
-        });
-      }
-
-      this.startStatusChecking(prestataireId);
-    } catch (err: any) {
-      console.error('[ERROR] Erreur complète:', err);
-      this.connectionError = err.message || "Échec de l'envoi de la demande";
-    } finally {
-      this.isLoadingConnection = false;
-    }
+async contactPrestataire(): Promise<void> {
+  console.log('[DEBUG] Début de contactPrestataire()');
+  
+  // 1. Vérification de l'ID du prestataire
+  if (!this.prestataire?.utilisateur?.id) {
+    console.error('[ERROR] ID prestataire non trouvé dans this.prestataire:', this.prestataire);
+    this.connectionError = 'Informations du prestataire manquantes';
+    return;
   }
+  
+  const prestataireId = this.prestataire.utilisateur.id;
+  console.log('[DEBUG] ID du prestataire:', prestataireId);
 
-  private async acceptRequestAutomatically(prestataireId: string) {
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Délai explicite
+  this.isLoadingConnection = true;
+  this.connectionError = null;
+
+  try {
+    // 2. Vérification de l'utilisateur connecté
+    const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
+    if (!userString) {
+      throw new Error("Utilisateur non connecté");
+    }
     
+    const user = JSON.parse(userString);
+    if (!user.email) {
+      throw new Error("Email utilisateur manquant");
+    }
+
+    // 3. Récupération de l'UUID de l'utilisateur
+    const response = await lastValueFrom(this.prestatireservice.getUuidByEmail(user.email));
+    if (!response?.uuid) {
+      throw new Error("Échec de récupération de l'UUID utilisateur");
+    }
+    
+    const currentUserId = response.uuid;
+    console.log('[DEBUG] ID utilisateur courant:', currentUserId);
+
+    // 4. Chargement des profils (maintenu pour d'autres usages potentiels)
+    const [currentProfile, prestataireProfile] = await Promise.all([
+      this.connectionService.getSpecificUserProfile(currentUserId),
+      this.connectionService.getSpecificUserProfile(prestataireId)
+    ]);
+
+    if (!currentProfile || !prestataireProfile) {
+      throw new Error("Échec du chargement des profils");
+    }
+
+    this.currentUserProfile = currentProfile;
+    this.prestataireUserProfile = prestataireProfile;
+
+    // *** Nouvelle logique simplifiée ***
+    // 5. Envoyer la demande (ou la mettre à jour) via la méthode sendUserRequest
+    const sendRequestResponse = await firstValueFrom(
+      this.connectionService.sendUserRequest(prestataireId)
+    );
+
+    if (sendRequestResponse && (sendRequestResponse as any).error) {
+      throw new Error((sendRequestResponse as any).error);
+    }
+    console.log('[DEBUG] Demande envoyée/mise à jour avec succès. Redirection vers la messagerie.');
+    await this.redirectToMessaging(prestataireId);
+    // *** Fin de la nouvelle logique ***
+
+  } catch (err: any) {
+    console.error('[ERROR] Erreur complète:', err);
+    this.connectionError = err.message || "Échec de la connexion au prestataire";
+    // Optionnel: Afficher un message à l'utilisateur
+  } finally {
+    this.isLoadingConnection = false;
+  }
+}
+
+// Méthodes auxiliaires extraites pour plus de clarté
+private async redirectToMessaging(prestataireId: string): Promise<void> {
+  this.router.navigate(['/messagerie'], {
+    queryParams: { recipientId: prestataireId }
+  });
+}
+
+// Ces méthodes ne sont plus nécessaires avec la nouvelle logique
+/*
+private async createAndAcceptRequest(prestataireId: string): Promise<void> {
+  try {
+    const response = await firstValueFrom(
+      this.connectionService.sendUserRequest(prestataireId)
+    );
+
+    if (response && (response as any).error) {
+      throw new Error((response as any).error);
+    }
+
+    // Attente plus robuste avec vérification
+    await this.waitWithTimeout(1000);
+    await this.acceptRequestAutomatically(prestataireId);
+  } catch (err) {
+    console.error('[ERROR] Échec création demande:', err);
+    throw err;
+  }
+}
+
+private async waitWithTimeout(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Version améliorée de acceptRequestAutomatically
+private async acceptRequestAutomatically(prestataireId: string) {
+  try {
     const requests = await firstValueFrom(
       this.connectionService.getReceivedRequests()
     );
@@ -340,13 +363,23 @@ openReclamationModal() {
     );
     
     if (request) {
-      await firstValueFrom(
+      const response = await firstValueFrom(
         this.connectionService.respondToUserRequest(request.id, 'accepted')
       );
-      this.requestStatus = 'accepted';
-      this.saveStateToStorage(prestataireId);
+      
+      if (response && !response.error) {
+        this.requestStatus = 'accepted';
+        this.saveStateToStorage(prestataireId);
+      } else {
+        throw new Error(response?.error || "Erreur inconnue lors de l'acceptation");
+      }
     }
+  } catch (err) {
+    console.error('[ERROR] Échec acceptation automatique:', err);
+    throw err;
   }
+}
+*/
 
   private loadStateFromStorage(prestataireId: string) {
     const savedState = localStorage.getItem(`connectionState_${prestataireId}`);
@@ -416,10 +449,10 @@ openReclamationModal() {
     switch (this.requestStatus) {
       case 'not-sent': return 'Aucune demande envoyée';
       case 'pending': return 'Demande envoyée - En attente de réponse';
-      case 'accepted': return 'Vous êtes connectés';
+      case 'accepted': return 'Nous sommes connectés';
       case 'rejected': return 'Demande refusée';
       case 'waiting-for-current-user-response': 
-        return 'Ce prestataire vous a envoyé une demande';
+        return 'Ce prestataire nous a envoyé une demande';
       default: return 'Statut inconnu';
     }
   }
@@ -430,4 +463,3 @@ openReclamationModal() {
     }
   }
 }
-      
