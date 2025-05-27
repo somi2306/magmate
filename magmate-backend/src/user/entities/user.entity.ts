@@ -12,6 +12,10 @@ import { Avis } from 'src/marketplace/entities/avis.entity';
 import { Reclamation } from 'src/marketplace/entities/reclamation.entity';
 import { Magasin } from 'src/marketplace/entities/magasin.entity';
 
+import { Favorite } from 'src/events/entities/favorite.entity';
+
+import { Event } from 'src/events/entities/event.entity';
+
 enum UserRole {
   ADMIN = 'admin',
   NORMAL_USER = 'normal_user',
@@ -92,6 +96,12 @@ export class User {
   
     @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.user)
     messages: MessageEntity[];
-    
+      @OneToMany(() => Event, (event) => event.createdBy)
+  events: Event[];
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorites: Favorite[];
   }
+
+
 

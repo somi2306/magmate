@@ -13,6 +13,8 @@
 
 
     "@angular/compiler": "^19.2.9",
+
+
     "@angular/fire": "^19.1.0",
 
     "@ctrl/ngx-emoji-mart": "^9.2.0",

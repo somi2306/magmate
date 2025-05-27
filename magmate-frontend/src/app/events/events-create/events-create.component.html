@@ -1,0 +1,135 @@
+<div class="create-event-container" style="margin-top: 80px;">
+  <div class="form-header">
+    <h1>{{ isEditMode ? 'Modifier un événement' : 'Créer un nouvel événement' }}</h1>
+    <p>{{ isEditMode ? 'Modifiez les informations de votre événement' : 'Remplissez le formulaire ci-dessous pour créer votre événement' }}</p>
+  </div>
+
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+    <!-- Message d'erreur global -->
+    <div *ngIf="formError" class="form-error">
+      {{ formError }}
+    </div>
+
+    <!-- Titre -->
+    <div class="form-group">
+      <label for="title">Titre *</label>
+      <input 
+        type="text" 
+        id="title" 
+        formControlName="title" 
+        placeholder="Titre de l'événement"
+        [class.error]="hasError('title')"
+      >
+      <div *ngIf="hasError('title', 'required')" class="error-message">
+        Le titre est obligatoire
+      </div>
+      <div *ngIf="hasError('title', 'minlength')" class="error-message">
+        Le titre doit contenir au moins 3 caractères
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea 
+        id="description" 
+        formControlName="description" 
+        placeholder="Description détaillée de l'événement"
+        rows="5"
+        [class.error]="hasError('description')"
+      ></textarea>
+      <div *ngIf="hasError('description', 'required')" class="error-message">
+        La description est obligatoire
+      </div>
+      <div *ngIf="hasError('description', 'minlength')" class="error-message">
+        La description doit contenir au moins 10 caractères
+      </div>
+    </div>
+
+    <!-- Ville -->
+    <div class="form-group">
+      <label for="city">Ville *</label>
+      <select 
+        id="city" 
+        formControlName="city"
+        [class.error]="hasError('city')"
+      >
+        <option value="">Sélectionnez une ville</option>
+        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+      </select>
+      <div *ngIf="hasError('city', 'required')" class="error-message">
+        La ville est obligatoire
+      </div>
+    </div>
+
+    <!-- Lieu -->
+    <div class="form-group">
+      <label for="lieu">Lieu précis *</label>
+      <input 
+        type="text" 
+        id="lieu" 
+        formControlName="lieu" 
+        placeholder="Adresse ou lieu de l'événement"
+        [class.error]="hasError('lieu')"
+      >
+      <div *ngIf="hasError('lieu', 'required')" class="error-message">
+        Le lieu est obligatoire
+      </div>
+    </div>
+
+    <!-- Type d'événement -->
+    <div class="form-group">
+      <label for="type">Type d'événement *</label>
+      <select 
+        id="type" 
+        formControlName="type"
+        [class.error]="hasError('type')"
+      >
+        <option *ngFor="let type of eventTypes" [value]="type">
+          {{ type === 'EVENT' ? 'Événement' : 'Activité' }}
+        </option>
+      </select>
+      <div *ngIf="hasError('type', 'required')" class="error-message">
+        Le type d'événement est obligatoire
+      </div>
+    </div>
+
+    <!-- Date et heure -->
+    <div class="form-group">
+      <label for="date">Date et heure *</label>
+      <input 
+        type="datetime-local" 
+        id="date" 
+        formControlName="date"
+        [class.error]="hasError('date')"
+      >
+      <div *ngIf="hasError('date', 'required')" class="error-message">
+        La date et l'heure sont obligatoires
+      </div>
+    </div>
+
+    <!-- URL de l'image -->
+    <div class="form-group">
+  <label for="image">Image de l'événement *</label>
+  <input 
+    type="file" 
+    id="image" 
+    (change)="onFileSelected($event)"
+    accept="image/*"
+    [class.error]="imageError"
+  >
+  <div *ngIf="imageError" class="error-message">
+    {{ imageError }}
+  </div>
+</div>
+
+    <!-- Boutons d'action -->
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" (click)="cancel()">Annuler</button>
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        <span *ngIf="isSubmitting">{{ isEditMode ? 'Modification en cours...' : 'Création en cours...' }}</span>
+        <span *ngIf="!isSubmitting">{{ isEditMode ? 'Modifier l\'événement' : 'Créer l\'événement' }}</span>
+      </button>
+    </div>
+  </form>
+</div>

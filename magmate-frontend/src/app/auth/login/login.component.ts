@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       remember: [false],
     });
   }
-  
+
   ngOnInit(): void {
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (user) {
@@ -121,6 +121,8 @@ export class LoginComponent implements OnInit {
 
       await this.authService.loginBackend(); // ou une méthode dédiée
       this.router.navigate(['/']);
+
+      //this.router.navigate(['/profile']);
     } catch (err: any) {
       this.errorMessage = this.getErrorMessage(err.code);
     }

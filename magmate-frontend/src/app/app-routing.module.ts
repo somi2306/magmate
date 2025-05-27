@@ -32,9 +32,18 @@ import { ProductUpdateComponent } from './marketplace/pages/product-update/produ
 import { ConnectionProfileComponent } from './components/connection-profile/connection-profile.component';
 import { ConnectionSendComponent } from './components/connection-send/connection-send.component';
 import { ConnectionRequestsComponent } from './components/connection-requests/connection-requests.component';
+import { EventsListComponent } from './events/events-list/events-list.component';
+import { EventsCreateComponent } from './events/events-create/events-create.component';
+import { EventsDetailsComponent } from './events/events-details/events-details.compnent';
+import { MyEventsComponent } from './events/my-events/my-events.component';
+import { MyFavoritesComponent } from './events/my-favorites/my-favorites.component';
+import { TranslationComponent } from './components/translation/translation.component';
+import { CurrencyComponent } from './components/currency/currency.component';
 const routes: Routes = [
   
   { path: 'translation-currency', component: TranslationCurrencyComponent },
+  { path: 'translation', component: TranslationComponent },
+  { path: 'currency', component: CurrencyComponent },
 
   { path: '', component: HomeComponent },
   { path: 'prestataires', component: AccueilPrestataireComponent },
@@ -65,6 +74,26 @@ const routes: Routes = [
   { path: 'prestataires/:uuid', component: PrestataireDetailsComponent },
   { path: '', component: HomeComponent },
   { path: 'marketplace', component: MarketplaceComponent },
+  { path: 'events', component: EventsListComponent },
+  {
+    path: 'events/create',
+    component: EventsCreateComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'events/my', component: MyEventsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'events/edit/:id',
+    component: EventsCreateComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'events/my-favorites',
+    component: MyFavoritesComponent, // Remplacez par le nom réel de votre composant favoris
+    canActivate: [AuthGuard],
+  },
+  { path: 'events/:id', component: EventsDetailsComponent },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({

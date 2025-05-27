@@ -70,38 +70,46 @@ export class PrestataireDetailsComponent implements OnInit, OnDestroy { // Impl�
   ) {}
 
 
-  ngOnInit(): void {
-    this.uuid = this.route.snapshot.paramMap.get('uuid'); // UUID du prestataire dans l'URL
-    const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
+ // Dans prestataire-details.component.ts, modifiez ngOnInit :
+async ngOnInit(): Promise<void> {
+  this.uuid = this.route.snapshot.paramMap.get('uuid');
+  
+  try {
+    // Vérifier d'abord si un token existe
+    const token = await this.authService.getIdToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    if (userString) {
+    const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
+    if (!userString) {
+      // Essayer de récupérer l'utilisateur via le token
+      const userId = await this.authService.getUserIdByToken();
+      if (!userId) {
+        this.router.navigate(['/login']);
+        return;
+      }
+      this.userId = userId;
+    } else {
       const user = JSON.parse(userString);
       const email = user.email;
-
-      // Appel à l'API pour récupérer le UUID de l'utilisateur connecté
-      this.prestatireservice.getUuidByEmail(email).subscribe({
-        next: (response) => {
-          this.userId = response.uuid;
-          console.log('ID utilisateur connecté (pour le commentaire) :', this.userId);
-
-          if (this.uuid) {
-            this.prestataireId = this.uuid;
-            this.newComment.prestataireId = this.uuid;
-            this.newComment.userId = this.userId;
-
-            this.getPrestataireDetails(this.uuid);
-            this.loadComments(this.uuid);
-          }
-        },
-        error: (err) => {
-          console.error('Erreur lors de la récupération de l\'UUID de l\'utilisateur :', err);
-          alert('Erreur lors de la récupération des informations utilisateur.');
-        }
-      });
-    } else {
-      this.router.navigate(['/login']);
+      const response = await lastValueFrom(this.prestatireservice.getUuidByEmail(email));
+      this.userId = response.uuid;
     }
+
+    if (this.uuid) {
+      this.prestataireId = this.uuid;
+      this.newComment.prestataireId = this.uuid;
+      this.newComment.userId = this.userId;
+      this.getPrestataireDetails(this.uuid);
+      this.loadComments(this.uuid);
+    }
+  } catch (err) {
+    console.error('Erreur initialisation:', err);
+    this.router.navigate(['/login']);
   }
+}
 
 
 
@@ -243,78 +251,94 @@ export class PrestataireDetailsComponent implements OnInit, OnDestroy { // Impl�
     this.showReclamationForm = true;
   }
 
+async contactPrestataire(): Promise<void> {
+  console.log('[DEBUG] Début de contactPrestataire()');
 
-  async contactPrestataire(): Promise<void> {
-    console.log('[DEBUG] Début de contactPrestataire()');
+  // 1. Vérification de l'ID du prestataire
+  if (!this.prestataire?.utilisateur?.id) {
+    console.error('[ERROR] ID prestataire non trouvé dans this.prestataire:', this.prestataire);
+    this.connectionError = 'Informations du prestataire manquantes';
+    return;
+  }
 
-    // 1. Vérification de l'ID du prestataire
-    if (!this.prestataire?.utilisateur?.id) {
-      console.error('[ERROR] ID prestataire non trouvé dans this.prestataire:', this.prestataire);
-      this.connectionError = 'Informations du prestataire manquantes';
-      return;
+  const prestataireId = this.prestataire.utilisateur.id;
+  console.log('[DEBUG] ID du prestataire:', prestataireId);
+
+  this.isLoadingConnection = true;
+  this.connectionError = null;
+
+  try {
+    // 2. Vérification du token Firebase
+    const firebaseToken = await this.authService.getIdToken();
+    if (!firebaseToken) {
+      throw new Error("Session expirée, veuillez vous reconnecter");
     }
 
-    const prestataireId = this.prestataire.utilisateur.id;
-    console.log('[DEBUG] ID du prestataire:', prestataireId);
-
-    this.isLoadingConnection = true;
-    this.connectionError = null;
-
-    try {
-      // 2. Vérification de l'utilisateur connecté
-      const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
-      if (!userString) {
-        throw new Error("Utilisateur non connecté");
-      }
-
+    // 3. Vérification de l'utilisateur connecté
+    let currentUserId: string;
+    const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
+    
+    if (userString) {
+      // Cas normal - utilisateur stocké en local/session storage
       const user = JSON.parse(userString);
       if (!user.email) {
         throw new Error("Email utilisateur manquant");
       }
 
-      // 3. Récupération de l'UUID de l'utilisateur
+      // Récupération de l'UUID
       const response = await lastValueFrom(this.prestatireservice.getUuidByEmail(user.email));
       if (!response?.uuid) {
         throw new Error("Échec de récupération de l'UUID utilisateur");
       }
-
-      const currentUserId = response.uuid;
-      console.log('[DEBUG] ID utilisateur courant:', currentUserId);
-
-      // 4. Chargement des profils (maintenu pour d'autres usages potentiels)
-      const [currentProfile, prestataireProfile] = await Promise.all([
-        this.connectionService.getSpecificUserProfile(currentUserId),
-        this.connectionService.getSpecificUserProfile(prestataireId)
-      ]);
-
-      if (!currentProfile || !prestataireProfile) {
-        throw new Error("Échec du chargement des profils");
+      currentUserId = response.uuid;
+    } else {
+      // Cas où seul le token existe (fallback)
+      const userIdFromToken = await this.authService.getUserIdByToken();
+      if (!userIdFromToken) {
+        throw new Error("Impossible de récupérer l'utilisateur");
       }
-
-      this.currentUserProfile = currentProfile;
-      this.prestataireUserProfile = prestataireProfile;
-
-      // * Nouvelle logique simplifiée *
-      // 5. Envoyer la demande (ou la mettre à jour) via la méthode sendUserRequest
-      const sendRequestResponse = await firstValueFrom(
-        this.connectionService.sendUserRequest(prestataireId)
-      );
-
-      if (sendRequestResponse && (sendRequestResponse as any).error) {
-        throw new Error((sendRequestResponse as any).error);
-      }
-      console.log('[DEBUG] Demande envoyée/mise à jour avec succès. Redirection vers la messagerie.');
-      await this.redirectToMessaging(prestataireId);
-      // * Fin de la nouvelle logique *
-
-    } catch (err: any) {
-      console.error('[ERROR] Erreur complète:', err);
-      this.connectionError = err.message || "Échec de la connexion au prestataire";
-      // Optionnel: Afficher un message à l'utilisateur
-    } finally {
-      this.isLoadingConnection = false;
+      currentUserId = userIdFromToken;
     }
+
+    console.log('[DEBUG] ID utilisateur courant:', currentUserId);
+
+    // 4. Chargement des profils
+    const [currentProfile, prestataireProfile] = await Promise.all([
+      this.connectionService.getSpecificUserProfile(currentUserId),
+      this.connectionService.getSpecificUserProfile(prestataireId)
+    ]);
+
+    if (!currentProfile || !prestataireProfile) {
+      throw new Error("Échec du chargement des profils");
+    }
+
+    this.currentUserProfile = currentProfile;
+    this.prestataireUserProfile = prestataireProfile;
+
+    // 5. Envoi de la demande de contact
+    const sendRequestResponse = await firstValueFrom(
+      this.connectionService.sendUserRequest(prestataireId)
+    );
+
+    if (sendRequestResponse && (sendRequestResponse as any).error) {
+      throw new Error((sendRequestResponse as any).error);
+    }
+
+    console.log('[DEBUG] Demande envoyée avec succès. Redirection vers la messagerie.');
+    await this.redirectToMessaging(prestataireId);
+
+  } catch (err: any) {
+    console.error('[ERROR] Erreur contactPrestataire:', err);
+    this.connectionError = err.message || "Échec de la connexion au prestataire";
+    
+    // Si l'erreur concerne l'authentification, rediriger vers login
+    if (err.message.includes("Session expirée") || err.message.includes("non connecté")) {
+      this.router.navigate(['/login']);
+    }
+  } finally {
+    this.isLoadingConnection = false;
   }
+}
 
   // Méthodes auxiliaires extraites pour plus de clarté
   private async redirectToMessaging(prestataireId: string): Promise<void> {

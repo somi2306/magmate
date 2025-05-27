@@ -32,6 +32,13 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EventsComponent } from './events/events.component';
+import { EventsListComponent } from './events/events-list/events-list.component';
+import { EventsCreateComponent } from './events/events-create/events-create.component';
+import { EventsDetailsComponent } from './events/events-details/events-details.compnent';
+import { MyEventsComponent } from './events/my-events/my-events.component';
+import { MyFavoritesComponent } from './events/my-favorites/my-favorites.component';
+
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
@@ -48,6 +55,8 @@ import { ConnectionSendComponent } from './components/connection-send/connection
 import { ConnectionRequestsComponent } from './components/connection-requests/connection-requests.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Pipe, PipeTransform } from '@angular/core';
+import { TranslationComponent } from './components/translation/translation.component';
+import { CurrencyComponent } from './components/currency/currency.component';
 
 @Pipe({
   name: 'initial',
@@ -103,10 +112,19 @@ const socketConfig: SocketIoConfig = {
 
     
     
+    EventsComponent,
+    EventsListComponent,
+    EventsCreateComponent,
+    EventsDetailsComponent,
+    MyEventsComponent,
+    MyFavoritesComponent,
+
   ],
   imports: [
     HomeComponent, // Moved from imports to declarations
     TranslationCurrencyComponent, // Moved from imports to declarations
+        TranslationComponent,
+    CurrencyComponent,
     MessagerieComponent,//check
     BrowserModule,
     CommonModule,
