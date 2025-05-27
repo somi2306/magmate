@@ -19,11 +19,10 @@ body {
     */
   
   
-body{margin: 0;}
+
 
 body {
   margin: 0;
-  background: var(--secondary-bg);
 }
 :root {
   --primary-color: #c0392b;

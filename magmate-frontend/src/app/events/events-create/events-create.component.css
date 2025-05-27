@@ -3,7 +3,11 @@ body,
   font-family: "Roboto", Arial, sans-serif;
   color: var(--text-color);
 }
+.all{
+    background: var(--secondary-bg) ;
+    padding: 5%;
 
+}
 .create-event-container {
   max-width: 700px;
   margin: 32px auto;

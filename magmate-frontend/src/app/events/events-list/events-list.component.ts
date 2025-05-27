@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventsService } from '../events.service';
 import { Event, EventType } from '../event.model';
-
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-events-list',
   templateUrl: './events-list.component.html',
@@ -23,7 +23,8 @@ export class EventsListComponent implements OnInit {
   constructor(
     private eventsService: EventsService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Assurez-vous d'importer et d'injecter votre service d'authentification
   ) {
     this.filterForm = this.fb.group({
       searchTerm: [''],
@@ -32,11 +33,9 @@ export class EventsListComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.isLoading = true;
     console.log('Événements  :');
-    
-
 
     this.eventsService.getAllEvents().subscribe({
       next: (events) => {
@@ -47,20 +46,18 @@ export class EventsListComponent implements OnInit {
 
         console.log('Événements chargés :');
         // Vérifie si l'utilisateur est authentifié AVANT de charger les favoris
-        
-            this.eventsService.getFavorites().subscribe({
-              next: (favorites) => {
-                this.favorites = new Set(favorites.map((event) => event.id));
-                this.isLoading = false;
-              },
-              error: () => {
-                console.error('Erreur lors de la récupération des événements');
 
-                this.isLoading = false;
-              },
-            });
-          
-        
+        this.eventsService.getFavorites().subscribe({
+          next: (favorites) => {
+            this.favorites = new Set(favorites.map((event) => event.id));
+            this.isLoading = false;
+          },
+          error: () => {
+            console.error('Erreur lors de la récupération des événements');
+
+            this.isLoading = false;
+          },
+        });
       },
       error: () => {
         this.isLoading = false;
@@ -140,13 +137,16 @@ export class EventsListComponent implements OnInit {
     this.events = this.allEvents;
   }
 
-  toggleFavorite(event: Event, e: MouseEvent): void {
+  async toggleFavorite(event: Event, e: MouseEvent): Promise<void> {
+    e.stopPropagation();
+    console.log('Utilisateur authentifié:');
+    this.isAuthenticated = await this.authService.isAuthenticated();
+    console.log('isAuthenticated:', this.isAuthenticated);
     if (!this.isAuthenticated) {
-      console.log('Utilisateur non authentifié');
+      console.log('Utilisateur non authentifié, redirection vers /login');
       this.router.navigate(['/login']);
       return;
     }
-    e.stopPropagation();
     if (this.favorites.has(event.id)) {
       this.eventsService.removeFromFavorites(event.id).subscribe({
         next: () => {
@@ -178,9 +178,5 @@ export class EventsListComponent implements OnInit {
 
   createEvent(): void {
     this.router.navigate(['/events/create']);
-  }
-
-  returnmyEvent(): void {
-    window.location.href = '/events/my-events';
   }
 }

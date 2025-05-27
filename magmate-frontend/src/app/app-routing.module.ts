@@ -106,4 +106,3 @@ export class AppRoutingModule { }
   //{ path: '**', redirectTo: '/login' },
 
   // autres routes...
-
