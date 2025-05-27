@@ -18,7 +18,7 @@ export class EventsListComponent implements OnInit {
   eventTypes = Object.values(EventType);
   isLoading = false;
   cities: string[] = [];
-  isAuthenticated = false;
+  isAuthenticated = true;
 
   constructor(
     private eventsService: EventsService,

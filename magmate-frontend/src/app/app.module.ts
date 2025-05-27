@@ -1,19 +1,29 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { MarketplaceModule } from './marketplace/marketplace.module';
+//import { HomeComponent } from './components/home/home.component';
+
+
+
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { IonicModule } from '@ionic/angular';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Added
 import { ToastrModule } from 'ngx-toastr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { AuthInterceptor } from './auth/Interceptor/auth.interceptor';
 import { environment } from '../environments/environment';
+
+
 
 // Components
 import { AuthComponent } from './auth/auth.component';
@@ -22,12 +32,6 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HomeComponent } from './components/home/home.component';
-import { TranslationCurrencyComponent } from './components/translation-currency/translation-currency.component';
-import { MessagerieComponent } from './components/messagerie/messagerie.component';
-import { PrestataireModule } from './prestataire/prestataire.module';
 import { EventsComponent } from './events/events.component';
 import { EventsListComponent } from './events/events-list/events-list.component';
 import { EventsCreateComponent } from './events/events-create/events-create.component';
@@ -35,7 +39,16 @@ import { EventsDetailsComponent } from './events/events-details/events-details.c
 import { MyEventsComponent } from './events/my-events/my-events.component';
 import { MyFavoritesComponent } from './events/my-favorites/my-favorites.component';
 
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { TranslationCurrencyComponent } from './components/translation-currency/translation-currency.component';
+import { MessagerieComponent } from './components/messagerie/messagerie.component';
+import { PrestataireModule } from './prestataire/prestataire.module';
+
 //
+
+
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import { ConnectionProfileComponent } from './components/connection-profile/connection-profile.component';
 import { ConnectionSendComponent } from './components/connection-send/connection-send.component';
@@ -97,7 +110,6 @@ const socketConfig: SocketIoConfig = {
     ConnectionSendComponent,
     ConnectionRequestsComponent,
 
-
     
     
     EventsComponent,
@@ -106,6 +118,7 @@ const socketConfig: SocketIoConfig = {
     EventsDetailsComponent,
     MyEventsComponent,
     MyFavoritesComponent,
+
   ],
   imports: [
     HomeComponent, // Moved from imports to declarations

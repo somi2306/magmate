@@ -45,6 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
       
 
       //prestataire
+      '/prestataires',
       '/prestataires/:uuid',
       '/monprofil',
 

@@ -1,9 +1,17 @@
-<div class="all">
-  <div class="event-details-container">
-    <!-- Barre de navigation -->
-    <div class="navigation-bar">
-      <button class="back-btn" (click)="goBack()">
-        <i class="fa fa-arrow-left"></i> Retour aux événements
+<div class="event-details-container" style="margin-top: 100px;">
+  <!-- Barre de navigation -->
+  <div class="navigation-bar">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Retour aux événements
+    </button>
+    <div class="actions">
+      <button
+        class="favorite-btn"
+        [class.active]="isFavorite"
+        (click)="toggleFavorite()"
+      >
+        <i class="fa" [ngClass]="isFavorite ? 'fa-star' : 'fa-star-o'"></i>
+        {{ isFavorite ? "Retirer des favoris" : "Ajouter aux favoris" }}
       </button>
       <div class="actions">
         <button

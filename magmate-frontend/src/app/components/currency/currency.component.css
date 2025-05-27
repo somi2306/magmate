@@ -45,14 +45,14 @@ body {
   border: none;
   font-size: 1rem;
   color: var(--white);
-  background-color: var(--primary-color);
+  background-color: #edd1ab;
   border-radius: 5px;
   transition: 0.3s;
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: var(--primary-color-dark);
+  background-color: #e0a33f;
 }
 
 img {
@@ -200,7 +200,7 @@ body {
   }
 
   .sound-btn.unmuted {
-    color: var(--primary-color);
+    color: #edd1ab;
     background-color: rgba(255, 255, 255, 0.8);
   }
   
@@ -246,7 +246,7 @@ body {
 
 /* Style quand le son est activé */
 .sound-btn.unmuted i {
-  color: var(--primary-color);
+  color: #edd1ab;
 }
 
 @media (max-width: 768px) {
@@ -305,7 +305,7 @@ body {
 
 .play-btn i {
   font-size: 1.5rem;
-  color: var(--primary-color);
+  color: #edd1ab;
 }
 
 .play-btn:hover {
@@ -452,7 +452,7 @@ body {
 
 
 footer {
-  background-color: var(--primary-color);
+  background-color: #edd1ab;
 }
 
 .footer__container {
@@ -493,7 +493,7 @@ footer {
 
 .footer__socials a:hover {
   color: var(--white);
-  background-color: var(--primary-color-dark);
+  background-color: #e0a33f;
 }
 
 .footer__col h4 {
@@ -685,7 +685,7 @@ footer {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: var(--primary-color);
+  background-color: #edd1ab;
   color: var(--white);
   cursor: pointer;
   border: none;
@@ -697,7 +697,7 @@ footer {
 
 .swap-position:hover {
   transform: scale(1.1);
-  background-color: var(--primary-color-dark);
+  background-color: #e0a33f;
 }
 
 /* Styles pour le contenu des cartes */
@@ -739,7 +739,7 @@ footer {
 
 .dropdown-toggle ion-icon {
   font-size: 1.25rem;
-  color: var(--primary-color);
+  color: #edd1ab;
   transition: transform 0.3s ease;
 }
 
@@ -773,7 +773,7 @@ footer {
 
 .dropdown-menu li.active {
   color: var(--white);
-  background-color: var(--primary-color);
+  background-color: #edd1ab;
 }
 
 .text-area {
@@ -799,7 +799,7 @@ textarea {
 }
 
 textarea:focus {
-  border-color: var(--primary-color);
+  border-color: #edd1ab;
 }
 
 .chars {
@@ -829,7 +829,7 @@ textarea:focus {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-radius: 3rem;
-  background-color: var(--primary-color);
+  background-color: #edd1ab;
   color: var(--white);
   cursor: pointer;
   transition: all 0.3s;
@@ -839,7 +839,7 @@ textarea:focus {
 
 .card-bottom label:hover, 
 .card-bottom button:hover {
-  background-color: var(--primary-color-dark);
+  background-color: #e0a33f;
 }
 
 .card-bottom ion-icon {
@@ -974,7 +974,7 @@ textarea:focus {
 }
 
 .currency-wrapper form input:focus {
-  border-color: var(--primary-color);
+  border-color: #edd1ab;
 }
 
 .drop-list {
@@ -1013,7 +1013,7 @@ textarea:focus {
 .icon {
   cursor: pointer;
   font-size: 1.5rem;
-  color: var(--primary-color);
+  color: #edd1ab;
   transition: transform 0.3s;
 }
 
@@ -1027,7 +1027,7 @@ textarea:focus {
   text-align: center;
   font-size: 1rem;
   color: var(--text-dark);
-  border: 1px dashed var(--primary-color);
+  border: 1px dashed #edd1ab;
   border-radius: 0.5rem;
 }
 

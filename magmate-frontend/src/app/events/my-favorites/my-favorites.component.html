@@ -1,10 +1,13 @@
-<div class="all">
-  <div class="my-favorites">
-    <button class="back-btn" (click)="goBack()">
-      <i class="fa fa-arrow-left"></i> Retour aux événements
-    </button>
-    <div *ngIf="favorites.length === 0">Aucun favori pour le moment.</div>
-    <div class="events-grid">
+<div class="my-favorites" style="margin-top: 80px;">
+  <button class="back-btn" (click)="goBack()">Retour</button>
+
+  <div *ngIf="favorites.length === 0">Aucun favori pour le moment.</div>
+  <div class="events-grid">
+    <div
+      *ngFor="let event of favorites"
+      class="event-card"
+      (click)="viewEventDetails(event.id)"
+    >
       <div
         *ngFor="let event of favorites"
         class="event-card"

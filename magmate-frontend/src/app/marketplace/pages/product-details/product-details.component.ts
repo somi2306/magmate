@@ -126,7 +126,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         if (!userEmail) {
           console.error('Email utilisateur non trouvé');
           return;
-          }
+        }
 
         const newReclamationData: CreateReclamationDto = {
           description: this.reclamationData.description,
@@ -152,7 +152,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       alert('Veuillez entrer une description pour la réclamation.');
     }
   }
-
 
   async addComment() {
     if (this.newComment && this.rating > 0) {
@@ -206,7 +205,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   closeReclamationForm() {
     this.showReclamationForm = false;
   }
-
 
   ngOnDestroy() {
     if (this.statusCheckInterval) {
@@ -270,7 +268,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   async contactSeller(): Promise<void> {
     console.log('[DEBUG] Début de contactSeller()');
-    const ownerId = this.product?.magasin?.proprietaire?.id; // Assurez-vous que le chemin est correct pour obtenir l'ID du propriétaire
+    const ownerId = this.product?.magasin?.proprietaire?.id;
     console.log('[DEBUG] ID du propriétaire:', ownerId);
 
     if (!ownerId) {
@@ -300,38 +298,24 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.currentUserProfile = currentProfile;
       this.ownerUserProfile = ownerProfile;
 
-      // 1. Vérifier le statut actuel de la requête de connexion
-      const statusResponse = await firstValueFrom(this.connectionService.getUserRequestStatus(ownerId));
-      const currentStatus = statusResponse.status;
-      console.log('[DEBUG] Statut actuel de la requête:', currentStatus);
+      // Toujours tenter d'envoyer la demande pour s'assurer qu'elle est créée ou mise à jour
+      // et ensuite rediriger. La logique `sendUserRequest` dans le service gère la création/mise à jour et le statut.
+      const sendRequestResponse = await firstValueFrom(
+        this.connectionService.sendUserRequest(ownerId)
+      );
 
-      if (['accepted', 'pending', 'waiting-for-current-user-response'].includes(currentStatus)) {
-        // Si une interaction est déjà en cours ou acceptée, nous redirigeons directement
-        console.log('[DEBUG] Requête existante ou acceptée. Redirection vers la messagerie.');
-        this.router.navigate(['/messagerie'], {
-          queryParams: { recipientId: ownerId }
-        });
-      } else {
-        // Si aucune requête n'existe, ou si elle est 'rejected', nous envoyons une nouvelle requête
-        console.log('[DEBUG] Création ou mise à jour de la demande de connexion.');
-        const sendRequestResponse = await firstValueFrom(
-          this.connectionService.sendUserRequest(ownerId)
-        );
-
-        if (sendRequestResponse && (sendRequestResponse as any).error) {
-          // Si sendUserRequest renvoie une erreur (par exemple "Request already exists"), nous la traitons
-          // en redirigeant vers la messagerie, car cela signifie qu'une requête existe déjà.
-          console.warn('[WARN] sendUserRequest a renvoyé une erreur (probablement "Request already exists"). Redirection vers la messagerie.');
-          this.router.navigate(['/messagerie'], {
-            queryParams: { recipientId: ownerId }
-          });
-        } else {
-          console.log('[DEBUG] Demande envoyée/mise à jour avec succès. Redirection vers la messagerie.');
-          this.router.navigate(['/messagerie'], {
-            queryParams: { recipientId: ownerId }
-          });
-        }
+      // Si la réponse contient une erreur, nous la loguons mais tentons toujours de rediriger
+      // car `sendUserRequest` est censé créer/mettre à jour la demande avant de renvoyer l'objet.
+      if (sendRequestResponse && (sendRequestResponse as any).error) {
+        console.warn('[WARN] sendUserRequest a renvoyé une erreur, mais nous allons quand même tenter la redirection:', (sendRequestResponse as any).error);
+        // Nous pourrions éventuellement définir `this.error` ici si nous voulons afficher l'erreur à l'utilisateur
+        // this.error = (sendRequestResponse as any).error;
       }
+
+      console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', ownerId);
+      this.router.navigate(['/messagerie'], {
+        queryParams: { recipientId: ownerId }
+      });
 
     } catch (err: any) {
       console.error('[ERROR] Erreur complète:', err);
