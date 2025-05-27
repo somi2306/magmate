@@ -1,48 +1,55 @@
-<div class="my-events" style="margin-top: 80px;">
-  <!-- Bouton Retour -->
-  <button class="back-btn" (click)="goBack()">Retour</button>
+<div class="all">
+  <div class="my-events">
+    <!-- Bouton Retour -->
+    <button class="back-btn" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Retour aux événements
+    </button>
+    <!-- Loader -->
+    <div *ngIf="isLoading" class="loader-container">
+      <div class="loader"></div>
+    </div>
 
-  <!-- Loader -->
-  <div *ngIf="isLoading" class="loader-container">
-    <div class="loader"></div>
-  </div>
-
-  <!-- Liste des événements -->
-  <div *ngIf="!isLoading && myEvents.length > 0" class="events-grid">
-    <div *ngFor="let event of myEvents" class="event-card">
-      <div
-        class="card-image"
-        [style.backgroundImage]="'url(' + event.imageUrl + ')'"
-      >
-        <span class="event-type" [ngClass]="event.type?.toLowerCase()">
-          {{ event.type === "EVENT" ? "Événement" : "Activité" }}
-        </span>
-      </div>
-      <div class="card-content">
-        <div class="card-header">
-          <h3>{{ event.title }}</h3>
-          <span class="status" [ngClass]="event.status.toLowerCase()">
-            {{ event.status }}
+    <!-- Liste des événements -->
+    <div *ngIf="!isLoading && myEvents.length > 0" class="events-grid">
+      <div *ngFor="let event of myEvents" class="event-card">
+        <div
+          class="card-image"
+          [style.backgroundImage]="'url(' + event.imageUrl + ')'"
+        >
+          <span class="event-type" [ngClass]="event.type?.toLowerCase()">
+            {{ event.type === "EVENT" ? "Événement" : "Activité" }}
           </span>
         </div>
-        <p class="event-date">
-          <i class="fa fa-calendar"></i>
-          {{ event.date | date:'dd/MM/yyyy HH:mm' }}
-        </p>
-        <p class="event-location">
-          <i class="fa fa-map-marker"></i>
-          {{ event.city }} - {{ event.lieu }}
-        </p>
-        <div class="card-actions">
-          <button class="edit-btn" (click)="editEvent(event.id)">Modifier</button>
-          <button class="delete-btn" (click)="deleteEvent(event.id)">Supprimer</button>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>{{ event.title }}</h3>
+            <span class="status" [ngClass]="event.status.toLowerCase()">
+              {{ event.status }}
+            </span>
+          </div>
+          <p class="event-date">
+            <i class="fa fa-calendar"></i>
+            {{ event.date | date : "dd/MM/yyyy HH:mm" }}
+          </p>
+          <p class="event-location">
+            <i class="fa fa-map-marker"></i>
+            {{ event.city }} - {{ event.lieu }}
+          </p>
+          <div class="card-actions">
+            <button class="edit-btn" (click)="editEvent(event.id)">
+              Modifier
+            </button>
+            <button class="delete-btn" (click)="deleteEvent(event.id)">
+              Supprimer
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Message si aucun événement -->
-  <div *ngIf="!isLoading && myEvents.length === 0" class="no-events">
-    <p>Vous n'avez créé aucun événement.</p>
+    <!-- Message si aucun événement -->
+    <div *ngIf="!isLoading && myEvents.length === 0" class="no-events">
+      <p>Vous n'avez créé aucun événement.</p>
+    </div>
   </div>
 </div>
