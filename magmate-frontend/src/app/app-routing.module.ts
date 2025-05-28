@@ -70,7 +70,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
 
-  { path: 'events/:id', component: EventsDetailsComponent },
+  { path: 'events/:id', component: EventsDetailsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

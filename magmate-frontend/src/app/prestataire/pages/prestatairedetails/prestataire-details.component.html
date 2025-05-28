@@ -1,39 +1,71 @@
 <body>
-  <h1>Détails de {{ prestataire.utilisateur?.fname || 'Prénom non disponible' }} {{ prestataire.utilisateur?.lname}}</h1>
+  <h1>
+    Détails de {{ prestataire.utilisateur?.fname || "Prénom non disponible" }}
+    {{ prestataire.utilisateur?.lname }}
+  </h1>
 
   <div class="prestataire-details">
     <!-- Image du prestataire -->
     <div class="prestataire-image">
-      <img 
-        [src]="prestataire?.utilisateur?.photo ? prestataire.utilisateur?.photo : 'assets/default-photo.jpg'" 
-        class="main-image" 
+      <img
+        [src]="
+          prestataire?.utilisateur?.photo
+            ? prestataire.utilisateur?.photo
+            : 'assets/default-photo.jpg'
+        "
+        class="main-image"
         alt="Image du prestataire"
       />
     </div>
 
     <!-- Informations du prestataire -->
     <div class="prestataire-info">
-     
-
-      <p><strong>Email:</strong> {{ prestataire?.utilisateur?.email || 'Non disponible' }}</p>
-      <p><strong>Téléphone:</strong> {{ prestataire?.telephone || 'Non disponible' }}</p>
-      <p><strong>Ville:</strong> {{ prestataire?.ville || 'Non disponible' }}</p>
-      <p><strong>Spécialité:</strong> {{ prestataire?.specialite || 'Non spécifiée' }}</p>
-      <p><strong>Expérience:</strong> {{ prestataire?.experience || 'Non spécifiée' }}</p>
-      <p><strong>Disponibilité:</strong> 
-        {{ prestataire?.disponibilite !== undefined ? (prestataire.disponibilite ? 'Disponible' : 'Indisponible') : 'Non spécifiée' }}
+      <p>
+        <strong>Email:</strong>
+        {{ prestataire?.utilisateur?.email || "Non disponible" }}
+      </p>
+      <p>
+        <strong>Téléphone:</strong>
+        {{ prestataire?.telephone || "Non disponible" }}
+      </p>
+      <p>
+        <strong>Ville:</strong> {{ prestataire?.ville || "Non disponible" }}
+      </p>
+      <p>
+        <strong>Spécialité:</strong>
+        {{ prestataire?.specialite || "Non spécifiée" }}
+      </p>
+      <p>
+        <strong>Expérience:</strong>
+        {{ prestataire?.experience || "Non spécifiée" }}
+      </p>
+      <p>
+        <strong>Disponibilité:</strong>
+        {{
+          prestataire?.disponibilite !== undefined
+            ? prestataire.disponibilite
+              ? "Disponible"
+              : "Indisponible"
+            : "Non spécifiée"
+        }}
       </p>
 
       <div class="button-group">
-        <button class="report-button" (click)="openReclamationModal()">Signaler le prestataire</button>
+        <button class="report-button" (click)="openReclamationModal()">
+          Signaler le prestataire
+        </button>
         <button (click)="contactPrestataire()" [disabled]="isLoadingConnection">
-  {{ isLoadingConnection ? 'Chargement...' : 'Contacter le prestataire' }}
-</button>
+          {{
+            isLoadingConnection ? "Chargement..." : "Contacter le prestataire"
+          }}
+        </button>
 
-<div *ngIf="connectionError" class="error-message">{{ connectionError }}</div>
-<div *ngIf="requestStatus !== 'not-sent'" class="connection-status">
-  Statut: {{ getConnectionStatusMessage() }}
-</div>
+        <div *ngIf="connectionError" class="error-message">
+          {{ connectionError }}
+        </div>
+        <div *ngIf="requestStatus !== 'not-sent'" class="connection-status">
+          Statut: {{ getConnectionStatusMessage() }}
+        </div>
       </div>
     </div>
   </div>
@@ -43,7 +75,9 @@
     <h3>Commentaires</h3>
 
     <div *ngFor="let comment of comments" class="comment">
-      <p class="username">{{ comment.auteur.lname }} {{ comment.auteur.fname }} :</p>
+      <p class="username">
+        {{ comment.auteur.lname }} {{ comment.auteur.fname }} :
+      </p>
       <p>{{ comment.commentaire }}</p>
       <div class="rating">
         <span *ngFor="let star of [].constructor(comment.note)">★</span>
@@ -51,69 +85,77 @@
     </div>
 
     <div class="add-comment">
-      <textarea [(ngModel)]="newComment.commentaire" placeholder="Écrivez votre commentaire"></textarea>
+      <textarea
+        [(ngModel)]="newComment.commentaire"
+        placeholder="Écrivez votre commentaire"
+      ></textarea>
       <div class="rating">
-        <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setRating(star)" [class.selected]="star <= newComment.note">★</span>
+        <span
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          (click)="setRating(star)"
+          [class.selected]="star <= newComment.note"
+          >★</span
+        >
       </div>
       <button (click)="addComment()">Ajouter le commentaire</button>
     </div>
   </div>
 
- <!-- Modal pour la réclamation -->
-<div *ngIf="showReclamationForm" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeReclamationModal()">&times;</span>
-    <h3>Signaler un Prestataire</h3>
+  <!-- Modal pour la réclamation -->
+  <div *ngIf="showReclamationForm" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeReclamationModal()">&times;</span>
+      <h3>Signaler un Prestataire</h3>
 
-    <form (ngSubmit)="sendReclamation()" class="reclamation-form">
-      
-      <!-- Description de la réclamation -->
-      <div class="form-group">
-        <label for="description" class="form-label" >Description de la réclamation :</label>
-        <textarea 
-          [(ngModel)]="newReclamation.description" 
-          name="description" 
-          id="description" 
-          placeholder="Décrivez votre réclamation ici..." 
-          required 
-          class="form-input"
-        ></textarea>
-      </div>
+      <form (ngSubmit)="sendReclamation()" class="reclamation-form">
+        <!-- Description de la réclamation -->
+        <div class="form-group">
+          <label for="description" class="form-label"
+            >Description de la réclamation :</label
+          >
+          <textarea
+            [(ngModel)]="newReclamation.description"
+            name="description"
+            id="description"
+            placeholder="Décrivez votre réclamation ici..."
+            required
+            class="form-input"
+          ></textarea>
+        </div>
 
-      <!-- Pièce jointe -->
-      <div class="form-group">
-        <label for="pieceJointe" class="form-label">Ajouter une pièce jointe (facultatif) :</label>
-        <input 
-          type="file" 
-          (change)="onFileSelected($event)" 
-          name="pieceJointe" 
-          id="pieceJointe" 
-          class="form-input"
-        />
-      </div>
+        <!-- Pièce jointe -->
+        <div class="form-group">
+          <label for="pieceJointe" class="form-label"
+            >Ajouter une pièce jointe (facultatif) :</label
+          >
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            name="pieceJointe"
+            id="pieceJointe"
+            class="form-input"
+          />
+        </div>
 
-      <!-- Bouton Envoyer -->
-      <div class="form-group button-group">
-        <button 
-          type="submit" 
-          [disabled]="!newReclamation.description" 
-          class="form-button submit-button"
-        >
-          Envoyer la réclamation
-        </button>
+        <!-- Bouton Envoyer -->
+        <div class="form-group button-group">
+          <button
+            type="submit"
+            [disabled]="!newReclamation.description"
+            class="form-button submit-button"
+          >
+            Envoyer la réclamation
+          </button>
 
-        <button 
-          type="button" 
-          class="form-button cancel-button" 
-          (click)="closeReclamationModal()"
-        >
-          Annuler
-        </button>
-      </div>
-    </form>
+          <button
+            type="button"
+            class="form-button cancel-button"
+            (click)="closeReclamationModal()"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-
-
-
 </body>
