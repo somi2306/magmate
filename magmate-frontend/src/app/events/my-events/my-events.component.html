@@ -1,13 +1,6 @@
-<div class="all">
-  <div class="my-events">
-    <!-- Bouton Retour -->
-    <button class="back-btn" (click)="goBack()">
-      <i class="fa fa-arrow-left"></i> Retour aux événements
-    </button>
-    <!-- Loader -->
-    <div *ngIf="isLoading" class="loader-container">
-      <div class="loader"></div>
-    </div>
+<div class="my-events" style="margin-top: 80px;">
+  <!-- Bouton Retour -->
+  <button class="back-btn" (click)="goBack()">Retour</button>
 
     <!-- Liste des événements -->
     <div *ngIf="!isLoading && myEvents.length > 0" class="events-grid">
@@ -52,4 +45,4 @@
       <p>Vous n'avez créé aucun événement.</p>
     </div>
   </div>
-</div>
+

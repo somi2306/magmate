@@ -1,16 +1,13 @@
-<div class="all">
-  <div class="create-event-container">
-    <div class="form-header">
-      <h1>
-        {{ isEditMode ? "Modifier un événement" : "Créer un nouvel événement" }}
-      </h1>
-      <p>
-        {{
-          isEditMode
-            ? "Modifiez les informations de votre événement"
-            : "Remplissez le formulaire ci-dessous pour créer votre événement"
-        }}
-      </p>
+<div class="create-event-container" style="margin-top: 80px;">
+  <div class="form-header">
+    <h1>{{ isEditMode ? 'Modifier un événement' : 'Créer un nouvel événement' }}</h1>
+    <p>{{ isEditMode ? 'Modifiez les informations de votre événement' : 'Remplissez le formulaire ci-dessous pour créer votre événement' }}</p>
+  </div>
+
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+    <!-- Message d'erreur global -->
+    <div *ngIf="formError" class="form-error">
+      {{ formError }}
     </div>
 
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
@@ -147,5 +144,4 @@
         </button>
       </div>
     </form>
-  </div>
-</div>
+

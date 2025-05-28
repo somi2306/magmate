@@ -23,10 +23,12 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
   // 2. Liste des routes publiques (si tu veux affiner plus tard)
   const publicRoutes = ['/translation'];
 
+
   const isPublic = publicRoutes.some(route => req.url.includes(route));
   if (isPublic) {
     return next.handle(req); // ⛔ PAS DE TOKEN
   }
+
 
   // 3. Sinon, logique standard pour les routes protégées
   const protectedRoutes = [
@@ -65,3 +67,4 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
   return next.handle(req);
 }
 }
+

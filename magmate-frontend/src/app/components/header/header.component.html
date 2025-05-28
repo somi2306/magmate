@@ -1,9 +1,13 @@
 <div class="navigation">
+
   <div class="nav__header">
     <div class="nav__logo">
+
       <a routerLink="/" class="logo">
-        <img src="images/logo1.png" alt="Magmate" class="logo-icon" />
-      </a>
+  <img src="images/logo1.png" alt="Magmate" class="logo-icon">
+
+ 
+</a>
     </div>
     <div class="nav__menu__btn" id="menu-btn">
       <i class="ri-menu-line"></i>
@@ -25,6 +29,7 @@
           <i class="ri-money-euro-box-line"></i> Convertisseur de Monnaie
         </a>
 
+
       </div> 
     </li>
     
@@ -45,45 +50,34 @@
     </li>
 
     
+
     <li class="nav__profile">
       <a routerLink="/profile">
         <img src="images/header-bg1.jpg" alt="header" class="nav__profile-pic" />
       </a>
     </li>
--->
-    <li class="nav__profile">
-      <div class="profile-dropdown">
-        <img
-          [src]="profilePhotoUrl"
-          alt="Photo de profil"
-          class="nav__profile-pic"
-          (error)="profilePhotoUrl = 'images/default-profile.png'"
-          (click)="toggleDropdown()"
-        />
-        <div class="dropdown-menu" *ngIf="showDropdown">
-          <a
-            class="dropdown-item"
-            routerLink="/profile"
-            (click)="hideDropdown()"
-          >
-            <i class="ri-user-line"></i> Profil
-          </a>
-          <a
-            class="dropdown-item"
-            routerLink="/messagerie"
-            (click)="hideDropdown()"
-          >
-            <i class="ri-message-2-line"></i> Messagerie
-            <span
-              class="notification-badge"
-              *ngIf="totalUnreadMessages > 0"
-              [class.pulse]="isPulsing"
-            >
-              {{ totalUnreadMessages > 99 ? "99+" : totalUnreadMessages }}
-            </span>
-          </a>
-        </div>
-      </div>
-    </li>
+-->  
+<li class="nav__profile">
+  <div class="profile-dropdown">
+    <img 
+      [src]="profilePhotoUrl" 
+      alt="Photo de profil" 
+      class="nav__profile-pic"
+      (error)="profilePhotoUrl = 'images/default-profile.png'"
+      (click)="toggleDropdown()"
+    />
+    <div class="dropdown-menu" *ngIf="showDropdown">
+      <a class="dropdown-item" routerLink="/profile" (click)="hideDropdown()">
+        <i class="ri-user-line"></i> Profil
+      </a>
+<a class="dropdown-item" routerLink="/messagerie" (click)="hideDropdown()">
+  <i class="ri-message-2-line"></i> Messagerie
+  <span class="notification-badge" *ngIf="totalUnreadMessages > 0" [class.pulse]="isPulsing">
+    {{ totalUnreadMessages > 99 ? '99+' : totalUnreadMessages }}
+  </span>
+</a>
+    </div>
+  </div>
+</li>
   </ul>
 </div>
