@@ -20,9 +20,12 @@ import { EventsCreateComponent } from './events/events-create/events-create.comp
 import { EventsDetailsComponent } from './events/events-details/events-details.compnent';
 import { MyEventsComponent } from './events/my-events/my-events.component';
 import { MyFavoritesComponent } from './events/my-favorites/my-favorites.component';
-
+import { TranslationComponent } from './components/translation/translation.component';
+import { CurrencyComponent } from './components/currency/currency.component';
 const routes: Routes = [
   { path: 'translation-currency', component: TranslationCurrencyComponent },
+    { path: 'translation', component: TranslationComponent },
+  { path: 'currency', component: CurrencyComponent },
   { path: '', component: HomeComponent },
   { path: 'prestataires', component: AccueilPrestataireComponent },
   { path: 'signup', component: SignupComponent },

@@ -23,9 +23,14 @@
         >Service de prestataire</a
       >
     </li>
-    <li>
-      <a routerLink="/translation-currency">Service de traduction et monnaie</a>
-    </li>
+<li class="nav__dropdown" (mouseleave)="hideTranslationDropdown()">
+  <a href="#" (click)="toggleTranslationDropdown($event)">Service de traduction et monnaie <i class="ri-arrow-down-s-line"></i></a>
+  <ul class="dropdown-submenu" *ngIf="showTranslationDropdown">
+    <li><a class="dropdown-item" routerLink="/translation" (click)="hideTranslationDropdown()"><i class="ri-translate-2"></i> Service de Traduction</a></li>
+    <li><a class="dropdown-item" routerLink="/currency" (click)="hideTranslationDropdown()"><i class="ri-money-euro-box-line"></i> Convertisseur de Monnaie</a></li>
+  </ul>
+</li>
+
 
     <!--  
     <li class="nav__profile">

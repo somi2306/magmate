@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   totalUnreadMessages = 0;
   private messagerieSubscription?: Subscription;
   isPulsing = false;
+  showTranslationDropdown = false;
 
   constructor(
     private profileService: ProfileService,
@@ -35,6 +36,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideDropdown(): void {
     this.showDropdown = false;
   }
+
+  toggleTranslationDropdown(event: Event): void {
+  event.preventDefault(); // Prevents page jump
+  this.showTranslationDropdown = !this.showTranslationDropdown;
+}
+
+hideTranslationDropdown(): void {
+  this.showTranslationDropdown = false;
+}
 
 async ngOnInit(): Promise<void> {
   this.authStateSubscription = this.afAuth.authState.subscribe(async user => {
