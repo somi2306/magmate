@@ -12,7 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MessagerieModule } from './messagerie/messagerie.module';
 import { PrestataireModule } from './prestataire/prestataire.module';
-
+import { MailModule } from './mail/mail.module'; // Ajoutez cette ligne
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -30,15 +30,13 @@ import { PrestataireModule } from './prestataire/prestataire.module';
 
     PrestataireModule,
 
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads',
-    }),
+
     MarketplaceModule,
 
     DatabaseModule,
 
     PrestataireModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],

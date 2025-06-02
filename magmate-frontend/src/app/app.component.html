@@ -1,15 +1,6 @@
+<app-header *ngIf="!isAdminRoute()"></app-header>
+<app-admin-header *ngIf="isAdminRoute()"></app-admin-header>
 
-
-
-<app-header></app-header>
-
-
- <router-outlet />
+<router-outlet />
 
 <app-footer></app-footer>
-
-
-
-
-
-

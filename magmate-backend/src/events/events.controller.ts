@@ -1,16 +1,16 @@
+// bard/events backend/controllers/events.controller.ts
 import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UseGuards, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dtos/create-event.dto';
 import { UpdateEventDto } from './dtos/update-event.dto';
-import { Event } from './entities/event.entity';
-import { User } from '../user/entities/user.entity'; // Import de l'entité User
-import { FirebaseAuthGuard } from '../auth/firebase-auth.guard'; // Garde d'authentification
+import { Event, EventStatus } from './entities/event.entity'; // Import EventStatus
+import { User } from '../user/entities/user.entity';
+import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
-import { Favorite } from './entities/favorite.entity'; // Import de l'entité Favorite
+import { Favorite } from './entities/favorite.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-
 
 @Controller('events')
 export class EventsController {
@@ -137,5 +137,27 @@ async update(
     updateEventDto.imageUrl = `http://localhost:3000/uploads/${file.filename}`;
   }
   return this.eventsService.updateEvent(id, updateEventDto, user.email);
+  }
+
+    // Nouvelle route pour récupérer les événements par statut
+  @Get('status/:status')
+  async findByStatus(@Param('status') status: string): Promise<Event[]> {
+    // Convertir le statut en majuscules pour correspondre à l'énumération EventStatus
+    const uppercaseStatus: EventStatus = status.toUpperCase() as EventStatus;
+    return this.eventsService.findByStatus(uppercaseStatus);
+  }
+
+  // Nouvelle route pour approuver un événement
+  @Patch(':id/approve')
+  @UseGuards(FirebaseAuthGuard) // L'admin doit être authentifié pour approuver
+  async approveEvent(@Param('id') id: string): Promise<Event> {
+    return this.eventsService.approveEvent(id);
+  }
+
+  // Nouvelle route pour rejeter un événement
+  @Patch(':id/reject')
+  @UseGuards(FirebaseAuthGuard) // L'admin doit être authentifié pour rejeter
+  async rejectEvent(@Param('id') id: string): Promise<Event> {
+    return this.eventsService.rejectEvent(id);
   }
 }

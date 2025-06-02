@@ -1,0 +1,20 @@
+<div class="admin-container">
+  <div class="admin-card">
+    <div class="admin-header">
+      <h2>Activer l’authentification à deux facteurs</h2>
+      <p class="subtitle">Sécurisez votre compte avec Google Authenticator</p>
+    </div>
+
+    <div *ngIf="qrCodeUrl" class="qr-section">
+      <p>Scannez ce QR code avec Google Authenticator :</p>
+      <qrcode [qrdata]="qrCodeUrl" [width]="200" errorCorrectionLevel="M"></qrcode>
+    </div>
+
+    <div *ngIf="qrCodeUrl" class="form-group">
+      <input class="input-2fa" [(ngModel)]="totpCode" placeholder="Entrez le code 2FA" />
+      <button class="btn primary-btn" (click)="enable2FA()">Activer le 2FA</button>
+    </div>
+
+    <p class="admin-message" *ngIf="message">{{ message }}</p>
+  </div>
+</div>

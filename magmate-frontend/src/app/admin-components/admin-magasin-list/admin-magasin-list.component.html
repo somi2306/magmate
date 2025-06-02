@@ -1,0 +1,103 @@
+<div class="admin-magasin-container" style="margin-top: 80px;">
+  <h2>Gestion des Magasins</h2>
+
+  <div class="tab-controls">
+    <button (click)="activeTab = 'pending'" [class.active]="activeTab === 'pending'">
+      En attente ({{unapprovedMagasins.length}})
+    </button>
+    <button (click)="activeTab = 'approved'" [class.active]="activeTab === 'approved'">
+      Approuvés ({{approvedMagasins.length}})
+    </button>
+    <button (click)="activeTab = 'rejected'" [class.active]="activeTab === 'rejected'">
+      Rejetés ({{rejectedMagasins.length}})
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="activeTab === 'pending'">
+    <h3>Magasins en attente d'approbation</h3>
+    <div *ngIf="unapprovedMagasins.length > 0; else noPendingMagasins" class="magasin-list">
+      <div *ngFor="let magasin of unapprovedMagasins" class="magasin-card">
+        <h4>{{ magasin.nom }}</h4>
+        <p>Description: {{ magasin.description }}</p>
+        <p>Localisation: {{ magasin.localisation }}</p>
+        <p>Téléphone: {{ magasin.telephone }}</p>
+        <p>Ville: {{ magasin.ville }}</p>
+        <p>Propriétaire: {{ magasin.proprietaire?.fname }} {{ magasin.proprietaire?.lname }}</p>
+        <p>Email: {{ magasin.proprietaire?.email }}</p>
+        <div class="card-actions">
+          <button class="approve-btn" (click)="approveMagasin(magasin.idMagasin)">Approuver</button>
+          <button class="reject-btn" (click)="rejectMagasin(magasin.idMagasin)">Rejeter</button>
+          <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+          </button>
+          <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
+            Voir les produits
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noPendingMagasins>
+      <p class="info-message">Aucun magasin en attente d'approbation.</p>
+    </ng-template>
+  </div>
+
+  <div *ngIf="activeTab === 'approved'">
+    <h3>Magasins approuvés</h3>
+    <div *ngIf="approvedMagasins.length > 0; else noApprovedMagasins" class="magasin-list">
+      <div *ngFor="let magasin of approvedMagasins" class="magasin-card">
+        <h4>{{ magasin.nom }}</h4>
+        <p>Description: {{ magasin.description }}</p>
+        <p>Localisation: {{ magasin.localisation }}</p>
+        <p>Téléphone: {{ magasin.telephone }}</p>
+        <p>Ville: {{ magasin.ville }}</p>
+        <p>Propriétaire: {{ magasin.proprietaire?.fname }} {{ magasin.proprietaire?.lname }}</p>
+        <p>Email: {{ magasin.proprietaire?.email }}</p>
+        <p class="status approved">Statut: Approuvé</p>
+        <div class="card-actions">
+          <button class="reject-btn" (click)="rejectMagasin(magasin.idMagasin)" >Rejeter</button>
+          <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+          </button>
+          <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
+            Voir les produits
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noApprovedMagasins>
+      <p class="info-message">Aucun magasin approuvé.</p>
+    </ng-template>
+  </div>
+
+  <div *ngIf="activeTab === 'rejected'">
+    <h3>Magasins rejetés</h3>
+    <div *ngIf="rejectedMagasins.length > 0; else noRejectedMagasins" class="magasin-list">
+      <div *ngFor="let magasin of rejectedMagasins" class="magasin-card">
+        <h4>{{ magasin.nom }}</h4>
+        <p>Description: {{ magasin.description }}</p>
+        <p>Localisation: {{ magasin.localisation }}</p>
+        <p>Téléphone: {{ magasin.telephone }}</p>
+        <p>Ville: {{ magasin.ville }}</p>
+        <p>Propriétaire: {{ magasin.proprietaire?.fname }} {{ magasin.proprietaire?.lname }}</p>
+        <p>Email: {{ magasin.proprietaire?.email }}</p>
+        <p class="status rejected">Statut: Rejeté</p>
+        <div class="card-actions">
+          <button class="approve-btn" (click)="approveMagasin(magasin.idMagasin)" >Approuver</button>
+          <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+          </button>
+          <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
+            Voir les produits
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noRejectedMagasins>
+      <p class="info-message">Aucun magasin rejeté.</p>
+    </ng-template>
+  </div>
+</div>

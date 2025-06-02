@@ -10,6 +10,13 @@ import { User } from '../../user/entities/user.entity';
 import { avisprestataire } from './avisprestataire.entity';
 import { Reclamationprestataire } from './reclamationprestataire.entity';
 
+// Nouvelle énumération pour le statut du prestataire
+export enum PrestataireStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
 @Entity()
 export class Prestataire {
   @PrimaryGeneratedColumn('uuid')
@@ -33,8 +40,13 @@ export class Prestataire {
   @Column()
   ville: string;
 
-  @Column({ default: false })
-  estApprouve: boolean;
+  // Utilisation de l'énumération pour le statut d'approbation
+  @Column({
+    type: 'enum',
+    enum: PrestataireStatus,
+    default: PrestataireStatus.PENDING, // Statut par défaut à 'pending'
+  })
+  estApprouve: PrestataireStatus;
 
   @Column({ nullable: false })
   idUtilisateur: string;

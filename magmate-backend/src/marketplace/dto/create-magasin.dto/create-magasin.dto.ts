@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger'; // Importer ApiProperty pour Swagger
+// marketplace backend/dto/create-magasin.dto/create-magasin.dto.ts
+import { IsString, IsNotEmpty, IsOptional, IsUUID, IsEnum } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { MagasinStatus } from '../../entities/magasin.entity'; // Importer l'enum
 
 export class CreateMagasinDto {
   @ApiProperty({
@@ -68,17 +70,18 @@ export class CreateMagasinDto {
   @ApiProperty({
     description: "L'ID de l'utilisateur (propriétaire du magasin)",
     type: String,
-    example: 'd4d9c564-f3c1-40b8-bfcf-6f7b3583bb90', // Exemple d'UUID
+    example: 'd4d9c564-f3c1-40b8-bfcf-6f7b3583bb90',
   })
   @IsUUID()
   @IsNotEmpty()
-  proprietaireId: string; // L'ID de l'utilisateur qui est le propriétaire du magasin
+  proprietaireId: string;
 
   @ApiProperty({
-    description: 'Indique si le magasin est approuvé ou non',
-    type: Boolean,
-    example: false,
+    description: 'Statut d\'approbation du magasin (pending, approved, rejected)',
+    enum: MagasinStatus, // Utilisation de l'enum
+    example: MagasinStatus.PENDING,
   })
-  @IsOptional() // Si ce champ est optionnel, vous pouvez l'omettre lors de la création
-  estApprouve?: boolean;
+  @IsOptional()
+  @IsEnum(MagasinStatus) // Validation de l'enum
+  estApprouve?: MagasinStatus;
 }

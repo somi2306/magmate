@@ -1,3 +1,4 @@
+// bard/marketplace frontend/pages/product-details/product-details.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService1 } from '../../services/product1.service';
@@ -34,9 +35,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   reclamationData: CreateReclamationDto = {
     idCible: 0,
     description: '',
-    pieceJointe: '',
+    pieceJointe: '', // Cette propriété ne sera plus directement utilisée pour le fichier, mais elle est dans le DTO
     email: '',
   };
+  selectedPieceJointeFile: File | null = null; // Nouvelle propriété pour stocker le fichier
+
   currentUserProfile!: UserProfile;
   ownerUserProfile!: UserProfile;
   requestStatus: string = 'not-sent';
@@ -106,7 +109,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.reclamationData.pieceJointe = file.name;
+      this.selectedPieceJointeFile = file; // Stocker l'objet File
+    } else {
+      this.selectedPieceJointeFile = null;
     }
   }
 
@@ -128,18 +133,21 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        const newReclamationData: CreateReclamationDto = {
-          description: this.reclamationData.description,
-          idCible: this.productId,
-          pieceJointe: this.reclamationData.pieceJointe,
-          email: userEmail,
-        };
+        const formData = new FormData();
+        formData.append('description', this.reclamationData.description);
+        formData.append('idCible', this.productId.toString());
+        formData.append('email', userEmail);
 
-        this.reclamationService.addReclamation(this.productId, newReclamationData).subscribe(
+        if (this.selectedPieceJointeFile) {
+          formData.append('pieceJointe', this.selectedPieceJointeFile, this.selectedPieceJointeFile.name);
+        }
+
+        this.reclamationService.addReclamation(this.productId, formData).subscribe(
           (newReclamation: any) => {
             console.log('Nouvelle réclamation ajoutée:', newReclamation);
             this.reclamationData.description = '';
-            this.reclamationData.pieceJointe = '';
+            this.selectedPieceJointeFile = null; // Réinitialiser le fichier sélectionné
+            this.showReclamationForm = false; // Fermer le formulaire après succès
           },
           (error) => {
             console.error('Erreur lors de l\'ajout de la réclamation', error);

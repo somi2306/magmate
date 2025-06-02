@@ -1,0 +1,219 @@
+/* src/app/admin-components/pages/page-magasin-admin/page-magasin-admin.component.css */
+
+html, body {
+  min-height: 100vh;
+  background-color: #edd1ab;
+  margin: 0;
+  padding: 0;
+}
+
+.magasin-header {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 70%);
+}
+
+.header-content {
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row; /* For horizontal layout */
+  gap: 20px; /* Space between elements */
+  align-items: center; /* Vertically align elements */
+}
+
+.header-content h1, .header-content p {
+  margin: 0; /* Remove default margins */
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Center product cards */
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  width: 250px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Push buttons to the bottom */
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.product-card h3 {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.product-card p {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.card-buttons {
+  margin-top: auto; /* Pushes buttons to the bottom of the card */
+  display: flex;
+  justify-content: center; /* Center the delete button */
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Make button full width */
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 5rem 0;
+  color: #678760;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 6px;
+  background-color: #678760;
+  border-radius: 3px;
+}
+
+.error {
+  text-align: center;
+  color: #dc3545;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+/* src/app/admin-components/pages/page-magasin-admin/page-magasin-admin.component.css */
+
+/* ... (conserver les styles existants) ... */
+
+.header-content {
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row; /* For horizontal layout */
+  gap: 20px; /* Space between elements */
+  align-items: center; /* Vertically align elements */
+}
+
+.header-content h1, .header-content p {
+  margin: 0; /* Remove default margins */
+}
+
+/* Nouveau style pour le bouton de suppression du magasin */
+.delete-magasin-btn {
+  background-color: #dc3545; /* Couleur rouge pour le bouton de suppression */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-magasin-btn:hover {
+  background-color: #c82333; /* Couleur plus foncée au survol */
+}
+
+.magasin-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end; /* ✅ Aligne les éléments à droite */
+}
+
+/* ... (conserver les styles existants) ... */
+
+/* ... (styles existants) ... */
+
+.card-buttons {
+  margin-top: auto; /* Pushes buttons to the bottom of the card */
+  display: flex;
+  justify-content: space-between; /* Espacement entre les boutons */
+  gap: 10px; /* Espace entre les boutons */
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-grow: 1; /* Permet au bouton de prendre l'espace disponible */
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Style pour le nouveau bouton "Voir Détails" */
+.details-btn {
+  background-color: #678760; /* Couleur similaire à votre thème */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-grow: 1; /* Permet au bouton de prendre l'espace disponible */
+}
+
+.details-btn:hover {
+  background-color: #5a7a51; /* Couleur plus foncée au survol */
+}
+
+/* ... (autres styles existants) ... */

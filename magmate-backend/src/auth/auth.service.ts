@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import * as admin from 'firebase-admin';
 import * as bcrypt from 'bcrypt';
+import * as speakeasy from 'speakeasy';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +50,41 @@ export class AuthService {
     }
 
     return user;
+  }
+
+    // ✅ Générer le secret 2FA pour l’utilisateur
+  async generate2FASecret(user: User): Promise<string> {
+    const secret = speakeasy.generateSecret({
+      name: `gestion-hoteliere (${user.email})`,
+    });
+
+    user.twoFactorSecret = secret.base32;
+    await this.userRepo.save(user);
+
+    return secret.otpauth_url; // à transformer en QR code côté frontend
+  }
+
+  // ✅ Activer le 2FA
+  async enable2FA(user: User): Promise<void> {
+    user.twoFactorEnabled = true;
+    await this.userRepo.save(user);
+  }
+
+  // ✅ Désactiver le 2FA
+  async disable2FA(user: User): Promise<void> {
+    user.twoFactorEnabled = false;
+    user.twoFactorSecret = '';
+    await this.userRepo.save(user);
+  }
+
+  // ✅ Vérifier le code TOTP
+  verify2FACode(user: User, code: string): boolean {
+    return speakeasy.totp.verify({
+      secret: user.twoFactorSecret,
+      encoding: 'base32',
+      token: code,
+      window: 1, // autorise un décalage léger dans le temps
+    });
   }
 /* zineb */
 // Dans auth.service.ts

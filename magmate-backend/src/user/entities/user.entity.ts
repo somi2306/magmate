@@ -17,8 +17,8 @@ import { Reclamation } from 'src/marketplace/entities/reclamation.entity';
 import { Magasin } from 'src/marketplace/entities/magasin.entity';
 import { Favorite } from 'src/events/entities/favorite.entity';
 import { Event } from 'src/events/entities/event.entity';
-
-enum UserRole {
+import { IsEmail, IsEnum, IsBoolean, Length } from 'class-validator';
+export enum UserRole {
   ADMIN = 'admin',
   NORMAL_USER = 'normal_user',
 }
@@ -33,7 +33,11 @@ export class User {
 
 */
   @Column({ unique: true })
+  @IsEmail()
   email: string;
+
+  @Column({ nullable: true })
+  phoneNumber: string;
 
   @Column({ type: 'varchar', nullable: true })
   password?: string | null;
@@ -46,6 +50,12 @@ export class User {
 
   @Column()
   lname: string;
+
+    @Column({ default: false })
+  twoFactorEnabled: boolean;
+
+  @Column({ nullable: true })
+  twoFactorSecret: string ;
 
   @Column({ nullable: true })
   photo?: string;

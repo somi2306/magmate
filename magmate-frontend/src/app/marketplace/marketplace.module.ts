@@ -16,6 +16,7 @@ import { MagasinUpdateComponent } from './pages/magasin-update/magasin-update.co
 
 import { ReactiveFormsModule } from '@angular/forms';  
 import { PageMagasinClientComponent } from './pages/page-magasin-client/page-magasin-client.component';
+import { PageMagasinAdminComponent } from '../admin-components/page-magasin-admin/page-magasin-admin.component'; // Import the new component
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PageMagasinClientComponent } from './pages/page-magasin-client/page-mag
     ProductCardComponent,
     MarketplaceComponent,
     MagasinPageComponent,
-    PageMagasinClientComponent
+    PageMagasinClientComponent,
+    //PageMagasinAdminComponent
   ],
   imports: [
     CommonModule,  

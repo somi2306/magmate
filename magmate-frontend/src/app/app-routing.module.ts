@@ -22,6 +22,20 @@ import { MyEventsComponent } from './events/my-events/my-events.component';
 import { MyFavoritesComponent } from './events/my-favorites/my-favorites.component';
 import { TranslationComponent } from './components/translation/translation.component';
 import { CurrencyComponent } from './components/currency/currency.component';
+
+import { AdminAuthComponent } from './admin-auth/admin-auth.component';
+import { AdminProfileComponent } from './admin-components/admin-profile/admin-profile.component';
+import { AdminMagasinListComponent } from './admin-components/admin-magasin-list/admin-magasin-list.component';
+import { AdminReclamationListComponent } from './admin-components/admin-reclamation-list/admin-reclamation-list.component'; // Importer le nouveau composant
+import { PageMagasinAdminComponent } from './admin-components/page-magasin-admin/page-magasin-admin.component'; // Import the new component
+import { PageProductDetailsAdminComponent } from './admin-components/page-product-details-admin/page-product-details-admin.component'; // Importez le nouveau composant admin
+import { AdminPrestataireListComponent } from './admin-components/admin-prestataire-list/admin-prestataire-list.component'; // Importez le nouveau composant
+import { PagePrestataireDetailsAdminComponent } from './admin-components/page-prestataire-details-admin/page-prestataire-details-admin.component'; // Assurez-vous que le chemin est correct
+import { AdminEventsListComponent } from './admin-components/admin-events-list/admin-events-list.component';
+import { PageEventsDetailsAdminComponent } from './admin-components/page-events-details-admin/page-events-details-admin.component';
+import { AdminMessagerieComponent } from './admin-components/admin-messagerie/admin-messagerie.component';
+import { AdminHomeComponent } from './admin-components/admin-home/admin-home.component';
+import { AdminUserListComponent } from './admin-components/admin-user-list/admin-user-list.component';
 const routes: Routes = [
   { path: 'translation-currency', component: TranslationCurrencyComponent },
     { path: 'translation', component: TranslationComponent },
@@ -30,6 +44,48 @@ const routes: Routes = [
   { path: 'prestataires', component: AccueilPrestataireComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+   { path: 'admin-auth', component: AdminAuthComponent },
+
+  { path: 'admin-profile', component: AdminProfileComponent },
+    { 
+    path: 'admin/magasins', 
+    component: AdminMagasinListComponent,
+    // canActivate: [AdminGuard] // Si vous avez un guard pour l'admin
+  },
+  { path: 'admin/magasin-products/:id', component: PageMagasinAdminComponent }, //
+
+    { path: 'admin/reclamations', component: AdminReclamationListComponent }, //
+
+      // Nouvelle route pour afficher les produits d'un magasin (pour l'admin)
+  {
+    path: 'admin/produit-details/:id', // Nouvelle route pour les détails du produit admin
+    component: PageProductDetailsAdminComponent, // Composant admin
+  },
+    {path :'admin/prestataires', component:AdminPrestataireListComponent}, // Nouvelle route pour l'admin
+
+  { path: 'admin/prestataire-details/:id', component: PagePrestataireDetailsAdminComponent },
+
+    { path: 'admin/events', component: AdminEventsListComponent },
+  { path: 'admin/event-details/:id', component: PageEventsDetailsAdminComponent },
+
+    {
+    path: 'admin/messagerie',
+    component: AdminMessagerieComponent,
+
+  },
+
+      {
+    path: 'admin/home',
+    component: AdminHomeComponent,
+
+  },
+
+        {
+    path: 'admin/users',
+    component: AdminUserListComponent,
+
+  },
+
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'connectionProfile', component: ConnectionProfileComponent },

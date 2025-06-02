@@ -45,6 +45,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TranslationComponent } from './components/translation/translation.component';
 import { CurrencyComponent } from './components/currency/currency.component';
 
+import { AdminAuthComponent } from './admin-auth/admin-auth.component';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { AdminHeaderComponent } from './admin-components/admin-header/admin-header.component';
+import { AdminProfileComponent } from './admin-components/admin-profile/admin-profile.component';
+import { AdminMagasinListComponent } from './admin-components/admin-magasin-list/admin-magasin-list.component';
+import { PageMagasinAdminComponent } from './admin-components/page-magasin-admin/page-magasin-admin.component';
+import { AdminReclamationListComponent } from './admin-components/admin-reclamation-list/admin-reclamation-list.component';
+import { PageProductDetailsAdminComponent } from './admin-components/page-product-details-admin/page-product-details-admin.component';
+import { AdminPrestataireListComponent } from './admin-components/admin-prestataire-list/admin-prestataire-list.component';
+import { PagePrestataireAdminComponent } from './admin-components/page-prestataire-admin/page-prestataire-admin.component';
+import { PagePrestataireDetailsAdminComponent } from './admin-components/page-prestataire-details-admin/page-prestataire-details-admin.component';
+import { AdminEventsListComponent } from './admin-components/admin-events-list/admin-events-list.component';
+import { PageEventsDetailsAdminComponent } from './admin-components/page-events-details-admin/page-events-details-admin.component';
+import { AdminMessagerieComponent } from './admin-components/admin-messagerie/admin-messagerie.component';
+import { AdminHomeComponent } from './admin-components/admin-home/admin-home.component';
+import { AdminUserListComponent } from './admin-components/admin-user-list/admin-user-list.component';
+
 @Pipe({
   name: 'initial',
   standalone: true
@@ -106,6 +123,23 @@ const socketConfig: SocketIoConfig = {
     MyEventsComponent,
     MyFavoritesComponent,
 
+    AdminAuthComponent,
+    AdminHeaderComponent,
+    AdminProfileComponent,
+    AdminMagasinListComponent,
+    PageMagasinAdminComponent,
+    AdminReclamationListComponent,
+    PageProductDetailsAdminComponent,
+    AdminPrestataireListComponent,
+    PagePrestataireAdminComponent,
+    PagePrestataireDetailsAdminComponent,
+    AdminEventsListComponent,
+    PageEventsDetailsAdminComponent,
+    AdminHomeComponent,
+    AdminUserListComponent,
+    
+
+
   ],
   imports: [
     HomeComponent, // Moved from imports to declarations
@@ -113,6 +147,7 @@ const socketConfig: SocketIoConfig = {
         TranslationComponent,
     CurrencyComponent,
     MessagerieComponent,//check
+    AdminMessagerieComponent,
     BrowserModule,
     CommonModule,
     
@@ -143,8 +178,8 @@ const socketConfig: SocketIoConfig = {
                 InitialPipe,
     InitialsPipe,
 
-    PrestataireModule
-
+    PrestataireModule,
+    QRCodeComponent
     
   ],
   providers: [

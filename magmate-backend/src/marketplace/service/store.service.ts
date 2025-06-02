@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Magasin } from '../entities/magasin.entity';
+import { Magasin, MagasinStatus } from '../entities/magasin.entity';
 import { CreateMagasinDto } from '../dto/create-magasin.dto/create-magasin.dto';
 import { UpdateMagasinDto } from '../dto/update-magasin.dto/update-magasin.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -16,7 +16,7 @@ export class StoreService {
     @InjectRepository(Magasin)
     private magasinRepository: Repository<Magasin>,
     @InjectRepository(User)
-    private userRepository: Repository<User>, // Injection du repository User
+    private userRepository: Repository<User>,
   ) {}
 
   async checkUserExistence(proprietaireId: string): Promise<User | null> {
@@ -25,26 +25,19 @@ export class StoreService {
     });
   }
 
-  // Créer un magasin
   async create(dto: CreateMagasinDto) {
-    // Vérifier si l'utilisateur existe
     const user = await this.userRepository.findOne({
       where: { id: dto.proprietaireId },
     });
     if (!user) {
-      throw new NotFoundException('Utilisateur non trouvé'); // Si l'utilisateur n'existe pas
+      throw new NotFoundException('Utilisateur non trouvé');
     }
 
-    // Initialiser le magasin avec les données du DTO
     const magasin = this.magasinRepository.create(dto);
-    magasin.proprietaire = user; // Lier l'utilisateur au magasin
+    magasin.proprietaire = user;
     magasin.dateCreation = new Date();
-     console.log('DTO reçu:', dto); // Ajouter la date de création si elle n'est pas fournie
-
+    magasin.estApprouve = MagasinStatus.PENDING;
     try {
-      // Sauvegarder le magasin dans la base de données
-     
-
       return await this.magasinRepository.save(magasin);
     } catch (error) {
       console.error('Erreur lors de la création du magasin:', error);
@@ -54,10 +47,12 @@ export class StoreService {
     }
   }
 
-  // Récupérer tous les magasins
-  async findAll() {
+  async findAll(estApprouve?: MagasinStatus) {
     try {
-      return await this.magasinRepository.find(); // Retourner tous les magasins
+      if (estApprouve) {
+        return await this.magasinRepository.find({ where: { estApprouve } });
+      }
+      return await this.magasinRepository.find();
     } catch (error) {
       throw new InternalServerErrorException(
         'Erreur lors de la récupération des magasins',
@@ -65,12 +60,11 @@ export class StoreService {
     }
   }
 
-  // Trouver un magasin par son ID
   async findOne(idMagasin: number) {
     try {
       const magasin = await this.magasinRepository.findOne({
         where: { idMagasin: idMagasin },
-        relations: ['proprietaire'], // Inclure l'utilisateur propriétaire dans les résultats
+        relations: ['proprietaire'],
       });
 
       if (!magasin) {
@@ -87,7 +81,6 @@ export class StoreService {
     }
   }
 
-  // Mettre à jour un magasin
   async update(idMagasin: number, dto: UpdateMagasinDto) {
     const magasin = await this.magasinRepository.findOne({
       where: { idMagasin: idMagasin },
@@ -97,11 +90,9 @@ export class StoreService {
       throw new NotFoundException(`Magasin avec l'ID ${idMagasin} non trouvé`);
     }
 
-    // Mise à jour du magasin avec les nouvelles données
     Object.assign(magasin, dto);
 
     try {
-      // Sauvegarder les modifications dans la base de données
       return await this.magasinRepository.save(magasin);
     } catch (error) {
       throw new InternalServerErrorException(
@@ -110,7 +101,6 @@ export class StoreService {
     }
   }
 
-  // Supprimer un magasin par son ID
   async remove(idMagasin: number) {
     const magasin = await this.magasinRepository.findOne({
       where: { idMagasin: idMagasin },
@@ -121,7 +111,6 @@ export class StoreService {
     }
 
     try {
-      // Supprimer le magasin
       await this.magasinRepository.delete(idMagasin);
       return { message: 'Magasin supprimé avec succès' };
     } catch (error) {
@@ -130,4 +119,56 @@ export class StoreService {
       );
     }
   }
+
+  async approveStore(idMagasin: number) {
+    const magasin = await this.magasinRepository.findOne({
+      where: { idMagasin: idMagasin },
+    });
+
+    if (!magasin) {
+      throw new NotFoundException(`Magasin avec l'ID ${idMagasin} non trouvé`);
+    }
+
+    magasin.estApprouve = MagasinStatus.APPROVED;
+    try {
+      return await this.magasinRepository.save(magasin);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        "Erreur lors de l'approbation du magasin",
+      );
+    }
+  }
+
+  async rejectStore(idMagasin: number) {
+    const magasin = await this.magasinRepository.findOne({
+      where: { idMagasin: idMagasin },
+    });
+
+    if (!magasin) {
+      throw new NotFoundException(`Magasin avec l'ID ${idMagasin} non trouvé`);
+    }
+
+    magasin.estApprouve = MagasinStatus.REJECTED;
+    try {
+      return await this.magasinRepository.save(magasin);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erreur lors du refus du magasin',
+      );
+    }
+  }
+
+  // Dans store.service.ts
+async findByStatus(estApprouve: MagasinStatus) {
+  try {
+    return await this.magasinRepository.find({ 
+      where: { estApprouve },
+      relations: ['proprietaire'] 
+    });
+  } catch (error) {
+    throw new InternalServerErrorException(
+      `Erreur lors de la récupération des magasins ${estApprouve}`,
+    );
+  }
+}
 }

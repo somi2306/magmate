@@ -1,0 +1,61 @@
+<div class="navigation">
+  <div class="nav__header">
+    <div class="nav__logo">
+      <a routerLink="/admin/home" class="logo">
+        <img src="images/logo1.png" alt="Magmate" class="logo-icon" />
+      </a>
+    </div>
+    <div class="nav__menu__btn" id="menu-btn">
+      <i class="ri-menu-line"></i>
+    </div>
+  </div>
+  <ul class="nav__links" id="nav-links">
+    <li><a href="/admin/home">Accueil</a></li>
+    <li class="nav__dropdown">
+      <a (click)="toggleMarketplaceDropdown($event)">Marketplace <i class="ri-arrow-down-s-line"></i></a>
+      <ul class="dropdown-submenu" *ngIf="showMarketplaceDropdown">
+        <li><a routerLink="/admin/magasins" (click)="hideMarketplaceDropdown()">Gestion des magasins</a></li>
+        <li><a routerLink="/admin/reclamations" (click)="hideMarketplaceDropdown()">Gestion des réclamations</a></li>
+      </ul>
+    </li>
+    <li><a href="/admin/events">Événement</a></li>
+    <li><a href="/admin/prestataires">Service de prestataire</a></li>
+    <li><a href="/admin/users">Gestion des utilisateurs</a></li>
+
+
+    <li class="nav__profile">
+      <div class="profile-dropdown">
+        <img
+          [src]="profilePhotoUrl"
+          alt="Photo de profil"
+          class="nav__profile-pic"
+          (error)="profilePhotoUrl = 'images/default-profile.png'"
+          (click)="toggleDropdown()"
+        />
+        <div class="dropdown-menu" *ngIf="showDropdown">
+          <a
+            class="dropdown-item"
+            routerLink="/admin-profile"
+            (click)="hideDropdown()"
+          >
+            <i class="ri-user-line"></i> Profil
+          </a>
+          <a
+            class="dropdown-item"
+            routerLink="/admin/messagerie"
+            (click)="hideDropdown()"
+          >
+            <i class="ri-message-2-line"></i> Messagerie
+            <span
+              class="notification-badge"
+              *ngIf="totalUnreadMessages > 0"
+              [class.pulse]="isPulsing"
+            >
+              {{ totalUnreadMessages > 99 ? "99+" : totalUnreadMessages }}
+            </span>
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -25,6 +25,14 @@ export class UserService {
     private readonly userRequestRepository: Repository<UserRequestEntity>,
   ) {}
 
+    async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+  
   async getProfile(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
 

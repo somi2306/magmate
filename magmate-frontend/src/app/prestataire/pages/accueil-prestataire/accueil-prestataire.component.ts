@@ -66,6 +66,11 @@ export class AccueilPrestataireComponent implements OnInit {
     'Tiznit',
   ];
 
+  showPopup: boolean = false;
+  message: string = '';
+  showPrestatairePopup: boolean = false;
+  private adminId: string = '6f3e7ea2-d6fd-44a9-b82a-4a9c7c20d9d4';
+
   constructor(
     private prestataireService: PrestataireService,
     private router: Router,
@@ -73,7 +78,9 @@ export class AccueilPrestataireComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadPrestataires(); // ✅ Affiche tous les prestataires au chargement
+    this.loadPrestataires();
+    // Supprimez tout appel à openModal() ou à des logiques similaires ici.
+    // Les pop-ups ne doivent être activés que par le clic sur "Mon profil".
   }
   
 
@@ -87,7 +94,7 @@ export class AccueilPrestataireComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erreur:', err);
-          this.prestataires = []; // Si une erreur se produit, vider la liste
+          this.prestataires = [];
         },
       });
   }
@@ -98,24 +105,17 @@ export class AccueilPrestataireComponent implements OnInit {
       prestataireSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
-  // Fonction pour ouvrir le modal
+  // Ces fonctions sont maintenant redondantes, car les pop-ups sont gérés par *ngIf.
+  // Vous pouvez les laisser ou les supprimer si elles ne sont plus utilisées nulle part ailleurs.
   openModal() {
-    const modal = document.getElementById('prestataireModal');
-    if (modal) {
-      modal.style.display = 'block';
-    }
+    // La logique est maintenant gérée par showPrestatairePopup et *ngIf.
   }
 
-  // Fonction pour fermer le modal
   closeModal() {
-    const modal = document.getElementById('prestataireModal');
-    if (modal) {
-      modal.style.display = 'none';
-    }
+    // La logique est maintenant gérée par showPrestatairePopup et *ngIf.
   }
 
 
-  // Votre logique pour vérifier si l'utilisateur est un prestataire, etc.
   monprofil() {
     const userString = localStorage.getItem('user') || sessionStorage.getItem('user');
   
@@ -130,26 +130,35 @@ export class AccueilPrestataireComponent implements OnInit {
   
           localStorage.setItem('uuid', uuid);
   
-          // Récupérer les infos complètes du prestataire
           this.prestataireService.getByUuid(uuid).subscribe({
             next: (prestataire) => {
               if (prestataire) {
-                if (prestataire.estApprouve) {
+                if (prestataire.estApprouve === 'approved') {
                   this.router.navigate(['/monprofil']);
-                } else {
-                  alert("Votre demande est en cours de traitement par l'administration.");
+                } else if (prestataire.estApprouve === 'pending') {
+                  this.message = 'Votre profil est en attente d\'approbation.';
+                  this.showPopup = true;
+                  this.showPrestatairePopup = false; // Assurez-vous que l'autre popup est fermé.
+                } else if (prestataire.estApprouve === 'rejected') {
+                  this.message = 'Votre profil prestataire a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.';
+                  this.showPopup = true;
+                  this.showPrestatairePopup = false; // Assurez-vous que l'autre popup est fermé.
                 }
               } else {
-                this.openModal(); // Pas encore prestataire
+                this.showPrestatairePopup = true; // Afficher le popup "créer profil" si aucun prestataire n'est trouvé.
+                this.showPopup = false; // Assurez-vous que l'autre popup est fermé.
               }
             },
             error: (err) => {
               console.error("Erreur lors de la récupération du prestataire :", err);
+              this.showPrestatairePopup = true; // En cas d'erreur lors de la récupération, suggérer de créer le profil.
+              this.showPopup = false; // Assurez-vous que l'autre popup est fermé.
             }
           });
         },
         error: (err) => {
           console.error('Erreur lors de la récupération de l\'UUID :', err);
+          this.router.navigate(['/login']);
         }
       });
   
@@ -157,10 +166,23 @@ export class AccueilPrestataireComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-  get prestatairesApprouves() {
-  return this.prestataires.filter(p => p.estApprouve);
-}
 
-  
+  closePopup() {
+    this.showPopup = false;
+  }
+
+  closePrestatairePopup() {
+    this.showPrestatairePopup = false;
+  }
+
+  contactAdmin(): void {
+    this.router.navigate(['/messagerie'], {
+      queryParams: { recipientId: this.adminId }
+    });
+    this.closePopup();
+  }
+
+  get prestatairesApprouves() {
+    return this.prestataires.filter(p => p.estApprouve === 'approved');
+  }
 }
- 

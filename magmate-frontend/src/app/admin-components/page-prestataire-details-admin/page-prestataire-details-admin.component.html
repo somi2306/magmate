@@ -1,0 +1,59 @@
+<body style="margin-top: 80px;">
+  <h1><i>Détails du Prestataire: {{ prestataire?.utilisateur?.fname }} {{ prestataire?.utilisateur?.lname }}</i></h1>
+  <div *ngIf="prestataire; else loadingOrError" class="prestataire-details">
+    <div class="prestataire-image">
+      <img
+        [src]="
+          prestataire?.utilisateur?.photo
+            ? prestataire.utilisateur?.photo
+            : 'assets/default-photo.jpg'
+        "
+        class="main-image"
+        alt="Image du prestataire"
+      />
+    </div>
+
+    <div class="prestataire-info">
+      <p><strong>Email:</strong> {{ prestataire?.utilisateur?.email || "Non disponible" }}</p>
+      <p><strong>Téléphone:</strong> {{ prestataire?.telephone || "Non disponible" }}</p>
+      <p><strong>Ville:</strong> {{ prestataire?.ville || "Non disponible" }}</p>
+      <p><strong>Spécialité:</strong> {{ prestataire?.specialite || "Non spécifiée" }}</p>
+      <p><strong>Expérience:</strong> {{ prestataire?.experience || "Non spécifiée" }}</p>
+      <p><strong>Disponibilité:</strong>
+        {{
+          prestataire?.disponibilite !== undefined
+            ? prestataire.disponibilite
+              ? "Disponible"
+              : "Indisponible"
+            : "Non spécifiée"
+        }}
+      </p>
+    </div>
+  </div>
+
+  <ng-template #loadingOrError>
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+    <div *ngIf="!prestataire && !errorMessage" class="loading-message">
+      <p>Chargement des détails du prestataire...</p>
+    </div>
+  </ng-template>
+
+  <div class="comments-section">
+    <h3>Commentaires du Prestataire</h3>
+    <div *ngIf="comments.length > 0; else noComments">
+      <div *ngFor="let comment of comments" class="comment">
+        <p class="username">{{ comment.auteur?.lname }} {{ comment.auteur?.fname }} :</p>
+        <p>{{ comment.commentaire }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [].constructor(comment.note)">★</span>
+        </div>
+        <button class="delete-comment-btn" (click)="deleteComment(comment.idAvis)">Supprimer</button>
+      </div>
+    </div>
+    <ng-template #noComments>
+      <p class="no-comments-message">Aucun commentaire pour ce prestataire.</p>
+    </ng-template>
+  </div>
+</body>

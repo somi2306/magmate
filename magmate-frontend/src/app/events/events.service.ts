@@ -1,7 +1,8 @@
+// Fichier : bard/events frontend/events.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event, CreateEventDto, UpdateEventDto } from './event.model';
+import { Event, CreateEventDto, UpdateEventDto, EventStatus } from './event.model'; // Import EventStatus
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -16,6 +17,7 @@ export class EventsService {
   getAllEvents(filters?: {
     city?: string;
     type?: string;
+    status?: EventStatus; // Ajout du filtre par statut
   }): Observable<Event[]> {
     console.log('teest');
     let params = new HttpParams();
@@ -26,6 +28,11 @@ export class EventsService {
 
     if (filters?.type) {
       params = params.set('type', filters.type);
+    }
+
+    // Ajout du filtre par statut
+    if (filters?.status) {
+      params = params.set('status', filters.status);
     }
 
     return this.http.get<Event[]>(this.apiUrl, { params });
@@ -71,5 +78,19 @@ export class EventsService {
   removeFromFavorites(eventId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${eventId}/favorite`);
   }
-  
+
+  // Nouvelle méthode pour approuver un événement
+  approveEvent(id: string): Observable<Event> {
+    return this.http.patch<Event>(`${this.apiUrl}/${id}/approve`, {});
+  }
+
+  // Nouvelle méthode pour rejeter un événement
+  rejectEvent(id: string): Observable<Event> {
+    return this.http.patch<Event>(`${this.apiUrl}/${id}/reject`, {});
+  }
+
+  // Nouvelle méthode ajoutée: Récupérer les événements par statut
+  getEventsByStatus(status: EventStatus): Observable<Event[]> {
+    return this.http.get<Event[]>(`${this.apiUrl}/status/${status}`);
+  }
 }

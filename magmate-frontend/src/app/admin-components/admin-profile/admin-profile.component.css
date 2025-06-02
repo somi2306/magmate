@@ -1,0 +1,366 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+:root {
+  --primary-dark: #78350f;
+  --primary-medium: #92400e;
+  --primary-light: #b45309;
+  --accent: #b91c1c;
+  --accent-light: #fee2e2;
+  --bg-cream: #fff7ed;
+  --bg-light: #fffbeb;
+  --border-color: #fbbf24;
+}
+
+/* Base Container */
+.profile-container {
+  min-height: 100vh;
+  position: relative;
+  background-color: #fcf5e2;
+  margin: 0;
+}
+
+
+
+/* Profile Card */
+.profile-card-container {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  background-image: url("/images/img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 20.5rem 20.5rem 2.5rem 2.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  max-width: 42rem;
+  width: 100%;
+  position: relative;
+  border: 2px solid #fde68a;
+  animation: fadeIn 0.6s ease-in-out;
+  border: 2px solid var(--border-color);
+}
+
+.profile-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Profile Card Header Gradient */
+
+.profile-photo::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg at 50% 50%, #fbbf24, #f97316, #fbbf24);
+  animation: spin 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.info-item {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+}
+
+.info-item:hover {
+  background-color: #fff7ed;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+
+/* Profile Card Content */
+.profile-card-content {
+  padding: 0 2rem 2rem 2rem;
+}
+
+/* Profile Main Section (Photo + Info) */
+.profile-main-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Profile Photo Container */
+.profile-photo-container {
+  margin-bottom: 1rem;
+  padding-top: 2.5rem;
+  padding-left: 1.5rem;
+  cursor: pointer;
+}
+
+.profile-photo {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fde68a;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.profile-photo:hover {
+  border-color: #a73121;
+}
+
+.photo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1);
+  transition: none;
+}
+
+.profile-photo:hover .photo-image {
+  transform: scale(1);
+}
+.profile-photo.loaded .photo-image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-photo:hover .photo-overlay {
+  opacity: 1;
+}
+
+.camera-icon {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.file-input {
+  display: none;
+}
+
+.profile-info-container {
+  margin-top: 1rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+
+
+
+
+
+
+.details-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  position: relative;
+  margin-bottom: 0.5rem;
+  color: #78350f;
+  text-align: center;
+}
+
+/* Info Container */
+.info-container {
+  background-color: #fff7edce;
+  border-radius: 15.5rem 15.5rem 2.5rem 2.5rem;
+  padding: 2rem 1rem 1rem 1.5rem;
+  border: 1px solid #fde68a;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-icon-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #b91c1c;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #92400e;
+}
+
+.info-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #78350f;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.material-icons {
+  font-size: 1.5rem;
+  color: #78350f;
+}
+.info-icon-container {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.info-item:hover .info-icon-container {
+  transform: scale(1.1);
+  background-color: #fecaca;
+}
+
+.upload-loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #4caf50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.upload-success {
+  width: 40%;
+  margin: auto;
+  text-align: center;
+  background-color: #fff9f9c1;
+  margin-bottom: 2rem;
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Logout Button Styles */
+.logout-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: white; /* Fond blanc par défaut */
+  color: #78350f; /* Texte marron par défaut */
+  border: 2px solid #78350f; /* Bordure marron par défaut */
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button:hover {
+  background-color: #78350f; /* Fond marron au survol */
+  color: white; /* Texte blanc au survol */
+  border-color: #78350f; /* Bordure marron maintenue */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logout-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button i {
+  font-size: 1.25rem;
+  transition: all 0.3s ease; /* Transition pour la couleur aussi */
+  color: inherit; /* Hérite de la couleur du texte parent */
+}
+
+.logout-button:hover i {
+  transform: translateX(-3px);
+  color: inherit; /* Blanc au survol comme le texte */
+}
+
+
+
+/*
+.logout-button:hover {
+  background-color: #991b1b; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+*/
+
+

@@ -23,10 +23,14 @@ async function bootstrap() {
   // 📂 Servir le dossier "public" via /public/
   app.use('/public', express.static(join(__dirname, '..', 'public')));
 
+  // NOUVEAU : Servir le dossier "reclamations" à l'intérieur de "public"
+  app.use('/public/reclamations', express.static(join(__dirname, '..', 'public', 'reclamations')));
+
+
   // 🔓 CORS activé pour permettre les appels depuis le frontend
   app.enableCors();
 
- 
+
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -41,7 +45,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('magasins')
     .addTag('produits')
-    .setTitle('API de Magmate') 
+    .setTitle('API de Magmate')
     .setDescription(
       "La documentation de l'API pour gérer les magasins et produits",
     ) // Description

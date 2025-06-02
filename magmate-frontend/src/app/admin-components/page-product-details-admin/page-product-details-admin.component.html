@@ -1,0 +1,53 @@
+<body style="margin-top: 80px;">
+  <h1><i>{{ product?.titre }}</i></h1>
+  <div *ngIf="product; else loadingOrError" class="product-details">
+    <div class="product-images">
+      <img *ngIf="product.imagePrincipale" [src]="product.imagePrincipale.startsWith('http') ? product.imagePrincipale : 'http://localhost:3000/public/images/' + product.imagePrincipale" class="main-image" alt="Image principale du produit" />
+      <div class="thumbnail-images">
+        <img *ngFor="let image of product.images"
+             [src]="'http://localhost:3000/public/images/'+image.imageURL"
+             alt="Miniature image produit"
+             class="thumbnail"
+             (click)="selectImage(image)" />
+      </div>
+    </div>
+
+    <div class="product-info">
+      <div class="price">
+        <span>{{ product.prix }} DH</span>
+      </div>
+      <p>{{ product.description }}</p>
+      <p class="store-name">
+        Magasin :
+        <a *ngIf="product.magasin?.idMagasin" [routerLink]="['/admin/magasin-products', product.magasin.idMagasin]">{{ product.magasin.nom || 'N/A' }}</a>
+        <span *ngIf="!product.magasin?.idMagasin">{{ 'N/A' }}</span>
+      </p>
+    </div>
+  </div>
+
+  <ng-template #loadingOrError>
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+    <div *ngIf="!product && !errorMessage" class="loading-message">
+      <p>Chargement des détails du produit...</p>
+    </div>
+  </ng-template>
+
+  <div class="comments-section">
+    <h3>Commentaires du produit</h3>
+    <div *ngIf="comments.length > 0; else noComments">
+      <div *ngFor="let comment of comments" class="comment">
+        <p class="username">{{ comment.auteur?.lname }} {{ comment.auteur?.fname }} :</p>
+        <p>{{ comment.commentaire }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [].constructor(comment.note); let i = index">★</span>
+        </div>
+        <button class="delete-comment-btn" (click)="deleteComment(comment.idAvis)">Supprimer</button>
+      </div>
+    </div>
+    <ng-template #noComments>
+      <p class="no-comments-message">Aucun commentaire pour ce produit.</p>
+    </ng-template>
+  </div>
+</body>

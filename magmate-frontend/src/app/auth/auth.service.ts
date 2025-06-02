@@ -103,11 +103,23 @@ export class AuthService {
   */
 
   async loginBackend() {
-    const response = await firstValueFrom(
-      this.http.post(`${this.API}/login`, { token: await this.getIdToken() })
+    const token = await this.getIdToken();
+    console.log('Firebase token:', token); // Vérifiez si le token est valide
+    const response: any = await firstValueFrom(
+      this.http.post(`${this.API}/login`, { token })
     );
-    this.userLoggedIn.emit(); // Émettre après une connexion réussie
-    return response;
+  
+    if (response.twoFactorRequired) {
+    return {
+      twoFactorRequired: true,
+      phoneNumber: response.phoneNumber,
+      role: response.user?.role, // Vérifiez que le rôle est bien extrait
+    };
+  } else {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+    return { success: true, role: response.user.role }; // Vérifiez que le rôle est bien renvoyé
+  }
   }
 
   async signupBackend(fname: string, lname: string, password: string) {
@@ -124,12 +136,13 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await this.afAuth.signOut();
-
+      // Supprimer toutes les données stockées
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('firebaseUser');
       sessionStorage.removeItem('user');
-      //this.router.navigate(['/login']);
-      this.router.navigate(['/']);
+      sessionStorage.removeItem('firebaseUser');
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error('Erreur lors de la déconnexion', error);
     }

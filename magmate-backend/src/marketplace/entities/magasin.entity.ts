@@ -1,3 +1,4 @@
+// marketplace backend/entities/magasin.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,13 @@ import {
 } from 'typeorm';
 import { Produit } from './produit.entity';
 import { User } from 'src/user/entities/user.entity';
+
+export enum MagasinStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
 @Entity()
 export class Magasin {
   @PrimaryGeneratedColumn()
@@ -35,8 +43,14 @@ export class Magasin {
 
   @Column()
   ville: string;
-  @Column({ default: false })
-  estApprouve: boolean;
+
+  // Changer le type de 'estApprouve' pour un enum
+  @Column({
+    type: 'enum',
+    enum: MagasinStatus,
+    default: MagasinStatus.PENDING, // Statut par défaut à 'pending'
+  })
+  estApprouve: MagasinStatus;
 
   // Relation un à plusieurs entre Magasin et Produit
   @OneToMany(() => Produit, (produit) => produit.magasin)

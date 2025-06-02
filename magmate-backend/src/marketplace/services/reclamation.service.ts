@@ -1,3 +1,4 @@
+// bard/marketplace backend/services/reclamation.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -58,6 +59,14 @@ async createReclamation(dto: CreateReclamationDto, userEmail: string): Promise<R
     return this.reclamationRepository.find({
       where: { produit: product },
       relations: ['utilisateur', 'produit'], // Charger les relations avec l'utilisateur et le produit
+      order: { dateCreation: 'DESC' }, // Trier par date de création décroissante
+    });
+  }
+
+  // NOUVELLE MÉTHODE : Récupérer toutes les réclamations
+  async getAllReclamations(): Promise<Reclamation[]> {
+    return this.reclamationRepository.find({
+      relations: ['utilisateur', 'produit'], // Charger les relations pour afficher les infos
       order: { dateCreation: 'DESC' }, // Trier par date de création décroissante
     });
   }

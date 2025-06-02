@@ -89,13 +89,18 @@ export class EventsService {
     });
     if (!event) throw new NotFoundException('Événement introuvable');
 
-    if (event.createdBy.email !== userEmail) {
+    // Retrieve the user to check their role
+    const requestingUser = await this.usersRepository.findOne({ where: { email: userEmail } });
+    if (!requestingUser) throw new NotFoundException('Utilisateur non trouvé.');
+
+    // Allow deletion if the user is an admin OR if the user is the creator of the event
+    if (requestingUser.role === 'admin' || event.createdBy.email === userEmail) {
+      await this.eventsRepository.delete(id);
+    } else {
       throw new ForbiddenException(
         "Vous n'êtes pas autorisé à supprimer cet événement",
       );
     }
-
-    await this.eventsRepository.delete(id);
   }
 
   // 🛠 6. Mettre à jour un événement
@@ -181,5 +186,34 @@ export class EventsService {
     if (!favorite) throw new NotFoundException("Le favori n'existe pas");
 
     await this.favoritesRepository.remove(favorite);
+  }
+
+
+   async approveEvent(id: string): Promise<Event> {
+    const event = await this.eventsRepository.findOneBy({ id });
+    if (!event) {
+      throw new NotFoundException(`Événement avec l'ID ${id} non trouvé`);
+    }
+    event.status = EventStatus.APPROVED;
+    return this.eventsRepository.save(event);
+  }
+
+  // Nouvelle méthode pour rejeter un événement
+  async rejectEvent(id: string): Promise<Event> {
+    const event = await this.eventsRepository.findOneBy({ id });
+    if (!event) {
+      throw new NotFoundException(`Événement avec l'ID ${id} non trouvé`);
+    }
+    event.status = EventStatus.REJECTED;
+    return this.eventsRepository.save(event);
+  }
+
+  // Méthode pour trouver les événements par statut (si elle n'existe pas déjà)
+  async findByStatus(status: EventStatus): Promise<Event[]> {
+    return this.eventsRepository.find({
+      where: { status: status },
+      relations: ['createdBy'], // Charger les informations de l'utilisateur qui a créé l'événement
+      order: { createdAt: 'DESC' } // Exemple d'ordre
+    });
   }
 }
