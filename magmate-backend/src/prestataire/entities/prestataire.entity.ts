@@ -52,9 +52,10 @@ export class Prestataire {
   idUtilisateur: string;
 
   // Relation OneToOne avec User
-  @OneToOne(() => User, { eager: true })
-  @JoinColumn({ name: 'idUtilisateur', referencedColumnName: 'id' })
-  utilisateur: User;
+ @OneToOne(() => User, { eager: true, onDelete: 'CASCADE' })
+@JoinColumn({ name: 'idUtilisateur', referencedColumnName: 'id' })
+utilisateur: User;
+
 
   @OneToMany(() => avisprestataire, (avis) => avis.prestataire)
   avis: avisprestataire[];

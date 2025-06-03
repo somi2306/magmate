@@ -7,11 +7,13 @@ import { UserRequestEntity } from './entities/userrequest.entity';
 import {MessageEntity} from "../messagerie/models/message.entity"
 import {ConversationEntity} from "../messagerie/models/conversation.entity"
 import {ActiveConversation} from "../messagerie/models/active-conversation.entity"
+import { MailModule } from 'src/mail/mail.module';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User,UserRequestEntity,MessageEntity,ConversationEntity])],
+  imports: [TypeOrmModule.forFeature([User,UserRequestEntity,MessageEntity,ConversationEntity,  MailModule,])],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService,  MailService],
   exports: [UserService]
 })
 export class UserModule {}

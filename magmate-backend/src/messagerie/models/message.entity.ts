@@ -36,7 +36,9 @@ export class MessageEntity implements IMessage {
   @Column({ default: false })
   read: boolean;
 
-  @ManyToOne(() => User, (userEntity) => userEntity.messages)
+  @ManyToOne(() => User, (userEntity) => userEntity.messages, {
+  onDelete: 'CASCADE',
+})
   user: User;
 
   @ManyToOne(() => ConversationEntity, (conversationEntity) => conversationEntity.messages)

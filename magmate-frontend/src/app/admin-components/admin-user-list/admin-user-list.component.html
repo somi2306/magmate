@@ -1,1 +1,31 @@
-<p>admin-user-list works!</p>
+<div class="admin-magasin-container">
+  <h2>Gestion des utilisateurs</h2>
+
+  <div *ngIf="utilisateurs.length === 0" class="info-message">
+    Aucun utilisateur trouvé.
+  </div>
+
+  <div class="magasin-list">
+    <div class="magasin-card" *ngFor="let utilisateur of utilisateurs">
+      <h4>{{ utilisateur.fname }} {{ utilisateur.lname }}</h4>
+      <p><strong>Email :</strong> {{ utilisateur.email }}</p>
+      <p><strong>Téléphone :</strong> {{ utilisateur.email || '—' }}</p>
+      <p>
+        <strong>Rôle :</strong>
+        <span class="status" [ngClass]="{
+          'approved': utilisateur.role === 'admin',
+          'rejected': utilisateur.role !== 'admin'
+        }">
+          {{ utilisateur.role }}
+        </span>
+      </p>
+
+      <div class="card-actions">
+        <button class="delete-btn" (click)="supprimerUtilisateur(utilisateur.id)">
+          Supprimer
+        </button>
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -156,6 +156,20 @@ export class AuthService {
     )
   );
 }
+
+ deleteUser(id: string): Observable<any> {
+  const token = localStorage.getItem('firebase_token');
+  const headers = { Authorization: `Bearer ${token}` };
+  return this.http.delete(`http://localhost:3000/user/${id}`, { headers });
+}
+
+
+  getAllUsers(): Observable<any[]> {
+  const token = localStorage.getItem('firebase_token');
+  const headers = { Authorization: `Bearer ${token}` };
+  return this.http.get<any[]>('http://localhost:3000/user', { headers });
+}
+
 }
 /*
 import { EventEmitter, Injectable } from '@angular/core';
@@ -223,4 +237,8 @@ export class AuthService {
   }
   
 }
+
+
 */
+
+

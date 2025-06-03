@@ -16,9 +16,13 @@ export class Avis {
   @Column()
   date: Date;
 
-  @ManyToOne(() => User, utilisateur => utilisateur.avis)
+  @ManyToOne(() => User, utilisateur => utilisateur.avis, {
+  onDelete: 'CASCADE',
+})
   auteur: User;
 
-  @ManyToOne(() => Produit, produit => produit.avis)
+  @ManyToOne(() => Produit, produit => produit.avis, {
+  onDelete: 'CASCADE',
+})
   produit: Produit;
 }

@@ -55,7 +55,9 @@ export class Magasin {
   // Relation un à plusieurs entre Magasin et Produit
   @OneToMany(() => Produit, (produit) => produit.magasin)
   produits: Produit[];
-
-  @ManyToOne(() => User, (utilisateur) => utilisateur.magasins)
-  proprietaire: User;
+  
+@ManyToOne(() => User, (utilisateur) => utilisateur.magasins, {
+  onDelete: 'CASCADE',
+})
+proprietaire: User;
 }

@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 import UserRequestEntity from './entities/userrequest.entity';
 import { UserRequestStatus } from './entities/userrequest.entity';  // Adaptez le chemin en fonction de la localisation de votre fichier
 import { BadRequestException } from '@nestjs/common';
+import { Delete } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
@@ -100,5 +101,17 @@ getFriends(@Body() body: { userId: string }) { // Reçoit l'ID dans le body
   // }
 */
   //Route pour creer un utilisateur
+
+  @Delete(':id')
+@UseGuards(FirebaseAuthGuard)
+async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
+  return this.userService.deleteUser(id);
+}
+
+@Get()
+@UseGuards(FirebaseAuthGuard) // ou retire ce guard pour tester plus vite
+async getAllUsers(): Promise<User[]> {
+  return this.userService.findAllUsers();
+}
 
 }

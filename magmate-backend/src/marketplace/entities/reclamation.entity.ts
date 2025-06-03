@@ -20,9 +20,14 @@ export class Reclamation {
   @Column()
   idCible: number;  // ID du produit concerné
 
-  @ManyToOne(() => Produit, (produit) => produit.reclamations)
+  @ManyToOne(() => Produit, (produit) => produit.reclamations, {
+  onDelete: 'CASCADE',
+})
   produit: Produit;  // Lier la réclamation à un produit
 
-  @ManyToOne(() => User, (utilisateur) => utilisateur.reclamations)
-  utilisateur: User;  // Lier la réclamation à un utilisateur
+  @ManyToOne(() => User, utilisateur => utilisateur.reclamations, {
+  onDelete: 'CASCADE',
+})
+utilisateur: User;
+ // Lier la réclamation à un utilisateur
 }

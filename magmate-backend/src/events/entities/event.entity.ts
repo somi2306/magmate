@@ -63,7 +63,9 @@ export class Event {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.events) // Relation avec l'utilisateur (créateur)
+  @ManyToOne(() => User, (user) => user.events, {
+  onDelete: 'CASCADE',
+}) // Relation avec l'utilisateur (créateur)
   createdBy: User;
 
   @OneToMany(() => Favorite, (favorite) => favorite.event)
