@@ -1,1 +1,169 @@
-<p>admin-home works!</p>
+<div class="admin-home-container">
+  <h1 class="dashboard-title">Tableau de Bord Administrateur</h1>
+
+  <div class="stats-cards">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>store</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ magasinCount }}</h2>
+          <p>Magasins</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>shopping_bag</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ productCount }}</h2>
+          <p>Produits</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ eventCount }}</h2>
+          <p>Événements</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>handshake</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ prestataireCount }}</h2>
+          <p>Prestataires</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ userCount }}</h2>
+          <p>Utilisateurs</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="charts-section">
+    <h2>Statistiques Détaillées</h2>
+
+    <div class="chart-row">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Magasins par Statut</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="magasinStatusPieChartData"
+            [options]="magasinStatusPieChartOptions"
+            [type]="magasinStatusPieChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Produits par Magasin</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="productsByStoreBarChartData"
+            [options]="productsByStoreBarChartOptions"
+            [type]="productsByStoreBarChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="chart-row">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Événements par Type</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="eventTypesPieChartData"
+            [options]="eventTypesPieChartOptions"
+            [type]="eventTypesPieChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Événements par Statut</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="eventStatusPieChartData"
+            [options]="eventStatusPieChartOptions"
+            [type]="eventStatusPieChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="chart-row">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Prestataires par Spécialité</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="prestatairesBySpecialityBarChartData"
+            [options]="prestatairesBySpecialityBarChartOptions"
+            [type]="prestatairesBySpecialityBarChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Prestataires par Statut</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="prestatairesByStatusPieChartData"
+            [options]="prestatairesByStatusPieChartOptions"
+            [type]="prestatairesByStatusPieChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="chart-row">
+      <mat-card class="chart-card full-width-chart">
+        <mat-card-header>
+          <mat-card-title>Utilisateurs par Rôle</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas baseChart
+            [data]="usersByRolePieChartData"
+            [options]="usersByRolePieChartOptions"
+            [type]="usersByRolePieChartType">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

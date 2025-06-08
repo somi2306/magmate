@@ -1,0 +1,208 @@
+.admin-home-container {
+  padding: 2rem; /* Augmenter le padding pour un meilleur espacement */
+  max-width: 1400px; /* Aligner avec les autres conteneurs de tableau de bord */
+  margin: 20px auto;
+  background: #f8fafc; /* Couleur de fond cohérente */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Ombre plus prononcée */
+}
+
+.dashboard-title {
+  text-align: center;
+  color: #2c3e50; /* Couleur de titre plus foncée */
+  margin-bottom: 30px;
+  font-size: 2.2rem; /* Taille de police plus grande */
+  font-weight: 700; /* Plus gras */
+  position: relative;
+  padding-bottom: 15px; /* Espace pour la ligne de séparation */
+}
+
+.dashboard-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px; /* Largeur de la ligne */
+  height: 4px; /* Épaisseur de la ligne */
+  background-color: #3498db; /* Couleur de la ligne de séparation */
+  border-radius: 2px;
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Colonnes responsives */
+  gap: 25px; /* Espacement entre les cartes */
+  justify-content: center;
+  margin-top: 30px; /* Marge supérieure */
+}
+
+.stat-card {
+  background-color: #ffffff; /* Fond blanc */
+  border-radius: 12px; /* Coins arrondis */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Ombre légère */
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 20px; /* Padding interne */
+  display: flex; /* Utiliser flexbox pour l'alignement interne */
+  flex-direction: column; /* Contenu en colonne */
+  align-items: center; /* Centrer les éléments */
+  justify-content: center; /* Centrer verticalement */
+  min-height: 150px; /* Hauteur minimale pour la cohérence */
+}
+
+.stat-card:hover {
+  transform: translateY(-5px); /* Effet de soulèvement */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Ombre plus intense au survol */
+}
+
+.stat-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Espace entre l'icône et le texte */
+  width: 100%;
+}
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #eaf5ff;
+  color: #3498db;
+  margin-bottom: 10px;
+  /* Ajoutez ces lignes pour forcer le centrage */
+  padding: 0; /* Supprime tout padding interne */
+  line-height: 60px; /* Ajuste la hauteur de ligne à la hauteur du cercle */
+}
+
+.stat-icon mat-icon {
+  font-size: 32px;
+  width: 32px; /* Force la largeur de l'icône */
+  height: 32px; /* Force la hauteur de l'icône */
+}
+
+.stat-info h2 {
+  font-size: 2.5rem; /* Grande taille pour le nombre */
+  font-weight: 700;
+  color: #2c3e50; /* Couleur foncée */
+  margin: 0;
+}
+
+.stat-info p {
+  font-size: 1.1rem; /* Taille pour le libellé */
+  color: #7f8c8d; /* Couleur de texte plus douce */
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-home-container {
+    padding: 15px;
+    margin: 15px;
+  }
+
+  .dashboard-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-icon mat-icon {
+    font-size: 28px;
+  }
+
+  .stat-info h2 {
+    font-size: 2rem;
+  }
+
+  .stat-info p {
+    font-size: 1rem;
+  }
+}
+
+
+/* ... (styles existants) ... */
+
+.charts-section {
+  margin-top: 40px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.charts-section h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.charts-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #3498db;
+  border-radius: 2px;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.chart-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px; /* Hauteur minimale pour les cartes de graphique */
+}
+
+.chart-card canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.full-width-chart {
+  grid-column: 1 / -1; /* Prend toute la largeur sur une ligne */
+}
+
+@media (max-width: 768px) {
+  .chart-row {
+    grid-template-columns: 1fr;
+  }
+  .charts-section {
+    padding: 15px;
+  }
+}

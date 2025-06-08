@@ -1,4 +1,4 @@
-// bard/events backend/controllers/events.controller.ts
+
 import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UseGuards, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dtos/create-event.dto';
@@ -11,10 +11,16 @@ import { Favorite } from './entities/favorite.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-
+import { EventType } from './entities/event.entity'; 
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
+
+  // Nouvelle route pour récupérer le nombre total d'événements (déplacée en haut)
+  @Get('count')
+  async getEventCount(): Promise<number> {
+    return this.eventsService.getEventCount();
+  }
 
   @Get()
   async findAll(@Query() filters: { city?: string; type?: string }): Promise<Event[]> {
@@ -160,4 +166,14 @@ async update(
   async rejectEvent(@Param('id') id: string): Promise<Event> {
     return this.eventsService.rejectEvent(id);
   }
+
+  @Get('stats/by-type')
+async getEventCountByType(): Promise<{ type: EventType; count: number }[]> {
+    return this.eventsService.getEventCountByType();
+}
+
+@Get('stats/by-status')
+async getEventCountByStatus(): Promise<{ status: EventStatus; count: number }[]> {
+    return this.eventsService.getEventCountByStatus();
+}
 }

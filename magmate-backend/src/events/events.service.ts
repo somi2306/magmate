@@ -10,6 +10,7 @@ import { CreateEventDto } from './dtos/create-event.dto';
 import { UpdateEventDto } from './dtos/update-event.dto';
 import { User } from '../user/entities/user.entity';
 import { Favorite } from './entities/favorite.entity';
+import { EventType } from './entities/event.entity'; // Make sure this import exists
 
 @Injectable()
 export class EventsService {
@@ -216,4 +217,26 @@ export class EventsService {
       order: { createdAt: 'DESC' } // Exemple d'ordre
     });
   }
+
+    async getEventCount(): Promise<number> {
+    return await this.eventsRepository.count();
+  }
+
+  async getEventCountByType(): Promise<{ type: EventType; count: number }[]> {
+    return this.eventsRepository
+        .createQueryBuilder('event')
+        .select('event.type', 'type')
+        .addSelect('COUNT(event.id)', 'count')
+        .groupBy('event.type')
+        .getRawMany();
+}
+
+async getEventCountByStatus(): Promise<{ status: EventStatus; count: number }[]> {
+    return this.eventsRepository
+        .createQueryBuilder('event')
+        .select('event.status', 'status')
+        .addSelect('COUNT(event.id)', 'count')
+        .groupBy('event.status')
+        .getRawMany();
+}
 }

@@ -126,4 +126,11 @@ async update(
 
   return this.produitService.update(id, dto);
 }
+
+  @Get('stats/by-store')
+  @ApiOperation({ summary: 'Get product count by store' })
+  @ApiResponse({ status: 200, description: 'Retrieve product count grouped by store.' })
+  async getProductCountByStore() {
+    return this.produitService.getProductCountByStore();
+  }
 }

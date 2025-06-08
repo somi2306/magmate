@@ -61,7 +61,8 @@ import { PageEventsDetailsAdminComponent } from './admin-components/page-events-
 import { AdminMessagerieComponent } from './admin-components/admin-messagerie/admin-messagerie.component';
 import { AdminHomeComponent } from './admin-components/admin-home/admin-home.component';
 import { AdminUserListComponent } from './admin-components/admin-user-list/admin-user-list.component';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 @Pipe({
   name: 'initial',
   standalone: true
@@ -135,7 +136,7 @@ const socketConfig: SocketIoConfig = {
     PagePrestataireDetailsAdminComponent,
     AdminEventsListComponent,
     PageEventsDetailsAdminComponent,
-    AdminHomeComponent,
+    
     AdminUserListComponent,
     
 
@@ -150,7 +151,7 @@ const socketConfig: SocketIoConfig = {
     AdminMessagerieComponent,
     BrowserModule,
     CommonModule,
-    
+    AdminHomeComponent,
     MarketplaceModule,
      // Supprime la duplication
     FormsModule,
@@ -179,7 +180,9 @@ const socketConfig: SocketIoConfig = {
     InitialsPipe,
 
     PrestataireModule,
-    QRCodeComponent
+    QRCodeComponent,
+        MatCardModule,
+    MatIconModule,
     
   ],
   providers: [

@@ -1,4 +1,4 @@
-// bard/admin-components/page-prestataire-details-admin/page-prestataire-details-admin.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrestatairedetailsService } from '../../prestataire/services/prestatairedetails.service'; // Assurez-vous que le chemin est correct

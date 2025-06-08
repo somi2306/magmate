@@ -1,4 +1,4 @@
-// bard/prestataire backend/controllers/commentprestataire.controller.ts
+
 import { Controller, Post, Get, Param, Body, Delete } from '@nestjs/common'; // Importer Delete
 import { CommentPrestataireService } from '../services/commentprestataire.service'; //
 import { CreateAvisDto } from '../dto/create-avis.dto'; //

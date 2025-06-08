@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService} from 'C:/magmate/magmate-frontend/src/app/auth/auth.service';
+import { AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-admin-user-list',

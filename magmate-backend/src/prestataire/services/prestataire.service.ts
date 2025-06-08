@@ -135,4 +135,26 @@ export class PrestataireService {
     prestataire.estApprouve = PrestataireStatus.REJECTED;
     return this.prestataireRepo.save(prestataire);
   }
+
+    async getPrestataireCount(): Promise<number> {
+    return await this.prestataireRepo.count();
+  }
+
+async getPrestataireCountByStatus(): Promise<{ estApprouve: PrestataireStatus; count: number }[]> {
+    return this.prestataireRepo
+        .createQueryBuilder('prestataire')
+        .select('prestataire.estApprouve', 'estApprouve')
+        .addSelect('COUNT(prestataire.idPrestataire)', 'count')
+        .groupBy('prestataire.estApprouve')
+        .getRawMany();
+}
+
+  async getPrestataireCountBySpeciality(): Promise<{ speciality: string; count: number }[]> {
+    return this.prestataireRepo
+      .createQueryBuilder('prestataire')
+      .select('prestataire.specialite', 'speciality')
+      .addSelect('COUNT(prestataire.idPrestataire)', 'count')
+      .groupBy('prestataire.specialite')
+      .getRawMany();
+  }
 }

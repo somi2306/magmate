@@ -1,4 +1,4 @@
-// bard/marketplace backend/controllers/reclamation.controller.ts
+
 import { Controller, Post, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'; // Importez FileInterceptor
 import { ReclamationService } from '../services/reclamation.service';

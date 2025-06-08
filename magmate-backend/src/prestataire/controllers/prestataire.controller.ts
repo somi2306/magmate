@@ -13,21 +13,30 @@ import {
 } from '@nestjs/common';
 
 import { PrestataireService } from '../services/prestataire.service';
-import { Prestataire, PrestataireStatus } from '../entities/prestataire.entity'; // Importez PrestataireStatus
+import { Prestataire, PrestataireStatus } from '../entities/prestataire.entity';
 
 import { CreatePrestataireDto } from '../dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from '../dto/update-prestataire.dto';
+import { PrestatairedetailsService } from '../services/prestatairedetails.service'; // Importez PrestatairedetailsService
 
 @Controller('prestataires')
 export class PrestataireController {
-  constructor(private readonly prestataireService: PrestataireService) {}
+  constructor(
+    private readonly prestataireService: PrestataireService,
+    // Injectez PrestatairedetailsService ici
+    private readonly prestataireDetailsService: PrestatairedetailsService,
+  ) {}
+
+  @Get('count')
+  async getPrestataireCount(): Promise<number> {
+    return this.prestataireService.getPrestataireCount();
+  }
 
   @Get()
   findAll(
     @Query('ville') ville?: string,
     @Query('query') query?: string,
   ): Promise<Prestataire[]> {
-    // Cette route n'affichera que les approuvés par défaut via la modification dans le service
     return this.prestataireService.findFiltered(ville, query);
   }
 
@@ -35,7 +44,6 @@ export class PrestataireController {
   async isPrestataire(@Query('uuid') uuid: string) {
     try {
       const prestataire = await this.prestataireService.findByUuid(uuid);
-      // Un prestataire est considéré comme tel s'il existe et est approuvé
       return prestataire.estApprouve === PrestataireStatus.APPROVED;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -50,12 +58,27 @@ export class PrestataireController {
     return this.prestataireService.findByUserId(uuid);
   }
 
-  @Get(':idPrestataire') // Utilisation du paramètre ID dans l'URL pour les détails (peut être UUID)
+  @Get('me')
+  getMe(@Req() req: any) {
+    return this.prestataireService.findByUserId(
+      'f97b40ae-8106-4ada-9a34-d15881bb611b',
+    );
+  }
+
+  @Get('me/:uuid')
+  getMe2(@Param('uuid') uuid: string) {
+    return this.prestataireService.findByUserId(uuid);
+  }
+
+  @Get('status/:status')
+  async findByStatus(@Param('status') status: PrestataireStatus): Promise<Prestataire[]> {
+    return this.prestataireService.findByStatus(status);
+  }
+
+  @Get(':idPrestataire') // Cette route doit maintenant utiliser le service de détails du prestataire
   async findByIdPrestataire(@Param('idPrestataire') idPrestataire: string): Promise<Prestataire> {
-    // Cette route est pour les détails d'un prestataire, elle devrait utiliser findById du service PrestatairedetailsService
-    // Cependant, comme vous avez déjà une route getByUuid, assurez-vous de la cohérence.
-    // Si ':idPrestataire' est toujours l'UUID, alors findByUuid est approprié ici.
-    return this.prestataireService.findByUuid(idPrestataire);
+    // Utilisez prestataireDetailsService pour récupérer les détails par idPrestataire (clé primaire de l'entité Prestataire)
+    return this.prestataireDetailsService.findById(idPrestataire);
   }
 
   @Patch(':id/disponibilite')
@@ -68,7 +91,7 @@ export class PrestataireController {
 
   @Post()
   create(@Body() dto: CreatePrestataireDto, @Req() req: any) {
-    let userId = 'f1abb309-55ea-4574-8c2e-314dd77a83d9'; // Remplacez par l'ID utilisateur réel si disponible via auth
+    let userId = 'f1abb309-55ea-4574-8c2e-314dd77a83d9';
     return this.prestataireService.create(dto, userId);
   }
 
@@ -78,20 +101,6 @@ export class PrestataireController {
     @Body() dto: CreatePrestataireDto,
   ) {
     return this.prestataireService.create(dto, uuid);
-  }
-
-  @Get('me') // Endpoint pour récupérer le profil du prestataire connecté
-  getMe(@Req() req: any) {
-    // Utiliser l'UUID de l'utilisateur connecté
-    // Remplacez 'f97b40ae-8106-4ada-9a34-d15881bb611b' par req.user.uuid ou un mécanisme similaire
-    return this.prestataireService.findByUserId(
-      'f97b40ae-8106-4ada-9a34-d15881bb611b',
-    );
-  }
-
-  @Get('me/:uuid') // Endpoint pour récupérer le profil du prestataire par UUID
-  getMe2(@Param('uuid') uuid: string) {
-    return this.prestataireService.findByUserId(uuid);
   }
 
   @Put(':id')
@@ -104,12 +113,6 @@ export class PrestataireController {
     return this.prestataireService.deletePrestataire(id);
   }
 
-  // Nouvelles routes pour la gestion des statuts
-  @Get('status/:status')
-  async findByStatus(@Param('status') status: PrestataireStatus): Promise<Prestataire[]> {
-    return this.prestataireService.findByStatus(status);
-  }
-
   @Patch(':idPrestataire/approve')
   async approvePrestataire(@Param('idPrestataire') idPrestataire: string): Promise<Prestataire> {
     return this.prestataireService.approvePrestataire(idPrestataire);
@@ -118,5 +121,14 @@ export class PrestataireController {
   @Patch(':idPrestataire/reject')
   async rejectPrestataire(@Param('idPrestataire') idPrestataire: string): Promise<Prestataire> {
     return this.prestataireService.rejectPrestataire(idPrestataire);
+  }
+
+@Get('stats/by-status')
+async getPrestataireCountByStatus() {
+    return this.prestataireService.getPrestataireCountByStatus();
+}
+  @Get('stats/by-speciality')
+  async getPrestataireCountBySpeciality(): Promise<{ speciality: string; count: number }[]> {
+    return this.prestataireService.getPrestataireCountBySpeciality();
   }
 }

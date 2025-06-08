@@ -38,4 +38,8 @@ export class ProduitsService {
       where: { magasin: { idMagasin: magasinIdMagasin } }, // Relation avec magasin
     });
   }
+
+    async getProductCount(): Promise<number> {
+    return await this.produitRepository.count();
+  }
 }

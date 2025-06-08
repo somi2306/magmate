@@ -134,11 +134,16 @@ export class StoreController {
     return this.magasinService.rejectStore(+idMagasin);
   }
 
-  // Dans store.controller.ts
+
 @Get('status/:status')
 @ApiOperation({ summary: 'Get stores by status' })
 @ApiResponse({ status: 200, description: 'Retrieve stores by status.' })
 findByStatus(@Param('status') status: MagasinStatus) {
   return this.magasinService.findByStatus(status);
+}
+
+@Get('stats/by-status')
+async getMagasinCountByStatus() {
+    return this.magasinService.getMagasinCountByStatus();
 }
 }

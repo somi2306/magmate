@@ -61,4 +61,9 @@ export class MagasinService {
       );
     }
   }
+
+  // Nouvelle méthode pour compter tous les magasins
+  async getMagasinCount(): Promise<number> {
+    return await this.magasinRepository.count();
+  }
 }

@@ -338,6 +338,15 @@ async findAllUsers(): Promise<User[]> {
     return user;
   });
 }
-
-
+  async getUserCount(): Promise<number> {
+    return await this.userRepository.count();
+  }
+  async getUserCountByRole(): Promise<{ role: UserRole; count: number }[]> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .select('user.role', 'role')
+      .addSelect('COUNT(user.id)', 'count')
+      .groupBy('user.role')
+      .getRawMany();
+  }
 }

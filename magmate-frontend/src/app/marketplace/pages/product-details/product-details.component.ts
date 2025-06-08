@@ -1,4 +1,4 @@
-// bard/marketplace frontend/pages/product-details/product-details.component.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService1 } from '../../services/product1.service';

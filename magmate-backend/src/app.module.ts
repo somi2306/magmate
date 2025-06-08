@@ -13,6 +13,7 @@ import { join } from 'path';
 import { MessagerieModule } from './messagerie/messagerie.module';
 import { PrestataireModule } from './prestataire/prestataire.module';
 import { MailModule } from './mail/mail.module'; // Ajoutez cette ligne
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -36,7 +37,8 @@ import { MailModule } from './mail/mail.module'; // Ajoutez cette ligne
     DatabaseModule,
 
     PrestataireModule,
-    MailModule
+    MailModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-// bard/admin-components/admin-prestataire-list/admin-prestataire-list.component.ts
+
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; //
 import { PrestataireService, Prestataire, PrestataireStatus } from '../../prestataire/services/prestataire.service'; //
 import { Router } from '@angular/router'; //

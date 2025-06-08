@@ -136,4 +136,14 @@ export class ProduitService {
 
     return { message: 'Produit supprimé avec succès' };
   }
+
+    async getProductCountByStore(): Promise<{ storeName: string; productCount: number }[]> {
+    return this.produitRepository
+      .createQueryBuilder('produit')
+      .select('magasin.nom', 'storeName')
+      .addSelect('COUNT(produit.idProduit)', 'productCount')
+      .leftJoin('produit.magasin', 'magasin')
+      .groupBy('magasin.nom')
+      .getRawMany();
+  }
 }

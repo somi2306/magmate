@@ -171,4 +171,13 @@ async findByStatus(estApprouve: MagasinStatus) {
     );
   }
 }
+
+async getMagasinCountByStatus(): Promise<{ estApprouve: MagasinStatus; count: number }[]> {
+    return this.magasinRepository
+        .createQueryBuilder('magasin')
+        .select('magasin.estApprouve', 'estApprouve')
+        .addSelect('COUNT(magasin.idMagasin)', 'count')
+        .groupBy('magasin.estApprouve')
+        .getRawMany();
+}
 }

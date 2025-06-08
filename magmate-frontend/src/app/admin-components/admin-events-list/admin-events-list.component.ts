@@ -1,4 +1,4 @@
-// Fichier : bard/admin-components/admin-events-list/admin-events-list.component.ts
+
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EventsService } from '../../events/events.service';
 import { Event, EventStatus } from '../../events/event.model';
