@@ -17,7 +17,9 @@ import { Reclamation } from 'src/marketplace/entities/reclamation.entity';
 import { Magasin } from 'src/marketplace/entities/magasin.entity';
 import { Favorite } from 'src/events/entities/favorite.entity';
 import { Event } from 'src/events/entities/event.entity';
+import { Temoignage } from '../../temoignage/entities/temoignage.entity'; // Ajoutez cette ligne
 import { IsEmail, IsEnum, IsBoolean, Length } from 'class-validator';
+
 export enum UserRole {
   ADMIN = 'admin',
   NORMAL_USER = 'normal_user',
@@ -27,11 +29,7 @@ export enum UserRole {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  /*
-  @Column({ unique: true, nullable: true })
-  firebaseUid: string; // Ajoutez cette ligne
 
-*/
   @Column({ unique: true })
   @IsEmail()
   email: string;
@@ -63,7 +61,6 @@ export class User {
   @Column({ name: 'registration_date', default: () => 'CURRENT_TIMESTAMP' })
   registrationDate: Date;
 
-  // 🔗 Relation OneToOne avec Prestataire
   @OneToOne(() => Prestataire, (prestataire) => prestataire.utilisateur, {
     nullable: true,
   })
@@ -107,4 +104,7 @@ export class User {
 
   @OneToMany(() => Favorite, (favorite) => favorite.user)
   favorites: Favorite[];
+
+  @OneToMany(() => Temoignage, (temoignage) => temoignage.auteur)
+  temoignages: Temoignage[]; // Ajoutez cette ligne pour les témoignages
 }

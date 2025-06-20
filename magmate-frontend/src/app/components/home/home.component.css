@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
-  --primary-color: #2887ff;
-  --primary-color-dark: #2476da;
+  --primary-color: #8a2e2e;
+  --primary-color-dark: #721a1a;
   --text-dark: #0a0a0a;
   --text-light: #737373;
   --extra-light: #f3f4f6;
@@ -509,15 +509,85 @@ header::before {
   min-width: 375px;
 }
 
+.temoignages-container-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding: 0 60px;
+}
+
+.temoignages-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1rem;
+  padding: 1rem 0;
+  width: calc(100% - 120px);
+  scroll-snap-type: x mandatory;
+}
+.scroll-btn {
+  position: absolute;
+  z-index: 10;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.scroll-btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
+
 .client__card {
+  min-width: calc(33.333% - 1rem); /* Prend 1/3 de l'espace moins le gap */
+  max-width: calc(33.333% - 1rem);
+  flex: 0 0 auto;
+  margin-right: 0; /* Supprime la marge droite car on utilise gap */
+  transition: transform 0.3s ease;
   padding: 5px;
   background-color: var(--extra-light);
   border-radius: 1rem;
   transition: 0.3s;
 }
 
+/* Pour les écrans plus petits, ajustez le nombre de cartes visibles */
+@media (max-width: 992px) {
+  .client__card {
+    min-width: calc(50% - 1rem); /* 2 cartes sur tablettes */
+    max-width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .client__card {
+    min-width: calc(100% - 1rem); /* 1 carte sur mobile */
+    max-width: calc(100% - 1rem);
+  }
+}
+
+
+/* Optionnel : Effet de survol */
 .client__card:hover {
-  background-color: #e0a33f;
+  transform: translateY(-5px);
 }
 
 .client__content {
@@ -548,10 +618,13 @@ header::before {
 }
 
 .client__details h4 {
-  font-size: 1.1rem;
+  font-size: 0.9rem;         /* Taille de police réduite */
   font-weight: 600;
   color: var(--text-dark);
   transition: 0.3s;
+  word-break: break-word;    /* Permet la césure des mots longs */
+  white-space: normal;       /* Permet le retour à la ligne */
+  max-width: 150px;          /* Limite la largeur du conteneur */
 }
 
 .client__card:hover h4 {
@@ -795,3 +868,177 @@ header::before {
   transform: rotate(90deg); /* Animation de l'icône 
 }
 */
+
+/* Styles pour le formulaire d'ajout de témoignage */
+.add-testimonial-form {
+  background-color: var(--extra-light);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+.add-testimonial-form h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.add-testimonial-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.add-testimonial-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.add-testimonial-form textarea,
+.add-testimonial-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+.add-testimonial-form textarea {
+  resize: vertical; /* Permet de redimensionner verticalement */
+}
+
+.add-testimonial-form .rating-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.add-testimonial-form .btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background-color: #678760; /* Couleur du bouton inspirée du thème */
+  color: var(--white);
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-testimonial-form .btn:hover {
+  background-color: #5a7853; /* Assombrir au survol */
+}
+
+.add-testimonial-form .btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Styles pour les avatars des témoignages */
+.client__details img {
+    width: 60px; /* Taille légèrement plus grande pour les avatars */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%; /* Rendre l'image parfaitement ronde */
+    border: 2px solid #e0a33f; /* Bordure colorée */
+    flex-shrink: 0; /* Empêche l'image de rétrécir */
+}
+
+/* Styles pour les flèches de navigation Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--primary-color); /* Couleur des flèches */
+  background-color: var(--white); /* Fond blanc pour les flèches */
+  border-radius: 50%; /* Rendre les flèches rondes */
+  width: 40px; /* Largeur des flèches */
+  height: 40px; /* Hauteur des flèches */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Ombre légère */
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: var(--primary-color); /* Couleur de fond au survol */
+  color: var(--white); /* Couleur du texte au survol */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.2rem; /* Taille de l'icône de la flèche */
+  font-weight: bold;
+}
+
+/* Styles pour la pagination Swiper */
+.swiper-pagination-bullet {
+  background-color: var(--text-light); /* Couleur des points de pagination inactifs */
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--primary-color); /* Couleur des points de pagination actifs */
+  opacity: 1;
+}
+
+.temoignages-container-wrapper {
+  position: relative;
+  max-width: 1200px; /* Limite la largeur maximale */
+  margin: 2rem auto 0; /* Centre le wrapper et ajoute de l'espace en haut */
+  padding: 0 60px; /* Plus d'espace pour les boutons */
+}
+
+.temoignages-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1rem;
+  padding: 1rem 0;
+  width: calc(100% - 120px); /* Compense le padding du wrapper */
+  scroll-snap-type: x mandatory; /* Pour un défilement plus précis */
+}
+
+
+.temoignages-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-btn {
+  position: absolute;
+  z-index: 10;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.scroll-btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 140px;
+}

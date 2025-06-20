@@ -3,20 +3,37 @@ import Swiper from 'swiper';
 import { CommonModule } from '@angular/common';
 import ScrollReveal from 'scrollreveal';
 import { ViewEncapsulation } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importez HttpClient
+import { FormsModule } from '@angular/forms'; // Importez FormsModule
+
+interface Temoignage {
+  idTemoignage?: string;
+  commentaire: string;
+  note?: number;
+  dateCreation?: Date;
+  auteur: {
+    id: string;
+    fname: string;
+    lname: string;
+    email: string;
+    photo?: string;
+  };
+}
 
 @Component({
-  standalone: true, 
+  standalone: true,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule]
-
+  imports: [CommonModule, FormsModule] // Ajoutez FormsModule ici
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   isMenuOpen = false;
   currentLanguage: 'french' | 'arabic' = 'arabic';
   isVideoPlaying = false;
+  temoignages: Temoignage[] = [];
+  newTemoignage: { commentaire: string; note?: number } = { commentaire: '', note: 5 }; // Valeurs initiales
 
   @ViewChild('navLinks') navLinks!: ElementRef;
   @ViewChild('menuBtnIcon') menuBtnIcon!: ElementRef;
@@ -25,11 +42,39 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('translateBtn') translateBtn!: ElementRef;
   @ViewChild('arabicParagraph') arabicParagraph!: ElementRef;
   @ViewChild('frenchParagraph') frenchParagraph!: ElementRef;
+@ViewChild('temoignageCarousel') temoignageCarousel!: ElementRef;
 
-  constructor() { }
+scrollRight(): void {
+  const container = this.temoignageCarousel.nativeElement;
+  const scrollWidth = container.scrollWidth;
+  const currentScroll = container.scrollLeft;
+  const cardWidth = container.firstElementChild?.offsetWidth || 300;
+
+  if (currentScroll + container.offsetWidth >= scrollWidth - cardWidth) {
+    // retour au début
+    container.scrollTo({ left: 0, behavior: 'smooth' });
+  } else {
+    container.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+  }
+}
+
+scrollLeft(): void {
+  const container = this.temoignageCarousel.nativeElement;
+  const cardWidth = container.firstElementChild?.offsetWidth || 300;
+
+  if (container.scrollLeft <= 0) {
+    // aller à la fin
+    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+  } else {
+    container.scrollBy({ left: -cardWidth - 16, behavior: 'smooth' });
+  }
+}
+
+  constructor(private http: HttpClient) { } // Injectez HttpClient
 
   ngOnInit(): void {
     this.initScrollReveal();
+    this.loadTemoignages(); // Charge les témoignages au démarrage
   }
 
   ngAfterViewInit(): void {
@@ -37,20 +82,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.initVideo();
     this.initAutoTranslate();
     this.setupMenuToggle();
-    
   }
 
-
   smoothScroll(event: any): void {
-    event.preventDefault(); 
-    
-    const targetId = event.target.getAttribute('href').substring(1); 
-    const targetElement = document.getElementById(targetId); 
+    event.preventDefault();
+
+    const targetId = event.target.getAttribute('href').substring(1);
+    const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
       targetElement.scrollIntoView({
         behavior: 'smooth',
-        block: 'start', 
+        block: 'start',
       });
     }
   }
@@ -93,38 +136,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+  toggleLanguage(): void {
+    this.currentLanguage = this.currentLanguage === 'french' ? 'arabic' : 'french';
 
-  
-
-toggleLanguage(): void {
-  this.currentLanguage = this.currentLanguage === 'french' ? 'arabic' : 'french';
-
-  setTimeout(() => {
-    ScrollReveal().reveal(".showcase__content p", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 500,
-      delay: 600
-    });
-  }, 15); // petit délai pour laisser le temps au DOM d'afficher le <p>
-}
-
-
-/*
-  private updateParagraphVisibility(): void {
-    if (this.arabicParagraph && this.frenchParagraph) {
-      this.arabicParagraph.nativeElement.style.display = this.currentLanguage === 'arabic' ? 'block' : 'none';
-      this.frenchParagraph.nativeElement.style.display = this.currentLanguage === 'french' ? 'block' : 'none';
-    }
+    setTimeout(() => {
+      ScrollReveal().reveal(".showcase__content p", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 500,
+        delay: 600
+      });
+    }, 15);
   }
-*/
+
   private initScrollReveal(): void {
     const scrollRevealOption = {
       origin: "bottom",
       distance: "50px",
       duration: 1000,
-      reset: true // Ajoutez cette ligne
+      reset: true
     };
 
     ScrollReveal().reveal(".header__image img", {
@@ -171,7 +201,6 @@ toggleLanguage(): void {
       ...scrollRevealOption,
       interval: 500,
     });
-    
   }
 
   private initSwiper(): void {
@@ -179,23 +208,26 @@ toggleLanguage(): void {
       slidesPerView: 3,
       spaceBetween: 20,
       loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
     });
   }
 
   private initVideo(): void {
     if (this.headerVideo) {
       const videoElement = this.headerVideo.nativeElement;
-  
-
       videoElement.muted = true;
-      
-
       videoElement.play().then(() => {
         console.log("La vidéo a commencé à jouer.");
         this.isVideoPlaying = true;
       }).catch((e: any) => {
         console.log("Erreur lors de la lecture de la vidéo :", e);
-
         if (this.headerImage) {
           this.headerImage.nativeElement.style.display = 'block';
         }
@@ -204,7 +236,6 @@ toggleLanguage(): void {
   }
 
   private initAutoTranslate(): void {
-
     let count = 0;
     const interval = setInterval(() => {
       if (count >= 3) {
@@ -225,5 +256,50 @@ toggleLanguage(): void {
         this.headerVideo.nativeElement.play();
       }
     }
+  }
+
+  // Nouvelle méthode pour charger les témoignages depuis le backend
+  loadTemoignages(): void {
+    this.http.get<Temoignage[]>('http://localhost:3000/temoignages').subscribe({
+      next: (data) => {
+        this.temoignages = data;
+        // Réinitialiser Swiper après le chargement des données
+        this.initSwiper(); 
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des témoignages:', error);
+      }
+    });
+  }
+
+  // Nouvelle méthode pour ajouter un témoignage
+  addTemoignage(): void {
+    // Supposons que vous avez un token d'authentification (e.g., Firebase ID token)
+    // Vous devrez obtenir ce token de Firebase Auth dans votre application Angular
+    const authToken = 'YOUR_FIREBASE_ID_TOKEN'; // Remplacez par votre vrai token
+
+    if (!authToken) {
+      console.error('Aucun token d\'authentification trouvé. Veuillez vous connecter.');
+      alert('Veuillez vous connecter pour ajouter un témoignage.');
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}`
+    });
+
+    this.http.post<Temoignage>('http://localhost:3000/temoignages', this.newTemoignage, { headers }).subscribe({
+      next: (response) => {
+        console.log('Témoignage ajouté avec succès:', response);
+        alert('Témoignage ajouté avec succès !');
+        this.newTemoignage = { commentaire: '', note: 5 }; // Réinitialiser le formulaire
+        this.loadTemoignages(); // Recharger les témoignages pour afficher le nouveau
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'ajout du témoignage:', error);
+        alert('Erreur lors de l\'ajout du témoignage. Veuillez réessayer.');
+      }
+    });
   }
 }

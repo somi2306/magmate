@@ -9,7 +9,7 @@
     <table>
       <thead>
         <tr>
-          <th>ID Réclamation</th>
+          
           <th>Description</th>
           <th>Date de Création</th>
           <th>Nom du Produit</th>
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let reclamation of reclamations">
-          <td>{{ reclamation.idReclamation }}</td>
+          
           <td>{{ reclamation.description }}</td>
           <td>{{ reclamation.dateCreation | date:'short' }}</td>
           <td>
