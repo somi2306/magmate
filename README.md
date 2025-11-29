@@ -1,4 +1,5 @@
 # 🏺 MagMate
+**MagMate** est une plateforme web complète dédiée à la promotion de l'artisanat et de la culture (probablement axée sur le Maroc et le Maghreb, au vu des assets graphiques comme le zellij, le caftan, etc.). Elle combine une **Marketplace** pour les produits artisanaux, un système de gestion d'**Événements**, et une mise en relation avec des **Prestataires** de services.
 
 ## 🏗 Architecture & Stack Technique
 
