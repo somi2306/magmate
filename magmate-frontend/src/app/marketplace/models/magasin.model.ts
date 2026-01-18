@@ -1,3 +1,4 @@
+// marketplace frontend/models/magasin.model.ts
 import { User } from './user.model';
 
 export interface Magasin {
@@ -11,4 +12,5 @@ export interface Magasin {
   telephone: string;
   ville: string;
   proprietaire?: User;
+  estApprouve?: 'pending' | 'approved' | 'rejected'; // Mettre à jour le type
 }

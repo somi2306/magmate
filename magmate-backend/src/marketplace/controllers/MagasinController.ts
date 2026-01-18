@@ -19,6 +19,12 @@ export class MagasinController {
     private readonly produitsService: ProduitsService,
   ) {}
 
+  // Nouvelle route pour récupérer le nombre total de magasins
+  @Get('count')
+  async getMagasinCount(): Promise<number> {
+    return await this.magasinService.getMagasinCount();
+  }
+
   @Get('user/:userId')
   async getMagasinByUser(
     @Param('userId') userId: string,

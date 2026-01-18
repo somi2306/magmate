@@ -1,18 +1,18 @@
 {
   "dependencies": {
-
     "@angular/fire": "^7.6.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
-
     "@nestjs/serve-static": "^5.0.3",
     "@nestjs/swagger": "^11.1.5",
+    "@techiediaries/ngx-qrcode": "^9.1.0",
+    "angularx-qrcode": "^19.0.0",
     "bcrypt": "^5.1.1",
     "class-validator": "^0.14.1",
-
     "firebase": "^9.17.2",
     "firebase-admin": "^13.3.0",
+    "ngx-qrcode2": "^9.0.0",
     "ngx-toastr": "^19.0.0",
-
+    "speakeasy": "^2.0.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {

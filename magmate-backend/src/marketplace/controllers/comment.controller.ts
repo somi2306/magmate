@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Param, Body } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, Delete } from '@nestjs/common'; // Importer Delete
 import { CommentService } from '../services/comment.service';
 import { CreateAvisDto } from '../dto/create-avis.dto'; // DTO pour la création d'avis
 import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard'; // Import du guard
@@ -27,5 +27,13 @@ export class CommentController {
   )  {
     
     return this.commentService.createComment(user, productId, createAvisDto);
+  }
+
+  // Nouvelle route pour supprimer un commentaire par son ID
+  @Delete(':commentId')
+  // @UseGuards(FirebaseAuthGuard) // Vous pouvez ajouter un guard pour restreindre l'accès à l'admin
+  async deleteComment(@Param('commentId') commentId: number) {
+    await this.commentService.deleteComment(commentId);
+    return { message: `Commentaire avec l'ID ${commentId} supprimé avec succès.` };
   }
 }

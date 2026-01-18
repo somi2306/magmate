@@ -28,6 +28,7 @@ export class Reclamationprestataire {
   @ManyToOne(() => User, (user) => user.reclamations, {
     eager: true,
     nullable: false,
+     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'idUtilisateur' })
   utilisateur: User;

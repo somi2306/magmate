@@ -12,13 +12,18 @@ export enum UserRequestStatus {
 
 @Entity('request')
 export class UserRequestEntity {
-  @PrimaryColumn()
-  id: number;
+  @PrimaryGeneratedColumn()
+id: number;
 
-  @ManyToOne(() => User, (user) => user.sentUserRequests)
+
+   @ManyToOne(() => User, (user) => user.sentUserRequests, {
+    onDelete: 'CASCADE', // ✅ suppression automatique si l'utilisateur est supprimé
+  })
   creator: User;
 
-  @ManyToOne(() => User, (user) => user.receivedUserRequests)
+  @ManyToOne(() => User, (user) => user.receivedUserRequests, {
+    onDelete: 'CASCADE', // ✅ idem pour le destinataire
+  })
   receiver: User;
 
   @Column({ type: 'enum', enum: UserRequestStatus, default: UserRequestStatus.ACCEPTED })

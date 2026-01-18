@@ -75,5 +75,13 @@ export class CommentService {
       produit: newComment.produit,  // Produit associé
     },
   };
-}
+  }
+
+  // Nouvelle méthode pour supprimer un commentaire par son ID
+  async deleteComment(commentId: number): Promise<void> {
+    const result = await this.avisRepository.delete(commentId);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Commentaire avec l'ID ${commentId} non trouvé.`);
+    }
+  }
 }

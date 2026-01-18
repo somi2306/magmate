@@ -31,19 +31,31 @@
       Mon profil
     </button>
   </div>
-  <!-- Modal (pop-up) -->
-<div id="prestataireModal" class="modal">
+  
+  <div class="modal" *ngIf="showPopup">
   <div class="modal-content">
-    <button class="close" (click)="closeModal()">&times;</button>
-    <h2>Devenez Prestataire</h2>
-    <p>Vous n'êtes pas encore un prestataire. Souhaitez-vous créer votre profil ?</p>
-    <button class="create-magasin" [routerLink]="['/créer-profil']" routerLinkActive="router-link-active">Créer Profil</button>
-
-    
+    <span class="close" (click)="closePopup()">&times;</span>
+    <h2>Information</h2>
+    <p>{{ message }}</p>
+    <br/>
+    <button
+      *ngIf="message === 'Votre profil prestataire a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.'"
+      class="market-button"
+      (click)="contactAdmin()"
+    >
+      Contacter l'administrateur
+    </button>
   </div>
 </div>
 
-
+<div class="modal" *ngIf="showPrestatairePopup">
+  <div class="modal-content">
+    <span class="close" (click)="closePrestatairePopup()">&times;</span>
+    <h2>Vous n'avez pas de profil prestataire</h2>
+    <p>Veuillez créer notre propre profil ici.</p>
+    <button class="create-magasin" [routerLink]="['/créer-profil']" (click)="closePrestatairePopup()">Créer mon profil</button>
+  </div>
+</div>
   
 </div>
 

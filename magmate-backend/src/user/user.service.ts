@@ -14,6 +14,10 @@ import { switchMap } from 'rxjs/operators';
 import { UserRequestStatus } from './entities/userrequest.entity';
 import { In } from 'typeorm';
 import { tap } from 'rxjs/operators';
+import { Not } from 'typeorm';
+import { UserRole } from './entities/user.entity';
+import * as admin from 'firebase-admin';
+import { MailService } from 'src/mail/mail.service';
 
 
 @Injectable()
@@ -23,8 +27,17 @@ export class UserService {
     private userRepository: Repository<User>,
     @InjectRepository(UserRequestEntity)
     private readonly userRequestRepository: Repository<UserRequestEntity>,
+     private readonly mailService: MailService,
   ) {}
 
+    async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+  
   async getProfile(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
 
@@ -273,5 +286,67 @@ export class UserService {
         });
       }),
     );
+  }
+
+  async deleteUser(userId: string): Promise<void> {
+  const user = await this.userRepository.findOne({ where: { id: userId } });
+
+  if (!user) {
+    throw new NotFoundException('Utilisateur introuvable');
+  }
+
+  const email = user.email; // récupère l’email avant suppression
+
+  // 🔐 Supprimer de Firebase Auth
+  try {
+    await admin.auth().deleteUser(userId);
+  } catch (error) {
+    console.warn('Erreur suppression Firebase:', error.message);
+  }
+
+  // 🗑️ Supprimer dans la BDD
+  await this.userRepository.remove(user);
+
+  // 📧 Envoyer l’email de notification
+  const subject = 'Suppression de votre compte - Magmate';
+  const body = `
+    Bonjour ${user.fname ?? ''},
+
+    Nous vous informons que votre compte utilisateur a été supprimé par l’administrateur de la plateforme Magmate.
+
+    Si vous pensez qu’il s’agit d’une erreur ou si vous avez des questions, n’hésitez pas à nous contacter.
+
+    Cordialement,
+    L’équipe Magmate
+  `;
+
+  try {
+    await this.mailService.sendContactEmail(email, subject, body, `<p>${body.replace(/\n/g, '<br>')}</p>`);
+  } catch (err) {
+    console.error('Erreur lors de l’envoi de l’email de suppression :', err);
+  }
+}
+
+
+async findAllUsers(): Promise<User[]> {
+  const users = await this.userRepository.find({
+    where: { role: Not(UserRole.ADMIN) },
+  });
+
+  return users.map(user => {
+    delete user.password;
+    return user;
+  });
+}
+  async getUserCount(): Promise<number> {
+    return await this.userRepository.count();
+  }
+  async getUserCountByRole(): Promise<{ role: UserRole; count: number }[]> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .select('user.role', 'role')
+      .addSelect('COUNT(user.id)', 'count')
+      .groupBy('user.role')
+      .getRawMany();
   }
 }

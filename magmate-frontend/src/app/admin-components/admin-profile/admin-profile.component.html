@@ -1,0 +1,125 @@
+<div class="profile-container" style="margin-top: 80px;">
+  <div class="content-wrapper">
+    <div class="profile-card-container">
+      <!-- Profile Card Component -->
+      <div class="profile-card">
+        <div class="profile-card-content">
+          <div class="profile-main-section">
+            <div class="profile-photo-container">
+              <div class="profile-photo" (click)="fileInput.click()">
+                <img
+                  [src]="
+                    previewUrl ||
+                    userProfile.photo ||
+                    'images/default-profile.png'
+                  "
+                  alt="Profile"
+                  class="photo-image"
+                  (load)="onImageLoad($event)"
+                />
+
+                <div class="photo-overlay">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="camera-icon"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    fill="none"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              
+              <input
+              #fileInput
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              class="file-input"
+              />
+              
+              <div class="upload-loader" *ngIf="isUploading">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </div>
+          <div class="upload-success" *ngIf="uploadSuccess">
+            ✅ Photo mise à jour avec succès !
+          </div>
+
+          <div class="profile-details-section">
+            <!-- Profile Info Component -->
+            <div class="info-container">
+              <h2 class="details-header">Informations personnelles</h2>
+              <div class="info-item">
+                <div class="info-icon-container">
+                  <i class="material-icons icon">badge</i>
+                </div>
+                <div class="info-content">
+                  <h3 class="info-label">Nom</h3>
+                  <p class="info-value">{{ userProfile.lname.toLocaleUpperCase() }}</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon-container">
+                  <i class="material-icons icon">person</i>
+                </div>
+                <div class="info-content">
+                  <h3 class="info-label">Prenom</h3>
+                  <p class="info-value">{{ userProfile.fname.toLocaleUpperCase() }}</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon-container">
+                  <i class="material-icons icon">email</i>
+                </div>
+                <div class="info-content">
+                  <h3 class="info-label">Adresse e-mail</h3>
+                  <p class="info-value">{{ userProfile.email }}</p>
+                </div>
+              </div>
+<!--
+              <div class="info-item" style="cursor: pointer;" (click)="navigateToMessagerie()">
+                <div class="info-icon-container">
+                  <i class="material-icons icon">message</i>
+                </div>
+                <div class="info-content">
+                  <h3 class="info-label">Messagerie</h3>
+                  <p class="info-value">Accéder à vos conversations</p>
+                </div>
+              </div>
+              -->
+            </div>
+            <!-- ... (après la section email et avant logout) ... -->
+
+
+
+<!-- ... (le reste du code existant) ... -->
+            <div class="logout-container">
+              <button class="logout-button" (click)="logout()">
+                <i class="material-icons">logout</i>
+                <span>Se déconnecter</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<button (click)="logout()">Se déconnecter</button>-->

@@ -1,0 +1,99 @@
+<div class="admin-magasin-container" style="margin-top: 80px;">
+  <h2>Gestion des Événements</h2>
+
+  <div class="tab-controls">
+    <button (click)="activeTab = 'pending'" [class.active]="activeTab === 'pending'">
+      En attente ({{pendingEvents.length}})
+    </button>
+    <button (click)="activeTab = 'approved'" [class.active]="activeTab === 'approved'">
+      Approuvés ({{approvedEvents.length}})
+    </button>
+    <button (click)="activeTab = 'rejected'" [class.active]="activeTab === 'rejected'">
+      Rejetés ({{rejectedEvents.length}})
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="activeTab === 'pending'">
+    <h3>Événements en attente d'approbation</h3>
+    <div *ngIf="pendingEvents.length > 0; else noPendingEvents" class="magasin-list">
+      <div *ngFor="let event of pendingEvents" class="magasin-card">
+        <h4>{{ event.title }}</h4>
+        <p>Type: {{ event.type === 'EVENT' ? 'Événement' : 'Activité' }}</p>
+        <p>Ville: {{ event.city }}</p>
+        <p>Lieu: {{ event.lieu }}</p>
+        <p>Créé par: {{ event.createdBy?.fname }} {{ event.createdBy?.lname }} ({{ event.createdBy?.email }})</p>
+        <div class="card-actions">
+          <button class="approve-btn" (click)="approveEvent(event.id)">Approuver</button>
+          <button class="reject-btn" (click)="rejectEvent(event.id)">Rejeter</button>
+          <button class="contact-btn" (click)="contactCreator(event.createdBy?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le créateur' }}
+          </button>
+          <button class="contact-btn" (click)="viewEventDetails(event.id)">
+            Voir les détails
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noPendingEvents>
+      <p class="info-message">Aucun événement en attente d'approbation.</p>
+    </ng-template>
+  </div>
+
+  <div *ngIf="activeTab === 'approved'">
+    <h3>Événements approuvés</h3>
+    <div *ngIf="approvedEvents.length > 0; else noApprovedEvents" class="magasin-list">
+      <div *ngFor="let event of approvedEvents" class="magasin-card">
+        <h4>{{ event.title }}</h4>
+        <p>Type: {{ event.type === 'EVENT' ? 'Événement' : 'Activité' }}</p>
+        <p>Ville: {{ event.city }}</p>
+        <p>Lieu: {{ event.lieu }}</p>
+        <p>Créé par: {{ event.createdBy?.fname }} {{ event.createdBy?.lname }} ({{ event.createdBy?.email }})</p>
+        <p class="status approved">Statut: Approuvé</p>
+        <div class="card-actions">
+          <button class="reject-btn" (click)="rejectEvent(event.id)">Rejeter</button>
+          <button class="delete-btn" (click)="deleteEvent(event.id)">Supprimer</button>
+          <button class="contact-btn" (click)="contactCreator(event.createdBy?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le créateur' }}
+          </button>
+          <button class="contact-btn" (click)="viewEventDetails(event.id)">
+            Voir les détails
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noApprovedEvents>
+      <p class="info-message">Aucun événement approuvé.</p>
+    </ng-template>
+  </div>
+
+  <div *ngIf="activeTab === 'rejected'">
+    <h3>Événements rejetés</h3>
+    <div *ngIf="rejectedEvents.length > 0; else noRejectedEvents" class="magasin-list">
+      <div *ngFor="let event of rejectedEvents" class="magasin-card">
+        <h4>{{ event.title }}</h4>
+        <p>Type: {{ event.type === 'EVENT' ? 'Événement' : 'Activité' }}</p>
+        <p>Ville: {{ event.city }}</p>
+        <p>Lieu: {{ event.lieu }}</p>
+        <p>Créé par: {{ event.createdBy?.fname }} {{ event.createdBy?.lname }} ({{ event.createdBy?.email }})</p>
+        <p class="status rejected">Statut: Rejeté</p>
+        <div class="card-actions">
+          <button class="approve-btn" (click)="approveEvent(event.id)">Approuver</button>
+          <button class="delete-btn" (click)="deleteEvent(event.id)">Supprimer</button>
+          <button class="contact-btn" (click)="contactCreator(event.createdBy?.id)" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le créateur' }}
+          </button>
+          <button class="contact-btn" (click)="viewEventDetails(event.id)">
+            Voir les détails
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noRejectedEvents>
+      <p class="info-message">Aucun événement rejeté.</p>
+    </ng-template>
+  </div>
+</div>

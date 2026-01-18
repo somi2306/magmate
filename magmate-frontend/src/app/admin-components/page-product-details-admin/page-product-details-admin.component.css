@@ -1,0 +1,377 @@
+/* src/app/marketplace/pages/product-details/product-details.component.css */
+
+
+ html, body {
+  min-height: 100vh;
+  background-color: #fff0e7;
+  margin: 0;
+  padding: 0;
+}
+
+  
+  /* Style général de la page */
+  .product-details {
+    /* Arrière-plan beige */
+    display: flex;
+    justify-content: space-between; /* Espacement entre les colonnes */
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  /* Section des images du produit */
+  .product-images {
+    flex: 1; /* Laisser l'image occuper 50% de l'espace */
+    margin-right: 20px; /* Espacement entre l'image et les détails */
+    text-align: center;
+  }
+  
+  /* Image principale */
+  .main-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 2px solid #721a1a; /* Bordure autour de l'image principale */
+  }
+  
+  /* Miniatures en dessous de l'image principale */
+  .thumbnail-images {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+    border: 2px solid #721a1a; /* Bordure autour des miniatures */
+  }
+  
+  .thumbnail:hover {
+    transform: scale(1.1); /* Zoom au survol */
+  }
+  
+  /* Informations sur le produit */
+  .product-info {
+    flex: 1; /* Laisser la section des informations occuper 50% de l'espace */
+    margin-top: 20px;
+    color: #000000; 
+    font-size: 2em;
+  }
+  
+  /* Titre du produit */
+  .product-info h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #721a1a; /* Couleur burgundy pour le titre */
+    margin-bottom: 10px;
+  }
+  
+  /* Prix du produit */
+  .price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #721a1a;
+    margin-top: 10px;
+  }
+  
+  /* Section du magasin */
+  .store-name {
+    font-size: 1.5em; /* Même taille que le titre */
+    font-weight: bold;
+    margin-top: 10px;
+    color: #721a1a; /* Même couleur que le titre */
+  }
+  
+  /* Entête de la page */
+  h1 {
+    text-align: center;
+    color: #721d1a; /* Couleur burgundy pour le titre principal */
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  .comments-section {
+  background-color: #fff0e7;
+  padding: 30px;
+  border-radius: 12px;
+  margin: 40px auto 0;
+  width: 95%;
+  max-width: 900px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+}
+
+.comments-section h3 {
+  font-size: 2em;
+  color: #721a1a;
+  text-align: center;
+  margin-bottom: 25px;
+  
+}
+
+.comment {
+  background-color: #ffffff;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-left: 5px solid #721a1a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comment p {
+  margin: 6px 0;
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+}
+
+.comment .username {
+  font-weight: bold;
+  color: #721a1a;
+}
+
+.comment .rating {
+  margin-top: 8px;
+  font-size: 1.3em;
+}
+
+.comment .rating span {
+  color: #f39c12;
+}
+
+.add-comment {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.add-comment textarea {
+  width: 100%;
+  height: 100px;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  resize: none; /* Empêche l'ajustement manuel de la hauteur */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+
+.add-comment .rating {
+  margin-top: 10px;
+}
+
+.rating span {
+  cursor: pointer;
+  color: #ddd;
+  font-size: 1.8em;
+  transition: color 0.2s ease;
+}
+
+.rating span:hover,
+.rating span:hover ~ span {
+  color: #f39c12;
+}
+
+.rating span.selected {
+  color: #f39c12;
+}
+
+.add-comment button {
+  background-color: #721a1a;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.add-comment button:hover {
+  background-color: #9c1a1a;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .comments-section {
+    padding: 20px;
+  }
+
+  .comment {
+    padding: 12px;
+  }
+
+  .add-comment textarea {
+    height: 80px;
+  }
+
+  .rating span {
+    font-size: 1.5em;
+  }
+}
+
+.report-button{
+  background-color: #721a1a; /* Couleur de fond rouge burgundy */
+  color: white; /* Couleur du texte */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Centrer le texte dans le formulaire */
+/* Overlay modal */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Contenu du modal */
+.modal-content {
+  background-color: #fff0e7;
+  color: #721a1a;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.modal-content h3{
+  text-align: center;
+}
+
+/* Bouton de fermeture */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #721a1a;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ccc;
+}
+
+/* Formulaire */
+.reclamation-form .form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.reclamation-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.reclamation-form textarea,
+.reclamation-form input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1em;
+}
+
+.reclamation-form textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* Bouton d'envoi */
+.reclamation-form button {
+  background-color: #721a1a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.reclamation-form button:hover {
+  background-color: #4d0909;
+}
+
+
+
+/* Style pour le bouton contacter le vendeur */
+.contact-button {
+  background-color: #721a1a; /* Couleur de fond rouge burgundy */
+  color: white; /* Couleur du texte */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #a72a2a; /* Changer la couleur au survol */
+}
+
+.contact-button, .report-button {
+  margin-right: 200px;  /* Espace de 10px entre les deux boutons */
+}
+
+/* Ajouter un espacement entre les paragraphes */
+.product-info p {
+  margin-bottom: 50px; /* Ajustez la valeur pour plus ou moins d'espace */
+}
+.store-name, .price  {
+  margin-bottom: 50px; /* Ajustez la valeur pour plus ou moins d'espace */
+}
+.button-container {
+ 
+  margin-top: 20px; /* optionnel */
+}
+
+/* Style pour le bouton de suppression de commentaire */
+.delete-comment-btn {
+  background-color: #721a1a;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-comment-btn:hover {
+  background-color: #a72a2a;
+}
+
+.no-comments-message {
+  text-align: center;
+  color: #721a1a;
+  font-style: italic;
+  margin-top: 20px;
+}

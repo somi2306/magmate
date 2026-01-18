@@ -35,13 +35,22 @@
   </div>
 
   <!-- POP-UP MODAL: Information or Error -->
-  <div *ngIf="showPopup" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closePopup()">&times;</span>
-      <h2>Information</h2>
-      <p>{{ message }}</p>
-    </div>
+<div class="modal" *ngIf="showPopup">
+  <div class="modal-content">
+    <span class="close" (click)="closePopup()">&times;</span>
+    <h2>Information</h2>
+    <p>{{ message }}</p>
+    <br/>
+    <button
+      *ngIf="message === 'Votre magasin a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.'"
+      class="market-button"
+      (click)="contactAdmin()"
+    >
+    
+      Contacter l'administrateur
+    </button>
   </div>
+</div>
 
   <!-- POP-UP MODAL: No Magasin or Create New Magasin -->
   <div class="modal" *ngIf="showMagasinPopup">

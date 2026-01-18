@@ -14,25 +14,20 @@ import { ReclamationPrestataireController } from './controllers/reclamationprest
 import { ReclamationPrestataireService } from './services/reclamation-prestataire.service';
 
 @Module({
-  controllers: [ 
+  controllers: [
+    // Ensure PrestataireController is listed before PrestatairedetailsController
+    PrestataireController, // Moved up to ensure precedence for its routes
     PrestatairedetailsController,
     CommentPrestataireController,
-    PrestataireController,
     ReclamationPrestataireController
   ],
   providers: [
-    PrestatairedetailsService, 
+    PrestatairedetailsService,
     CommentPrestataireService,
     PrestataireService,
     ReclamationPrestataireService
-
   ],
-
   imports: [TypeOrmModule.forFeature([avisprestataire, Prestataire, User, Reclamationprestataire])],
   exports: [TypeOrmModule],
 })
 export class PrestataireModule {}
-
-
-
-

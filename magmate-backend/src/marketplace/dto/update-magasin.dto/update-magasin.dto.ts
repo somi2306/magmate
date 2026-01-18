@@ -1,8 +1,9 @@
-// update-magasin.dto.ts
-import { IsOptional, IsString, IsBoolean, IsPhoneNumber, IsDateString } from 'class-validator';
+// marketplace backend/dto/update-magasin.dto/update-magasin.dto.ts
+import { IsOptional, IsString, IsPhoneNumber, IsEnum } from 'class-validator'; // Importer IsEnum
+import { MagasinStatus } from '../../entities/magasin.entity'; // Importer l'enum
 
 export class UpdateMagasinDto {
-  @IsOptional()  // Optionnel, seulement si vous ne souhaitez pas obliger la mise à jour
+  @IsOptional()
   @IsString()
   nom?: string;
 
@@ -19,7 +20,7 @@ export class UpdateMagasinDto {
   horaire?: string;
 
   @IsOptional()
-  @IsPhoneNumber('FR')  // Validation de numéro de téléphone (ici pour la France, à ajuster pour d'autres pays)
+  @IsPhoneNumber('FR')
   telephone?: string;
 
   @IsOptional()
@@ -28,9 +29,9 @@ export class UpdateMagasinDto {
 
   @IsOptional()
   @IsString()
-  image?: string;  // Image, si elle est fournie
+  image?: string;
 
   @IsOptional()
-  @IsBoolean()
-  estApprove?: boolean;  // S'il y a une approbation ou non
+  @IsEnum(MagasinStatus) // Utilisation de l'enum pour la validation
+  estApprouve?: MagasinStatus; // Utilisation de l'enum pour le type
 }

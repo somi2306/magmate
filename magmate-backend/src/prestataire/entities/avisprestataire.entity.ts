@@ -23,7 +23,7 @@ export class avisprestataire {
   date: Date;
 
   // Relation ManyToOne avec User (auteur du commentaire)
-  @ManyToOne(() => User, (user) => user.avis, { eager: true })
+  @ManyToOne(() => User, (user) => user.avis, { eager: true ,  onDelete: 'CASCADE'})
   @JoinColumn({ name: 'idUtilisateur' })
   auteur: User;
 

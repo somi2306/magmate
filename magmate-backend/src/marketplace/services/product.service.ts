@@ -17,4 +17,9 @@ export class ProductService {
       relations: ['images', 'magasin', 'magasin.proprietaire'],
     });
   }
+
+  // Nouvelle méthode pour compter tous les produits
+  async getProductCount(): Promise<number> {
+    return await this.productRepository.count();
+  }
 }

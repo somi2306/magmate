@@ -1,0 +1,476 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+
+
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+.nav__profile-pic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.nav__profile-pic i {
+  font-size: 1.2rem;
+  color: var(--white);
+}
+
+.nav__profile-pic:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+/* Version mobile */
+@media (width <= 768px) {
+  .nav__profile {
+    margin-top: 1rem;
+  }
+  
+  .nav__profile-pic {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.logo {
+  background: linear-gradient(135deg, #e0a33f,#edd1ab);/*#F4A460, #D2B48C*/
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+img {
+  display: flex;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+ul {
+  list-style: none;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+
+/* Navigation */
+.navigation {
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  width: 100%;
+  max-height: 10vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  margin-right: 1rem;
+  transition: background-color 0.3s ease;
+  font-family: "DM Sans", sans-serif;/*hehe solution de écriture unifié */
+}
+
+.nav__header {
+  padding: 0 1rem;
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.nav__logo .logo {
+  background: linear-gradient(135deg, #e0a33f, #edd1ab);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.75rem;
+  font-weight: 800;
+
+
+}
+
+.nav__menu__btn {
+  font-size: 1.5rem;
+
+  color: white;
+  cursor: pointer;
+}
+
+.nav__links {
+  position: absolute;
+
+  top: 100%;
+
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: all 0.5s ease;
+  transform: translateY(-150%);
+}
+
+.nav__links.open {
+  transform: translateY(0);
+
+}
+
+.nav__links a {
+  font-weight: 600;
+
+  color: white;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+}
+
+.nav__links a:hover {
+  color: #678760;
+}
+
+
+
+
+@media (width > 768px) {
+  nav {
+    position: static;
+    padding: 2rem 1rem;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  
+.navigation {
+    min-height: 60px; /* Hauteur minimale garantie */
+    padding: 1rem 0 !important; /* Force le padding */
+    display: flex;
+    align-items: center; /* Centre verticalement */
+}
+
+@media (width > 768px) {
+    .navigation {
+        min-height: 80px;
+        padding: 0.4rem 2rem !important;
+    }
+}
+
+  .navigation > .nav__header,
+  .navigation > .nav__links {
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem; /* Espacement interne */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+
+  .nav__header {
+
+    flex: 0 1 auto;
+    padding: 0;
+
+  }
+
+  .nav__menu__btn {
+    display: none;
+  }
+
+  .nav__links {
+    position: static;
+
+    width: auto;
+
+    padding: 0;
+    flex-direction: row;
+    background-color: transparent;
+    transform: none !important;
+
+    gap: 2rem;
+  }
+
+  .nav__links a {
+    color: white;
+    position: relative;
+  }
+
+  .nav__links a:hover {
+    color: #678760;
+  }
+
+  .nav__links a:not(.nav__profile a):after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #678760;
+    transition: width 0.3s ease;
+  }
+
+  .nav__links a:hover:after {
+    width: 100%;
+  }
+}
+
+
+
+/* Correction pour les ancres */
+:target::before {
+  content: "";
+  display: block;
+  height: 70px; /* Hauteur de votre navbar */
+  margin: -70px 0 0; /* Offset négatif égal à la hauteur */
+}
+
+/* Style pour le menu déroulant - Version mobile et desktop */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  background-color: #edd1ab;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover .dropdown-menu,
+.dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  color: #edd1ab;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  color: #678760;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding-left: 20px;
+}
+
+/* Pour fermer le menu quand on clique ailleurs */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: transparent;
+}
+
+/* Version mobile */
+@media (width <= 768px) {
+  .dropdown-menu {
+    position: static;
+    margin-top: 1rem;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    box-shadow: none;
+  }
+  
+  .dropdown-item {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Animation pour le menu déroulant */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.nav__profile {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Correction pour le dropdown */
+.profile-dropdown {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.dropdown-item i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+/* Version mobile */
+@media (width <= 768px) {
+  .dropdown-item i {
+    margin-right: 15px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Dans header.component.css */
+.notification-badge {
+  display: inline-block;
+  background-color:#e0a33f;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 11px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Animation optionnelle */
+.notification-badge.pulse {
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  gap: 5px; /* Espace entre les éléments */
+}
+
+.logo-icon {
+  width: 90px;     /* petite taille */
+  height: 90px;
+  object-fit: contain;
+}
+
+.logo-text {
+  margin-left: 5px;
+}
+
+.nav__dropdown {
+  position: relative;
+}
+
+.nav__dropdown > a {
+  cursor: pointer;
+}
+
+.dropdown-submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #edd1ab;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  border-radius: 4px;
+}
+
+.dropdown-submenu li {
+  padding: 0;
+}
+
+.dropdown-submenu li a {
+  display: block;
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+  color: #678760;
+}
+
+.dropdown-submenu li a:hover {
+  color: #678760;/*found it */
+}
+
+
