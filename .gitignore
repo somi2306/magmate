@@ -1,16 +1,60 @@
-# Node
+# GÉNÉRAL & SYSTÈME
+.DS_Store
+Thumbs.db
+*.log
+logs/
+*.bak
+
+# DÉPENDANCES & NODE.JS
+
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+
+# IDE & ÉDITEURS (VS Code, IntelliJ, Eclipse, etc.)
+
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.launch
+.c9/
+
+
+# BUILD & COMPILATION (Frontend & Backend)
 dist/
 build/
-npm-debug.log
+out-tsc/
+bazel-out/
+/coverage/
+/.nyc_output/
 
-# Angular
-frontend/.angular/cache/
-frontend/.angular/
 
-# IDE
-.vscode/
-.idea/
-
-# Environnement
+# SÉCURITÉ & ENVIRONNEMENT (NE JAMAIS COMMITER)
 .env
+
+# Fichiers sensibles spécifiques détectés
+firebase-service-account.json
+
+
+# SPECIFIQUE ANGULAR (Frontend)
+
+.angular/
+/.angular/cache/
+.sass-cache/
+/connect.lock
+/testem.log
+/typings/
+
+
+# Dossiers temporaires
+.temp/
+.tmp/
