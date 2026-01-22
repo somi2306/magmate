@@ -11,7 +11,7 @@
   <div *ngIf="currentUserProfile" class="profile-container">
     <h3>Votre profil</h3>
     <div class="profile-header">
-      <img [src]="currentUserProfile.photo || 'assets/default-avatar.png'" 
+      <img [src]="currentUserProfile.photo || 'images/default-avatar.png'" 
            alt="Photo de profil" 
            class="profile-photo">
       <h2>{{ currentUserProfile.fname }} {{ currentUserProfile.lname }}</h2>
@@ -23,7 +23,7 @@
   <div *ngIf="specificUserProfile" class="profile-container">
     <h3>Profil de la connexion</h3>
     <div class="profile-header">
-      <img [src]="specificUserProfile.photo || 'assets/default-avatar.png'" 
+      <img [src]="specificUserProfile.photo || 'images/default-avatar.png'" 
            alt="Photo de profil" 
            class="profile-photo">
       <h2>{{ specificUserProfile.fname }} {{ specificUserProfile.lname }}</h2>

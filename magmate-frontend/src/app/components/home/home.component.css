@@ -531,24 +531,33 @@ header::before {
   background-color: var(--primary-color);
   color: white;
   border: none;
-  font-size: 2rem;
+  
+  /* CORRECTION : Ajustement pour le centrage */
+  width: 45px;            /* Un peu plus grand pour l'esthétique */
+  height: 45px;
+  padding: 0;             /* Important : pas de padding interne */
+  font-size: 1.5rem;      /* Taille de flèche adaptée au cercle */
+  line-height: 1;         /* Évite le décalage vertical du texte */
+  
   cursor: pointer;
-  padding: 0.5rem 1rem;
   border-radius: 50%;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   top: 50%;
   transform: translateY(-50%);
+  
+  /* Flexbox assure le centrage parfait */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Petite ombre pour le relief */
 }
 
 .scroll-btn:hover {
   background-color: var(--primary-color-dark);
+  transform: translateY(-50%) scale(1.1); /* Effet d'agrandissement au survol */
 }
 
+/* Positionnement des boutons */
 .scroll-btn.left {
   left: 0;
 }
@@ -557,37 +566,42 @@ header::before {
   right: 0;
 }
 
+/* --- Correction mathématique des cartes --- */
 .client__card {
-  min-width: calc(33.333% - 1rem); /* Prend 1/3 de l'espace moins le gap */
-  max-width: calc(33.333% - 1rem);
-  flex: 0 0 auto;
-  margin-right: 0; /* Supprime la marge droite car on utilise gap */
-  transition: transform 0.3s ease;
+  /* CALCUL : (100% de l'espace - (2 espaces de 20px)) divisé par 3 cartes 
+     Cela garantit que 3 cartes remplissent EXACTEMENT la vue.
+  */
+  min-width: calc((100% - 40px) / 3); 
+  max-width: calc((100% - 40px) / 3);
+  
+  flex: 0 0 auto; /* Empêche le redimensionnement automatique */
+  scroll-snap-align: start; /* Aligne la carte au début lors du scroll */
+  
+  margin-right: 0;
   padding: 5px;
   background-color: var(--extra-light);
   border-radius: 1rem;
   transition: 0.3s;
 }
-
-/* Pour les écrans plus petits, ajustez le nombre de cartes visibles */
+/* --- Responsive : Tablettes (2 cartes visibles) --- */
 @media (max-width: 992px) {
   .client__card {
-    min-width: calc(50% - 1rem); /* 2 cartes sur tablettes */
-    max-width: calc(50% - 1rem);
+    /* (100% - 1 espace de 20px) / 2 */
+    min-width: calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
   }
 }
 
+/* --- Responsive : Mobile (1 carte visible) --- */
 @media (max-width: 768px) {
-  .client__card {
-    min-width: calc(100% - 1rem); /* 1 carte sur mobile */
-    max-width: calc(100% - 1rem);
+  .temoignages-container-wrapper {
+    padding: 0 30px; /* Réduire le padding sur mobile */
   }
-}
-
-
-/* Optionnel : Effet de survol */
-.client__card:hover {
-  transform: translateY(-5px);
+  
+  .client__card {
+    min-width: 100%;
+    max-width: 100%;
+  }
 }
 
 .client__content {
@@ -941,13 +955,18 @@ header::before {
 }
 
 /* Styles pour les avatars des témoignages */
+/* Styles pour les avatars des témoignages */
 .client__details img {
-    width: 60px; /* Taille légèrement plus grande pour les avatars */
-    height: 60px;
-    object-fit: cover;
-    border-radius: 50%; /* Rendre l'image parfaitement ronde */
-    border: 2px solid #e0a33f; /* Bordure colorée */
-    flex-shrink: 0; /* Empêche l'image de rétrécir */
+    width: 60px;       /* Largeur fixe */
+    height: 60px;      /* Hauteur fixe identique pour faire un carré de base */
+    max-width: 60px;   /* IMPORTANT : Écrase l'ancien 'max-width: 50px' qui causait l'ovale */
+    
+    object-fit: cover; /* Coupe l'image proprement pour qu'elle remplisse le cercle */
+    border-radius: 50%; /* Transforme le carré en cercle parfait */
+    
+    border: 2px solid #e0a33f; /* Votre bordure dorée */
+    flex-shrink: 0;    /* Empêche l'image de s'écraser si l'espace manque */
+    display: block;    /* Assure un bon comportement dans le conteneur */
 }
 
 /* Styles pour les flèches de navigation Swiper */
@@ -991,22 +1010,25 @@ header::before {
 
 .temoignages-container-wrapper {
   position: relative;
-  max-width: 1200px; /* Limite la largeur maximale */
-  margin: 2rem auto 0; /* Centre le wrapper et ajoute de l'espace en haut */
-  padding: 0 60px; /* Plus d'espace pour les boutons */
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding: 0 60px; /* Espace pour les flèches */
+  box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
 }
 
+/* --- Correction du conteneur scrollable --- */
 .temoignages-container {
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
-  gap: 1rem;
+  gap: 20px; /* On fixe le gap à 20px pour le calcul */
   padding: 1rem 0;
-  width: calc(100% - 120px); /* Compense le padding du wrapper */
-  scroll-snap-type: x mandatory; /* Pour un défilement plus précis */
+  width: 100%; /* Prend toute la largeur disponible entre les flèches */
+  justify-content: flex-start; /* FORCE l'alignement à gauche, empêche le centrage global des 4 items */
+  scroll-snap-type: x mandatory;
 }
 
-
+/* Cache la barre de défilement */
 .temoignages-container::-webkit-scrollbar {
   display: none;
 }
@@ -1040,5 +1062,111 @@ header::before {
 }
 
 .scroll-btn.right {
-  right: 140px;
+  right: 0;
+}
+
+/* --- Styles du formulaire d'avis (Mise à jour) --- */
+
+.add-testimonial-form {
+  background-color: var(--white); /* Changé en blanc pour ressortir sur le fond */
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 3rem auto; /* Centré horizontalement */
+  max-width: 700px;
+  text-align: center; /* Centre le texte et les éléments inline */
+}
+
+.add-testimonial-form h3 {
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.add-testimonial-form textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #eee;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s;
+  resize: vertical;
+  background-color: #f9f9f9;
+}
+
+.add-testimonial-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: #fff;
+}
+
+/* Conteneur des étoiles */
+.rating-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre les étoiles horizontalement */
+  justify-content: center;
+  margin: 1.5rem 0;
+  gap: 0.5rem;
+}
+
+.rating-label {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 5px;
+  font-size: 2.5rem; /* Taille des étoiles */
+  cursor: pointer;
+}
+
+.rating-stars span {
+  color: #d1d1d1; /* Gris par défaut */
+  transition: color 0.2s, transform 0.2s;
+}
+
+/* Couleur dorée quand sélectionné */
+.rating-stars span.selected {
+  color: #e0a33f; 
+}
+
+/* Effet au survol */
+.rating-stars span:hover {
+  transform: scale(1.2);
+}
+
+/* Bouton */
+.form-submit {
+  display: flex;
+  justify-content: center;
+}
+
+.add-testimonial-form .btn {
+  padding: 1rem 3rem; /* Bouton un peu plus large */
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto; /* Laisse le padding définir la largeur */
+}
+
+.add-testimonial-form .btn:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(138, 46, 46, 0.3);
+}
+
+.add-testimonial-form .btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

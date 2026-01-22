@@ -22,6 +22,15 @@ import {
       @InjectRepository(Prestataire)
       private readonly prestataireRepository: Repository<Prestataire>,
     ) {}
+
+       async getAllReclamations(): Promise<Reclamationprestataire[]> {
+    return this.reclamationRepo.find({
+      // On charge l'auteur de la réclamation et le prestataire (avec ses infos utilisateur)
+      relations: ['utilisateur', 'prestataire', 'prestataire.utilisateur'],
+      // Tri par date décroissante pour voir les plus récentes en premier
+      order: { date: 'DESC' },
+    });
+  }
   
     /**
      * Créer une réclamation pour un prestataire
@@ -51,5 +60,6 @@ import {
         throw new InternalServerErrorException('Erreur lors de la création de la réclamation');
       }
     }
+ 
   }
   

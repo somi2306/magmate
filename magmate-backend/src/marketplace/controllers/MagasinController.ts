@@ -3,12 +3,13 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Delete, // Ajouter le décorateur Delete
+  Delete,
   HttpException,
-  HttpStatus, // Importer HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { MagasinService } from '../services/MagasinService';
-import { ProduitsService } from '../services/ProduitService';
+// CORRECTION : Import du service unifié
+import { ProductService } from '../services/product.service'; 
 import { Magasin } from '../entities/magasin.entity';
 import { Produit } from '../entities/produit.entity';
 
@@ -16,10 +17,10 @@ import { Produit } from '../entities/produit.entity';
 export class MagasinController {
   constructor(
     private readonly magasinService: MagasinService,
-    private readonly produitsService: ProduitsService,
+    // Injection du nouveau service
+    private readonly productService: ProductService,
   ) {}
 
-  // Nouvelle route pour récupérer le nombre total de magasins
   @Get('count')
   async getMagasinCount(): Promise<number> {
     return await this.magasinService.getMagasinCount();
@@ -32,15 +33,15 @@ export class MagasinController {
     return this.magasinService.findByUserId(userId);
   }
 
-  // Récupérer les produits par magasin
   @Get(':magasinId/produits')
   async getProduitsByMagasin(
     @Param('magasinId', ParseIntPipe) magasinId: number,
   ): Promise<Produit[]> {
-    return this.produitsService.getProduitsByMagasin(magasinId);
+    // Utilisation de la méthode du service unifié
+    return this.productService.getProduitsByMagasin(magasinId);
   }
 
-  @Delete(':id') // Ajouter le décorateur @Delete pour la suppression
+  @Delete(':id')
   async deleteMagasin(@Param('id') id: number) {
     try {
       await this.magasinService.deleteMagasin(id);
@@ -48,10 +49,10 @@ export class MagasinController {
         message: `Le magasin avec l'ID ${id} a été supprimé avec succès.`,
       };
     } catch (error) {
-      // Si une exception est levée, on la gère ici
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+  
   @Get('uuid/:uuid')
   getByUuid(@Param('uuid') uuid: string) {
     return this.magasinService.findByUserId(uuid);

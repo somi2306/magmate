@@ -1,14 +1,12 @@
-
-
-
-
 <div *ngIf="magasin" class="magasin-container">
   <div class="magasin-header">
-    <img [src]="'http://localhost:3000/public/images/' + magasin.image" alt="Image du magasin" class="header-image" />
+    <img [src]="magasin.image" alt="Image du magasin" class="header-image" />
     <div class="overlay">
       <div class="header-content">
         <h1>{{ magasin.nom }}</h1>
-        <P>{{ magasin.telephone}}</P>  <P>{{ magasin.ville}}</P> <P>{{ magasin.localisation}}</P>
+        <p>{{ magasin.telephone }}</p>
+        <p>{{ magasin.ville }}</p>
+        <p>{{ magasin.localisation }}</p>
       </div>
     </div>
   </div>
@@ -21,11 +19,14 @@
     <h2 class="section-title">Les produits disponibles</h2>
     <div class="product-list">
       <div *ngFor="let produit of produits" class="product-card">
-        <img [src]="'http://localhost:3000/public/images/' + produit.imagePrincipale" alt="{{ produit.titre }}" class="product-image" />
+        <img [src]="produit.imagePrincipale" alt="{{ produit.titre }}" class="product-image" />
+        
         <h3>{{ produit.titre }}</h3>
         <p><strong>Prix:</strong> {{ produit.prix }} MAD</p>
         
-  <button class="details-button" [routerLink]="['/produit', produit.idProduit]">Voir Détails</button>
+        <button class="details-button" [routerLink]="['/produit', produit.idProduit]">
+          Voir Détails
+        </button>
       </div>
     </div>
   </div>
@@ -34,5 +35,3 @@
     <p>Aucun produit disponible dans ce magasin pour le moment.</p>
   </div>
 </div>
-
-

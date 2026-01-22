@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { Favorite } from './favorite.entity'; // Import de l'entité Favorite
+import { Favorite } from './favorite.entity';
 
 export enum EventType {
   EVENT = 'EVENT',
@@ -26,16 +26,20 @@ export class Event {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ type: 'varchar' })
   title: string;
 
-  @Column('text')
+  // Déjà explicite (text), on laisse tel quel
+  @Column({ type: 'text' })
   description: string;
 
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ type: 'varchar' })
   city: string;
 
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ type: 'varchar' })
   lieu: string;
 
   @Column({
@@ -44,10 +48,12 @@ export class Event {
   })
   type: EventType;
 
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'timestamp' }
+  @Column({ type: 'timestamp' })
   date: Date;
 
-  @Column({ nullable: true })
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ type: 'varchar', nullable: true })
   imageUrl?: string;
 
   @Column({
@@ -63,9 +69,7 @@ export class Event {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.events, {
-  onDelete: 'CASCADE',
-}) // Relation avec l'utilisateur (créateur)
+  @ManyToOne(() => User, (user) => user.events)
   createdBy: User;
 
   @OneToMany(() => Favorite, (favorite) => favorite.event)

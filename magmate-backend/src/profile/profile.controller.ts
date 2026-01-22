@@ -1,24 +1,24 @@
 import {
-  Body,
   Controller,
   Get,
   Patch,
-  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  BadRequestException
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { RequestWithUser } from '../common/interfaces/request-with-user.interface';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service'; // Import service
 
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly profileService: ProfileService,
+    private readonly cloudinaryService: CloudinaryService // Injection
+  ) {}
 
   @UseGuards(FirebaseAuthGuard)
   @Get()
@@ -30,34 +30,33 @@ export class ProfileController {
   @Patch('update-photo')
   @UseInterceptors(
     FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-        },
-      }),
+      // On garde uniquement le filtre pour valider le type de fichier
       fileFilter: (req, file, callback) => {
         if (!file.mimetype.match(/^image\/(jpeg|png|jpg)$/)) {
           return callback(
-            new Error('Seuls les fichiers JPG, JPEG et PNG sont autorisés'),
+            new BadRequestException('Seuls les fichiers JPG, JPEG et PNG sont autorisés'),
             false,
           );
         }
         callback(null, true);
       },
       limits: {
-        fileSize: 2 * 1024 * 1024, // Limite à 2 Mo
+        fileSize: 5 * 1024 * 1024, // Limite à 5MB par exemple
       },
     }),
   )
   async updatePhoto(
     @UploadedFile() file: Express.Multer.File,
-    @Req() req: RequestWithUser,
+    @GetUser() user: any,
   ) {
-    const email = req.user.email;
-    return this.profileService.updateProfilePhoto(email, file);
+    if (!file) {
+        throw new BadRequestException('Aucun fichier fourni');
+    }
+
+    // 1. Envoi du fichier vers Cloudinary
+    const result = await this.cloudinaryService.uploadImage(file);
+
+    // 2. On passe l'URL sécurisée au service (au lieu du fichier physique)
+    return this.profileService.updateProfilePhoto(user.email, result.secure_url);
   }
 }

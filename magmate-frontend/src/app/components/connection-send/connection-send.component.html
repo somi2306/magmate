@@ -10,7 +10,7 @@
     <!-- Profil de l'utilisateur spécifique -->
     <div *ngIf="specificUserProfile" class="profile-container">
       <div class="profile-header">
-        <img [src]="specificUserProfile.photo || 'assets/default-avatar.png'" 
+        <img [src]="specificUserProfile.photo || 'images/default-avatar.png'" 
              alt="Photo de profil" 
              class="profile-photo">
         <h2>{{ specificUserProfile.fname }} {{ specificUserProfile.lname }}</h2>

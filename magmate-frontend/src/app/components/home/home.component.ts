@@ -70,6 +70,9 @@ scrollLeft(): void {
   }
 }
 
+setRating(star: number): void {
+    this.newTemoignage.note = star;
+  }
   constructor(private http: HttpClient) { } // Injectez HttpClient
 
   ngOnInit(): void {

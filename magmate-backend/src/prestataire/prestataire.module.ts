@@ -12,14 +12,15 @@ import { CommentPrestataireController } from './controllers/commentprestataire.c
 import { Reclamationprestataire } from './entities/reclamationprestataire.entity';
 import { ReclamationPrestataireController } from './controllers/reclamationprestataire.controller';
 import { ReclamationPrestataireService } from './services/reclamation-prestataire.service';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module'; // 1. Import
 
 @Module({
   controllers: [
-    // Ensure PrestataireController is listed before PrestatairedetailsController
-    PrestataireController, // Moved up to ensure precedence for its routes
+    ReclamationPrestataireController,
+    PrestataireController,
     PrestatairedetailsController,
     CommentPrestataireController,
-    ReclamationPrestataireController
+    
   ],
   providers: [
     PrestatairedetailsService,
@@ -27,7 +28,10 @@ import { ReclamationPrestataireService } from './services/reclamation-prestatair
     PrestataireService,
     ReclamationPrestataireService
   ],
-  imports: [TypeOrmModule.forFeature([avisprestataire, Prestataire, User, Reclamationprestataire])],
+  imports: [
+    TypeOrmModule.forFeature([avisprestataire, Prestataire, User, Reclamationprestataire]),
+    CloudinaryModule // 2. Ajout aux imports
+  ],
   exports: [TypeOrmModule],
 })
 export class PrestataireModule {}

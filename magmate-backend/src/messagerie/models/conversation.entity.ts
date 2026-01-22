@@ -6,11 +6,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  PrimaryColumn
 } from 'typeorm';
 import { MessageEntity } from './message.entity';
 
-// Interface définissant le type Conversation
 export interface IConversation {
   id?: string;
   users?: User[];
@@ -19,8 +17,8 @@ export interface IConversation {
 
 @Entity('conversation')
 export class ConversationEntity implements IConversation {
-  @PrimaryGeneratedColumn('uuid') // Changez pour UUID
-  id: string; // Devient string
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToMany(() => User, user => user.conversations)
   @JoinTable()
@@ -29,6 +27,7 @@ export class ConversationEntity implements IConversation {
   @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.conversation)
   messages: MessageEntity[];
 
-  @UpdateDateColumn()
+  // Sécurité : ajout explicite du type timestamp
+  @UpdateDateColumn({ type: 'timestamp' })
   lastUpdated: Date;
 }

@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
-import * as fs from 'fs';
-import * as path from 'path';
+
+// Plus besoin de 'fs' ni 'path'
 
 @Injectable()
 export class ProfileService {
@@ -28,27 +28,22 @@ export class ProfileService {
     };
   }
 
-  async updateProfilePhoto(email: string, file: Express.Multer.File) {
+  // Modification de la signature : on attend une string (URL) et non plus un File
+  async updateProfilePhoto(email: string, photoUrl: string) {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) throw new NotFoundException('Utilisateur non trouvé');
-    // Supprimer l'ancienne image si elle existe
-    if (user.photo) {
-      // Extraire juste le nom du fichier depuis l'URL
-      const filename = path.basename(user.photo); // ← ici la magie
-  
-      const oldPath = path.join(__dirname, '..', '..', 'uploads', filename);
-      if (fs.existsSync(oldPath)) {
-        fs.unlinkSync(oldPath);
-      }
-    }
-    const filename = `http://localhost:3000/uploads/${file.filename}`;
-    user.photo = filename;
+
+    // Note : Si vous souhaitez supprimer l'ancienne image de Cloudinary,
+    // il faudrait stocker le "public_id" de l'image Cloudinary.
+    // Pour l'instant, on se contente de remplacer l'URL.
+
+    user.photo = photoUrl; // Mise à jour avec l'URL Cloudinary
 
     await this.userRepository.save(user);
 
     return {
-      message: 'Photo mise à jour',
-      photo: `http://localhost:3000/uploads/${file.filename}`,
+      message: 'Photo de profil mise à jour avec succès',
+      photo: user.photo,
     };
   }
 }

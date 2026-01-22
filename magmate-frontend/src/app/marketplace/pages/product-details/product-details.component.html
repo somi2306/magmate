@@ -1,102 +1,94 @@
 <body style="margin-top: 80px;">
-  <h1><i>{{ product.titre }}</i></h1><!-- Entête de la page avec le titre -->
-
-  <div *ngIf="product" class="product-details">
-    <!-- Section des images du produit -->
-    <div class="product-images">
-      <!-- Image principale affichée en grand -->
-      <img *ngIf="product.imagePrincipale" [src]="product.imagePrincipale" class="main-image" />
-      <!-- Miniatures en dessous de l'image principale -->
-      <div class="thumbnail-images">
-        <img *ngFor="let image of product.images"
-             [src]="'http://localhost:3000/public/images/'+image.imageURL"
-             alt="Miniature image produit"
-             class="thumbnail"
-             (click)="selectImage(image)" />
-      </div>
-    </div>
-
-    <!-- Informations sur le produit -->
-    <div class="product-info">
-       <!-- Titre du produit -->
-      <div class="price">
-        <span>{{ product.prix }} DH</span>
-      </div>
-      <p>{{ product.description }}</p> <!-- Description du produit -->
-      
-      <!-- Affichage du prix -->
-      
-
-      <p class="store-name">
-        Magasin : 
+  <div *ngIf="product; else loading" class="product-container">
+    
+    <h1><i>{{ product.titre }}</i></h1><div class="product-details">
+      <div class="product-images">
+        <img *ngIf="product.imagePrincipale" [src]="product.imagePrincipale" class="main-image" />
         
-         <a [routerLink]="['/magasin-détails', product.magasin.idMagasin]">{{ product.magasin.nom }}</a> 
-        
-      </p>
-       <div class="button-container">
-      <button (click)="showReclamationForm = true" class="report-button">
-        Signaler le produit
-      </button>
+        <div class="thumbnail-images" *ngIf="product.images && product.images.length > 0">
+          <img *ngFor="let image of product.images"
+               [src]="image.imageURL"
+               alt="Miniature image produit"
+               class="thumbnail"
+               (click)="selectImage(image)" />
+        </div>
+      </div>
 
-      <!-- Bouton pour contacter le vendeur -->
-      <button class="contact-button" (click)="contactSeller()" [disabled]="isLoadingConnection">
-        {{ isLoadingConnection ? 'Chargement...' : 'Contacter le vendeur' }}
-      </button>
-      <div *ngIf="error" class="error-message">{{ error }}</div>
-<div *ngIf="requestStatus !== 'not-sent'" class="connection-status">
-  Statut: {{ getConnectionStatusMessage() }}
-</div>
+      <div class="product-info">
+        <div class="price">
+          <span>{{ product.prix }} DH</span>
+        </div>
+        <p>{{ product.description }}</p>
+
+        <p class="store-name" *ngIf="product.magasin">
+          Magasin : 
+          <a [routerLink]="['/magasin-détails', product.magasin.idMagasin]">{{ product.magasin.nom }}</a> 
+        </p>
+
+        <div class="button-container">
+          <button (click)="showReclamationForm = true" class="report-button">
+            Signaler le produit
+          </button>
+
+          <button class="contact-button" (click)="contactSeller()" [disabled]="isLoadingConnection">
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le vendeur' }}
+          </button>
+          
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+          
+          <div *ngIf="requestStatus !== 'not-sent'" class="connection-status">
+            Statut: {{ getConnectionStatusMessage() }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h3>Vos commentaires</h3>
+      <div *ngFor="let comment of comments" class="comment">
+        <p class="username">{{ comment.auteur?.lname }} {{ comment.auteur?.fname }} :</p>
+        <p>{{ comment.commentaire }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [].constructor(comment.note); let i = index">★</span>
+        </div>
+      </div>
+
+      <div class="add-comment">
+        <textarea [(ngModel)]="newComment" placeholder="Écrivez votre commentaire"></textarea>
+        <div class="rating">
+          <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setRating(star)" [class.selected]="star <= rating">★</span>
+        </div>
+        <button (click)="addComment()">Ajouter le commentaire</button>
       </div>
     </div>
   </div>
 
-  <!-- Section des commentaires -->
-<div class="comments-section">
-  <h3>Vos commentaires</h3>
-  <div *ngFor="let comment of comments" class="comment">
-    <p class="username">{{ comment.auteur?.lname }} {{ comment.auteur?.fname }} :</p>
-    <p>{{ comment.commentaire }}</p>
-    <div class="rating">
-      <span *ngFor="let star of [].constructor(comment.note); let i = index">★</span>
+  <ng-template #loading>
+    <div style="text-align: center; margin-top: 50px;">
+      <p>Chargement des détails du produit...</p>
+    </div>
+  </ng-template>
+
+  <div *ngIf="showReclamationForm" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeReclamationForm()">&times;</span>
+      <h3>Formulaire de réclamation</h3>
+
+      <form class="reclamation-form" (ngSubmit)="addReclamation()">
+        <div class="form-group">
+          <label for="description" class="form-label">Description </label>
+          <textarea [(ngModel)]="reclamationData.description" name="description" id="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pieceJointe" class="form-label">Pièce jointe (facultatif) </label>
+          <input type="file" (change)="onFileSelected($event)" name="pieceJointe" id="pieceJointe" />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" [disabled]="!reclamationData.description">Envoyer la réclamation</button>
+        </div>
+      </form>
     </div>
   </div>
-  
-  
-
-  <div class="add-comment">
-    <textarea [(ngModel)]="newComment" placeholder="Écrivez votre commentaire"></textarea>
-    <div class="rating">
-      <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setRating(star)" [class.selected]="star <= rating">★</span>
-    </div>
-    <button (click)="addComment()">Ajouter le commentaire</button>
-  </div>
-</div>
-<!-- Modal pour la réclamation -->
-<div *ngIf="showReclamationForm" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeReclamationForm()">&times;</span>
-    <h3>Formulaire de réclamation</h3>
-
-    <form class="reclamation-form" (ngSubmit)="addReclamation()">
-      <!-- Description de la réclamation -->
-      <div class="form-group">
-        <label for="description" class="form-label">Description </label>
-        <textarea [(ngModel)]="reclamationData.description" name="description" id="description" required></textarea>
-      </div>
-
-      <!-- Pièce jointe -->
-      <div class="form-group">
-        <label for="pieceJointe" class="form-label">Pièce jointe (facultatif) </label>
-        <input type="file" (change)="onFileSelected($event)" name="pieceJointe" id="pieceJointe" />
-      </div>
-
-      <!-- Bouton Envoyer -->
-      <div class="form-group">
-        <button type="submit" [disabled]="!reclamationData.description">Envoyer la réclamation</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
 </body>

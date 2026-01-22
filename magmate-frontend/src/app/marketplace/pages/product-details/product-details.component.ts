@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService1 } from '../../services/product1.service';
@@ -35,10 +34,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   reclamationData: CreateReclamationDto = {
     idCible: 0,
     description: '',
-    pieceJointe: '', // Cette propriété ne sera plus directement utilisée pour le fichier, mais elle est dans le DTO
+    pieceJointe: '', 
     email: '',
   };
-  selectedPieceJointeFile: File | null = null; // Nouvelle propriété pour stocker le fichier
+  selectedPieceJointeFile: File | null = null; 
 
   currentUserProfile!: UserProfile;
   ownerUserProfile!: UserProfile;
@@ -79,7 +78,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       (product: Produit) => {
         this.product = product;
 
-        if (!this.product.imagePrincipale && this.product.images.length > 0) {
+        if (!this.product.imagePrincipale && this.product.images && this.product.images.length > 0) {
           this.product.imagePrincipale = this.product.images[0].imageURL;
         }
       },
@@ -100,16 +99,20 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * CORRECTION CLOUDINARY
+   * On utilise l'URL directe car le backend renvoie maintenant l'URL complète.
+   */
   selectImage(thumbnailImage: { imageURL: string }): void {
     if (this.product) {
-      this.product.imagePrincipale = 'http://localhost:3000/public/images/' + thumbnailImage.imageURL;
+      this.product.imagePrincipale = thumbnailImage.imageURL;
     }
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.selectedPieceJointeFile = file; // Stocker l'objet File
+      this.selectedPieceJointeFile = file; 
     } else {
       this.selectedPieceJointeFile = null;
     }
@@ -146,8 +149,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           (newReclamation: any) => {
             console.log('Nouvelle réclamation ajoutée:', newReclamation);
             this.reclamationData.description = '';
-            this.selectedPieceJointeFile = null; // Réinitialiser le fichier sélectionné
-            this.showReclamationForm = false; // Fermer le formulaire après succès
+            this.selectedPieceJointeFile = null; 
+            this.showReclamationForm = false; 
           },
           (error) => {
             console.error('Erreur lors de l\'ajout de la réclamation', error);
@@ -188,8 +191,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
         this.commentService.addComment(this.productId, newCommentData).subscribe(
           (newComment: Avis) => {
-            console.log('Nouveau commentaire ajouté:', newComment);
-            this.comments.push(newComment);
             this.newComment = '';
             this.rating = 0;
             this.loadComments();
@@ -220,6 +221,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // ... (Le reste des méthodes loadState, checkRequestStatus, contactSeller reste identique)
   private loadStateFromStorage(ownerId: string) {
     const savedState = localStorage.getItem(`connectionState_${ownerId}`);
     if (savedState) {
@@ -275,12 +277,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   async contactSeller(): Promise<void> {
-    console.log('[DEBUG] Début de contactSeller()');
     const ownerId = this.product?.magasin?.proprietaire?.id;
-    console.log('[DEBUG] ID du propriétaire:', ownerId);
 
     if (!ownerId) {
-      console.error('[ERROR] Propriétaire ID non trouvé');
       this.error = "Informations du propriétaire manquantes";
       return;
     }
@@ -306,27 +305,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.currentUserProfile = currentProfile;
       this.ownerUserProfile = ownerProfile;
 
-      // Toujours tenter d'envoyer la demande pour s'assurer qu'elle est créée ou mise à jour
-      // et ensuite rediriger. La logique `sendUserRequest` dans le service gère la création/mise à jour et le statut.
-      const sendRequestResponse = await firstValueFrom(
-        this.connectionService.sendUserRequest(ownerId)
-      );
+      await firstValueFrom(this.connectionService.sendUserRequest(ownerId));
 
-      // Si la réponse contient une erreur, nous la loguons mais tentons toujours de rediriger
-      // car `sendUserRequest` est censé créer/mettre à jour la demande avant de renvoyer l'objet.
-      if (sendRequestResponse && (sendRequestResponse as any).error) {
-        console.warn('[WARN] sendUserRequest a renvoyé une erreur, mais nous allons quand même tenter la redirection:', (sendRequestResponse as any).error);
-        // Nous pourrions éventuellement définir `this.error` ici si nous voulons afficher l'erreur à l'utilisateur
-        // this.error = (sendRequestResponse as any).error;
-      }
-
-      console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', ownerId);
       this.router.navigate(['/messagerie'], {
         queryParams: { recipientId: ownerId }
       });
 
     } catch (err: any) {
-      console.error('[ERROR] Erreur complète:', err);
+      console.error('[ERROR] Erreur contact:', err);
       this.error = err.message || "Échec de l'opération de contact";
     } finally {
       this.isLoadingConnection = false;

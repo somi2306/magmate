@@ -1,34 +1,34 @@
 // page-product-details-admin.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService1 } from '../../marketplace/services/product1.service'; // Utiliser le service existant
-import { Produit } from '../../marketplace/models/produit.model'; // Importer le modèle Produit
-import { CommentService } from '../../marketplace/services/comment.service'; // Importer CommentService
-import { Avis } from '../../marketplace/models/avis.model'; // Importer le modèle Avis
+import { ProductService1 } from '../../marketplace/services/product1.service'; 
+import { Produit } from '../../marketplace/models/produit.model'; 
+import { CommentService } from '../../marketplace/services/comment.service'; 
+import { Avis } from '../../marketplace/models/avis.model'; 
 
 @Component({
   selector: 'app-page-product-details-admin',
   standalone: false,
   templateUrl: './page-product-details-admin.component.html',
-  styleUrls: ['./page-product-details-admin.component.css'] // Correction de styleUrl à styleUrls
+  styleUrls: ['./page-product-details-admin.component.css']
 })
 export class PageProductDetailsAdminComponent implements OnInit {
   productId!: number;
   product!: Produit;
   errorMessage: string | null = null;
-  comments: Avis[] = []; // Ajouter un tableau pour les commentaires
+  comments: Avis[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService1, // Utiliser le service existant pour les produits
-    private commentService: CommentService // Injecter CommentService
+    private productService: ProductService1,
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
-    this.productId = +this.route.snapshot.paramMap.get('id')!; // Récupérer l'ID du produit depuis l'URL
+    this.productId = +this.route.snapshot.paramMap.get('id')!;
     if (this.productId) {
       this.loadProductDetails();
-      this.loadComments(); // Charger les commentaires lorsque les détails du produit sont chargés
+      this.loadComments();
     } else {
       this.errorMessage = 'ID du produit non fourni.';
     }
@@ -38,7 +38,6 @@ export class PageProductDetailsAdminComponent implements OnInit {
     this.productService.getProductById(this.productId).subscribe({
       next: (data: Produit) => {
         this.product = data;
-        // Si l'image principale n'est pas définie mais qu'il y a des images supplémentaires, utiliser la première
         if (!this.product.imagePrincipale && this.product.images && this.product.images.length > 0) {
           this.product.imagePrincipale = this.product.images[0].imageURL;
         }
@@ -51,9 +50,9 @@ export class PageProductDetailsAdminComponent implements OnInit {
   }
 
   loadComments(): void {
-    this.commentService.getCommentsByProductId(this.productId).subscribe({ //
-      next: (data: Avis[]) => { //
-        this.comments = data; //
+    this.commentService.getCommentsByProductId(this.productId).subscribe({
+      next: (data: Avis[]) => {
+        this.comments = data;
       },
       error: (error) => {
         console.error('Erreur lors du chargement des commentaires:', error);
@@ -61,18 +60,23 @@ export class PageProductDetailsAdminComponent implements OnInit {
     });
   }
 
+  /**
+   * CORRECTION CLOUDINARY
+   * On ne rajoute plus le préfixe localhost car l'URL est déjà complète
+   */
   selectImage(thumbnailImage: { imageURL: string }): void {
     if (this.product) {
-      this.product.imagePrincipale = 'http://localhost:3000/public/images/' + thumbnailImage.imageURL;
+      // Utilisation directe de l'URL stockée (Cloudinary)
+      this.product.imagePrincipale = thumbnailImage.imageURL;
     }
   }
 
   deleteComment(commentId: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
-      this.commentService.deleteComment(commentId).subscribe({ //
+      this.commentService.deleteComment(commentId).subscribe({
         next: () => {
           alert('Commentaire supprimé avec succès.');
-          this.loadComments(); // Recharger les commentaires après suppression
+          this.loadComments();
         },
         error: (error) => {
           console.error('Erreur lors de la suppression du commentaire:', error);

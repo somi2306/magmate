@@ -18,7 +18,7 @@
          class="friend"
          (click)="startNewConversation(friend)">
       <div class="friend-info">
-        <img [src]="friend.photo || 'assets/images/default-profile.png'" 
+        <img [src]="friend.photo || 'images/default-profile.png'" 
              alt="Photo de profil" 
              class="profile-image">
         <div class="friend-details">
@@ -37,7 +37,7 @@
     <!-- En-tête du chat -->
 <div class="chat-header" *ngIf="selectedConversation">
   <div class="recipient-info">
-    <img [src]="getConversationImage(selectedConversation) || 'assets/images/default-profile.png'" 
+    <img [src]="getConversationImage(selectedConversation) || 'images/default-profile.png'" 
          alt="Photo de profil" 
          class="profile-image">
     <div>

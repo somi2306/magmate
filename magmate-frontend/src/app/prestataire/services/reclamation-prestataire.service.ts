@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CreateReclamationPrestataireDto } from '../dto/create-reclamation-prestataire.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,12 @@ export class ReclamationPrestataireService {
 
   constructor(private http: HttpClient) {}
 
-  addReclamation(idPrestataire: string, dto: CreateReclamationPrestataireDto): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${idPrestataire}`, dto);
+  // MODIFICATION ICI : on accepte FormData (ou any) au lieu du DTO
+  addReclamation(idPrestataire: string, data: FormData | any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${idPrestataire}`, data);
+  }
+
+  getAllReclamations(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
   }
 }

@@ -2,12 +2,15 @@
   <div class="badge" *ngIf="isNewProduct(produit.dateAjout)">Nouveau</div>
 
   <div class="product-content">
-    <img [src]="'http://localhost:3000/public/images/' + produit.imagePrincipale" alt="{{ produit.titre }}" />
+    <img [src]="produit.imagePrincipale" alt="{{ produit.titre }}" />
+    
     <div class="product-info">
       <h3><strong>{{ produit.titre }}</strong></h3>
-      <p class="price"><strong>{{ produit.prix  }} MAD</strong></p>
+      <p class="price"><strong>{{ produit.prix }} MAD</strong></p>
     </div>
   </div>
 
-  <button class="details-button" [routerLink]="['/produit', produit.idProduit]">Voir Détails</button>
+  <button class="details-button" [routerLink]="['/produit', produit.idProduit]">
+    Voir Détails
+  </button>
 </div>

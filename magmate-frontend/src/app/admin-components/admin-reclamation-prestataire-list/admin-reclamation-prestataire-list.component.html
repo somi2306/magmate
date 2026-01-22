@@ -1,0 +1,54 @@
+<div class="reclamation-list-container" style="margin-top: 80px;">
+  <h2>Gestion des Réclamations (Prestataires)</h2>
+
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && reclamations.length > 0; else noReclamations" class="reclamation-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Prestataire Visé</th>
+          <th>Utilisateur (Auteur)</th>
+          <th>Pièce Jointe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of reclamations">
+          <td>{{ rec.description }}</td>
+
+          <td>{{ rec.date | date:'dd/MM/yyyy HH:mm' }}</td>
+
+          <td>
+            <a *ngIf="rec.prestataire" [routerLink]="['/admin/prestataire-details', rec.prestataire.idPrestataire]">
+               {{ rec.prestataire.utilisateur?.fname }} {{ rec.prestataire.utilisateur?.lname }}
+            </a>
+            <span *ngIf="!rec.prestataire">N/A</span>
+          </td>
+
+          <td>{{ rec.utilisateur?.email || 'N/A' }}</td>
+
+          <td>
+            <a *ngIf="rec.pieceJointe" [href]="rec.pieceJointe" target="_blank">
+              Voir la pièce jointe
+            </a>
+            <span *ngIf="!rec.pieceJointe">Aucune</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noReclamations>
+    <div *ngIf="!isLoading" class="no-reclamations-message">
+      <p>Aucune réclamation trouvée pour les prestataires.</p>
+    </div>
+  </ng-template>
+  
+  <div *ngIf="isLoading" style="text-align: center; margin-top: 20px;">
+    <p>Chargement...</p>
+  </div>
+</div>

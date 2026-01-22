@@ -5,16 +5,14 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  PrimaryColumn
 } from 'typeorm';
 import { ConversationEntity } from './conversation.entity';
 
-// Interface définissant le type Message
 export interface IMessage {
   id?: string;
   message?: string;
   user?: User;
-  conversation: ConversationEntity; // Utilisez l'entité plutôt que l'interface
+  conversation: ConversationEntity;
   createdAt?: Date;
   image?: string;
 }
@@ -24,21 +22,22 @@ export class MessageEntity implements IMessage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  // CORRECTION : Ajoutez nullable: true pour éviter l'erreur sur les anciens messages vides
+  @Column({ type: 'text', nullable: true }) 
   message: string;
 
-  @Column({ nullable: true })
-  image?: string; // Stockage base64 de l'image
+  @Column({ nullable: true, type: 'text' })
+  image?: string;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   delivered: boolean;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   read: boolean;
 
   @ManyToOne(() => User, (userEntity) => userEntity.messages, {
-  onDelete: 'CASCADE',
-})
+    onDelete: 'CASCADE',
+  })
   user: User;
 
   @ManyToOne(() => ConversationEntity, (conversationEntity) => conversationEntity.messages)
@@ -46,5 +45,4 @@ export class MessageEntity implements IMessage {
 
   @CreateDateColumn()
   createdAt: Date;
-  
 }

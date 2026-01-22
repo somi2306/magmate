@@ -1,27 +1,30 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProduitsController } from './controllers/ProduitController';
-import { MagasinController } from './controllers/MagasinController';
-import { MagasinService } from './services/MagasinService';
-import { ProduitsService } from './services/ProduitService';
+import { MulterModule } from '@nestjs/platform-express';
+
+// Entités
 import { Produit } from './entities/produit.entity';
 import { Magasin } from './entities/magasin.entity';
 import { Reclamation } from './entities/reclamation.entity';
 import { Avis } from './entities/avis.entity';
 import { User } from 'src/user/entities/user.entity';
-import { ProductController1 } from './controllers/product.controller';
+import { Image } from './entities/image.entity';
+
+// Controllers (Unifiés)
+import { MagasinController } from './controllers/MagasinController';
 import { CommentController } from './controllers/comment.controller';
 import { ReclamationController } from './controllers/reclamation.controller';
-import { ProductService } from './services/product.service';
+import { ProductController } from './controllers/product.controller'; 
+import { StoreController } from './controllers/store.controller';
+import { ImageController } from './controllers/image.controller';
+
+// Services (Unifiés)
+import { MagasinService } from './services/MagasinService';
 import { CommentService } from './services/comment.service';
 import { ReclamationService } from './services/reclamation.service';
-import { Image } from './entities/image.entity';
-import { StoreService } from './service/store.service';
-import { StoreController } from './Controller/store.controller';
-import { ProductController } from './Controller/product.controller';
-import { ImageService } from './service/image.service';
-import { ProduitService } from './service/product.service';
-import { ImageController } from './Controller/image.controller';
+import { StoreService } from './services/store.service';
+import { ImageService } from './services/image.service';
+import { ProductService } from './services/product.service'; 
 
 @Module({
   imports: [
@@ -30,29 +33,27 @@ import { ImageController } from './Controller/image.controller';
       Reclamation,
       Avis,
       Magasin,
-      User,Image,
-
+      User,
+      Image,
     ]),
+    MulterModule.register(), // Mémoire par défaut pour Cloudinary
   ],
   controllers: [
-    ProduitsController,
     MagasinController,
     CommentController,
     ReclamationController,
-    ProductController1,
+    ProductController, 
     StoreController,
-    ProductController,
     ImageController,
   ],
   providers: [
-    ProduitsService,
     MagasinService,
-    ProductService,
+    ProductService, 
     CommentService,
     ReclamationService,
     StoreService,
     ImageService,
-    ProduitService,
   ],
+  exports: [ProductService, StoreService],
 })
 export class MarketplaceModule {}

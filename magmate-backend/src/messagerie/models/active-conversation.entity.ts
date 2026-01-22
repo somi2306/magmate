@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryColumn,PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface ActiveConversation {
-  id?: string;  // Changé en string
+  id?: string;
   socketId?: string;
   userId?: string;
-  conversationId?: string;  // Changé en string
+  conversationId?: string;
 }
 
 @Entity('active_conversation')
@@ -12,12 +12,13 @@ export class ActiveConversationEntity implements ActiveConversation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  // CORRECTION : Ajout explicite du type
+  @Column({ type: 'varchar' })
   socketId: string;
 
   @Column({ type: 'uuid' })
-  userId: string;  // Doit correspondre au type User.id
+  userId: string;
 
-  @Column({ type: 'uuid' })  // Doit correspondre à ConversationEntity.id
+  @Column({ type: 'uuid' })
   conversationId: string;
 }

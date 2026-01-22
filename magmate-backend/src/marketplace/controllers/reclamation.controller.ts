@@ -20,43 +20,24 @@ export class ReclamationController {
   }
 
   // Route pour ajouter une réclamation à un produit
-  @Post(':productId')
+@Post(':productId')
   @UseGuards(FirebaseAuthGuard)
-  @UseInterceptors(
-    FileInterceptor('pieceJointe', { // 'pieceJointe' doit correspondre au nom du champ dans le FormData du frontend
-      storage: diskStorage({
-        destination: './public/reclamations', // Dossier où stocker les fichiers
-        filename: (req, file, callback) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`); // Nom du fichier final
-        },
-      }),
-    })
-  )
+  @UseInterceptors(FileInterceptor('pieceJointe')) // Par défaut : Memory Storage
   async addReclamation(
     @Param('productId') productId: number,
     @Body() createReclamationDto: CreateReclamationDto,
-    @UploadedFile() file: Express.Multer.File, // Récupérer le fichier téléchargé
+    @UploadedFile() file: Express.Multer.File,
     @GetUser() user: RequestWithUser['user']
   ) {
-    // Note: Le DTO ne sera pas directement rempli avec le fichier, donc nous l'assignons manuellement.
-    // Les autres champs du DTO (description, email) seront automatiquement parsés si envoyés en tant que champs de texte dans FormData.
     createReclamationDto.idCible = productId;
 
-    // Assigner le nom du fichier téléchargé à pieceJointe
-    if (file) {
-      createReclamationDto.pieceJointe = file.filename;
-    } else {
-      createReclamationDto.pieceJointe = ''; // Ou gérer comme non requis si c'est le cas
-    }
-
+    // On passe le fichier au service qui gèrera l'upload Cloudinary
     return this.reclamationService.createReclamation(
       createReclamationDto,
-      user.email
+      user.email,
+      file
     );
   }
-
   // NOUVELLE ROUTE : Récupérer toutes les réclamations (pour l'admin)
   @Get()
   // @UseGuards(FirebaseAuthGuard) // Optionnel: Ajouter un guard pour les rôles d'administrateur si nécessaire

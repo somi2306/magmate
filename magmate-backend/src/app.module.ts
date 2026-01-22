@@ -8,19 +8,18 @@ import { FirebaseAdminModule } from './firebase/firebase-admin.module';
 import { ProfileModule } from './profile/profile.module';
 import { EventsModule } from './events/events.module';
 import { MarketplaceModule } from './marketplace/marketplace.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+// import { ServeStaticModule } from '@nestjs/serve-static'; // <-- À supprimer ou commenter
+// import { join } from 'path'; // <-- À supprimer si inutilisé ailleurs
 import { MessagerieModule } from './messagerie/messagerie.module';
 import { PrestataireModule } from './prestataire/prestataire.module';
 import { MailModule } from './mail/mail.module';
-import { TemoignageModule } from './temoignage/temoignage.module'; // Ajoutez cette ligne
+import { TemoignageModule } from './temoignage/temoignage.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module'; // Optionnel : Import global si nécessaire
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads',
-    }),
+
+    
     DatabaseModule,
     AuthModule,
     UserModule,
@@ -31,7 +30,8 @@ import { TemoignageModule } from './temoignage/temoignage.module'; // Ajoutez ce
     MessagerieModule,
     PrestataireModule,
     MailModule,
-    TemoignageModule, // Ajoutez cette ligne
+    TemoignageModule,
+    CloudinaryModule, // Ajout recommandé pour être sûr que le provider est dispo
   ],
   controllers: [AppController],
   providers: [AppService],

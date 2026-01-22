@@ -41,7 +41,7 @@
   
       <div class="form-group">
         <label for="image">Image</label>
-        <input id="image" formControlName="image" type="file" (change)="onFileSelected($event)"  />
+        <input id="image" formControlName="image" type="file" (change)="onFileChange($event)"  />
         <!-- Si une image existe, afficher un aperçu -->
         <div *ngIf="imagePreview">
           <h4>Aperçu de l'image actuelle :</h4>

@@ -10,7 +10,6 @@ import { User } from '../../user/entities/user.entity';
 import { avisprestataire } from './avisprestataire.entity';
 import { Reclamationprestataire } from './reclamationprestataire.entity';
 
-// Nouvelle énumération pour le statut du prestataire
 export enum PrestataireStatus {
   PENDING = 'pending',
   APPROVED = 'approved',
@@ -22,47 +21,48 @@ export class Prestataire {
   @PrimaryGeneratedColumn('uuid')
   idPrestataire: string;
 
-  @Column()
+  // AJOUT : { type: 'varchar' }
+  @Column({ type: 'varchar' })
   specialite: string;
 
-  @Column()
+  // AJOUT : { type: 'varchar' }
+  @Column({ type: 'varchar' })
   experience: string;
 
-  @Column()
+  // AJOUT : { type: 'varchar' }
+  @Column({ type: 'varchar' })
   localisation: string;
 
-  @Column({ default: true })
+  // AJOUT : { type: 'boolean' }
+  @Column({ type: 'boolean', default: true })
   disponibilite: boolean;
 
-  @Column()
+  // AJOUT : { type: 'varchar' }
+  @Column({ type: 'varchar' })
   telephone: string;
 
-  @Column()
+  // AJOUT : { type: 'varchar' }
+  @Column({ type: 'varchar' })
   ville: string;
 
-  // Utilisation de l'énumération pour le statut d'approbation
   @Column({
     type: 'enum',
     enum: PrestataireStatus,
-    default: PrestataireStatus.PENDING, // Statut par défaut à 'pending'
+    default: PrestataireStatus.PENDING,
   })
   estApprouve: PrestataireStatus;
 
-  @Column({ nullable: false })
+  // AJOUT : { type: 'varchar' } (car c'est une string ici)
+  @Column({ nullable: false, type: 'varchar' })
   idUtilisateur: string;
 
-  // Relation OneToOne avec User
- @OneToOne(() => User, { eager: true, onDelete: 'CASCADE' })
-@JoinColumn({ name: 'idUtilisateur', referencedColumnName: 'id' })
-utilisateur: User;
-
+  @OneToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'idUtilisateur' })
+  utilisateur: User;
 
   @OneToMany(() => avisprestataire, (avis) => avis.prestataire)
   avis: avisprestataire[];
 
-  @OneToMany(
-    () => Reclamationprestataire,
-    (reclamation) => reclamation.prestataire,
-  )
+  @OneToMany(() => Reclamationprestataire, (reclamation) => reclamation.prestataire)
   reclamations: Reclamationprestataire[];
 }

@@ -44,7 +44,7 @@ h1::after {
   padding: 30px;
   gap: 30px;
   margin-bottom: 20px; /* Séparer du report */
-  background-image: url('/assets/zellij-pattern.png');
+  background-image: url('/images/zellij-pattern.png');
   background-size: 200px;
   background-position: center;
   background-blend-mode: overlay;

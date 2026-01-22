@@ -2,15 +2,19 @@
   <h1><i>{{ product?.titre }}</i></h1>
   <div *ngIf="product; else loadingOrError" class="product-details">
     <div class="product-images">
-      <img *ngIf="product.imagePrincipale" [src]="product.imagePrincipale.startsWith('http') ? product.imagePrincipale : 'http://localhost:3000/public/images/' + product.imagePrincipale" class="main-image" alt="Image principale du produit" />
-      <div class="thumbnail-images">
-        <img *ngFor="let image of product.images"
-             [src]="'http://localhost:3000/public/images/'+image.imageURL"
-             alt="Miniature image produit"
-             class="thumbnail"
-             (click)="selectImage(image)" />
-      </div>
-    </div>
+  <img *ngIf="product.imagePrincipale" 
+       [src]="product.imagePrincipale" 
+       class="main-image" 
+       alt="Image principale du produit" />
+
+  <div class="thumbnail-images" *ngIf="product.images && product.images.length > 0">
+    <img *ngFor="let image of product.images"
+         [src]="image.imageURL"
+         alt="Miniature image produit"
+         class="thumbnail"
+         (click)="selectImage(image)" />
+  </div>
+</div>
 
     <div class="product-info">
       <div class="price">

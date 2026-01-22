@@ -108,7 +108,7 @@ export class MagasinPageComponent implements OnInit {
     if (confirm('Es-tu sûr de vouloir supprimer ce produit ?')) {
       this.produitService.deleteProduct(productId).subscribe({
         next: () => {
-          alert('Produit supprimé avec succès ✅');
+          alert('Produit supprimé avec succès');
           this.loadProduits(); // Recharge les produits
         },
         error: (error) => {

@@ -36,6 +36,7 @@ import { PageEventsDetailsAdminComponent } from './admin-components/page-events-
 import { AdminMessagerieComponent } from './admin-components/admin-messagerie/admin-messagerie.component';
 import { AdminHomeComponent } from './admin-components/admin-home/admin-home.component';
 import { AdminUserListComponent } from './admin-components/admin-user-list/admin-user-list.component';
+import { AdminReclamationPrestataireListComponent } from './admin-components/admin-reclamation-prestataire-list/admin-reclamation-prestataire-list.component';
 const routes: Routes = [
   { path: 'translation-currency', component: TranslationCurrencyComponent },
     { path: 'translation', component: TranslationComponent },
@@ -85,6 +86,11 @@ const routes: Routes = [
     component: AdminUserListComponent,
 
   },
+  // Dans src/app/app-routing.module.ts
+{ 
+  path: 'admin/reclamations-prestataires', 
+  component: AdminReclamationPrestataireListComponent 
+},
 
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

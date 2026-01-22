@@ -6,6 +6,11 @@
     padding-bottom: 2%;
 }
 
+/* --- AJOUTEZ CE BLOC ICI --- */
+.my-events {
+  min-height: 100vh; /* Force la hauteur à 100% de la vue pour pousser le footer */
+  padding-bottom: 50px; /* Ajoute un peu d'espace avant le footer */
+}
 
 .events-grid {
   display: grid;

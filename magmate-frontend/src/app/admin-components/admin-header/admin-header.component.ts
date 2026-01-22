@@ -18,6 +18,7 @@ profilePhotoUrl: string | null = null;
   private authStateSubscription: Subscription | null = null;
   showDropdown = false;
   showMarketplaceDropdown = false; // <-- Nouvelle propriété
+  showPrestataireDropdown: boolean = false;
   totalUnreadMessages = 0;
   private messagerieSubscription?: Subscription;
   isPulsing = false;
@@ -55,6 +56,18 @@ profilePhotoUrl: string | null = null;
     this.showMarketplaceDropdown = false;
   }
 
+  togglePrestataireDropdown(event: Event) {
+    event.preventDefault();
+    this.showPrestataireDropdown = !this.showPrestataireDropdown;
+    if (this.showPrestataireDropdown) {
+      this.showMarketplaceDropdown = false;
+      this.showDropdown = false;
+    }
+  }
+
+  hidePrestataireDropdown() {
+    this.showPrestataireDropdown = false;
+  }
 
   toggleTranslationDropdown(event: Event): void {
   event.preventDefault(); // Prevents page jump

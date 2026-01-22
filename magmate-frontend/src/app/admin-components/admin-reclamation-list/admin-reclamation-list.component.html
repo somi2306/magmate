@@ -9,7 +9,6 @@
     <table>
       <thead>
         <tr>
-          
           <th>Description</th>
           <th>Date de Création</th>
           <th>Nom du Produit</th>
@@ -19,7 +18,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let reclamation of reclamations">
-          
           <td>{{ reclamation.description }}</td>
           <td>{{ reclamation.dateCreation | date:'short' }}</td>
           <td>
@@ -30,7 +28,9 @@
           </td>
           <td>{{ reclamation.utilisateur?.email || 'N/A' }}</td>
           <td>
-            <a *ngIf="reclamation.pieceJointe" [href]="'http://localhost:3000/public/reclamations/' + reclamation.pieceJointe" target="_blank">Voir</a>
+            <a *ngIf="reclamation.pieceJointe" [href]="reclamation.pieceJointe" target="_blank">
+  Voir la pièce jointe
+</a>
             <span *ngIf="!reclamation.pieceJointe">Aucune</span>
           </td>
         </tr>

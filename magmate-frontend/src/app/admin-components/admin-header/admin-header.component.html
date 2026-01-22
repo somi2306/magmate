@@ -19,7 +19,13 @@
       </ul>
     </li>
     <li><a href="/admin/events">Événement</a></li>
-    <li><a href="/admin/prestataires">Service de prestataire</a></li>
+    <li class="nav__dropdown">
+    <a (click)="togglePrestataireDropdown($event)">Service de prestataire <i class="ri-arrow-down-s-line"></i></a>
+    <ul class="dropdown-submenu" *ngIf="showPrestataireDropdown">
+      <li><a routerLink="/admin/prestataires" (click)="hidePrestataireDropdown()">Gestion des prestataires</a></li>
+      <li><a routerLink="/admin/reclamations-prestataires" (click)="hidePrestataireDropdown()">Gestion des réclamations</a></li>
+    </ul>
+  </li>
     <li><a href="/admin/users">Gestion des utilisateurs</a></li>
 
 

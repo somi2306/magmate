@@ -1,6 +1,6 @@
 <div class="welcome-banner">
   <img
-    src="http://localhost:3000/public/images/pre.jpg"
+    src="https://res.cloudinary.com/dni1hfux5/image/upload/v1768868010/pre_xngfw7.jpg"
     alt="Bienvenue chez nos prestataires"
   />
   <div class="welcome-text">
@@ -27,38 +27,36 @@
   </div>
 
   <div class="search-right">
-    <button class="market-button"  (click)="monprofil()">
+    <button class="market-button" (click)="monprofil()">
       Mon profil
     </button>
   </div>
   
   <div class="modal" *ngIf="showPopup">
-  <div class="modal-content">
-    <span class="close" (click)="closePopup()">&times;</span>
-    <h2>Information</h2>
-    <p>{{ message }}</p>
-    <br/>
-    <button
-      *ngIf="message === 'Votre profil prestataire a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.'"
-      class="market-button"
-      (click)="contactAdmin()"
-    >
-      Contacter l'administrateur
-    </button>
+    <div class="modal-content">
+      <span class="close" (click)="closePopup()">&times;</span>
+      <h2>Information</h2>
+      <p>{{ message }}</p>
+      <br/>
+      <button
+        *ngIf="message === 'Votre profil prestataire a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.'"
+        class="market-button"
+        (click)="contactAdmin()"
+      >
+        Contacter l'administrateur
+      </button>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showPrestatairePopup">
+    <div class="modal-content">
+      <span class="close" (click)="closePrestatairePopup()">&times;</span>
+      <h2>Vous n'avez pas de profil prestataire</h2>
+      <p>Veuillez créer votre propre profil ici.</p>
+      <button class="create-magasin" [routerLink]="['/créer-profil']" (click)="closePrestatairePopup()">Créer mon profil</button>
+    </div>
   </div>
 </div>
-
-<div class="modal" *ngIf="showPrestatairePopup">
-  <div class="modal-content">
-    <span class="close" (click)="closePrestatairePopup()">&times;</span>
-    <h2>Vous n'avez pas de profil prestataire</h2>
-    <p>Veuillez créer notre propre profil ici.</p>
-    <button class="create-magasin" [routerLink]="['/créer-profil']" (click)="closePrestatairePopup()">Créer mon profil</button>
-  </div>
-</div>
-  
-</div>
-
 
 <div *ngIf="prestatairesApprouves.length === 0">
   <p>Aucun prestataire trouvé.</p>

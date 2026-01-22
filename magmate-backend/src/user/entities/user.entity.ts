@@ -17,8 +17,7 @@ import { Reclamation } from 'src/marketplace/entities/reclamation.entity';
 import { Magasin } from 'src/marketplace/entities/magasin.entity';
 import { Favorite } from 'src/events/entities/favorite.entity';
 import { Event } from 'src/events/entities/event.entity';
-import { Temoignage } from '../../temoignage/entities/temoignage.entity'; // Ajoutez cette ligne
-import { IsEmail, IsEnum, IsBoolean, Length } from 'class-validator';
+import { Temoignage } from '../../temoignage/entities/temoignage.entity'; 
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -30,35 +29,50 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
-  @IsEmail()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ unique: true, type: 'varchar' })
   email: string;
 
-  @Column({ nullable: true })
-  phoneNumber: string;
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
+  username: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  password?: string | null;
-
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.NORMAL_USER })
-  role: UserRole;
-
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
   fname: string;
 
-  @Column()
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
   lname: string;
 
-    @Column({ default: false })
-  twoFactorEnabled: boolean;
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
+  password?: string;
 
-  @Column({ nullable: true })
-  twoFactorSecret: string ;
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
+  phoneNumber?: string;
 
-  @Column({ nullable: true })
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
   photo?: string;
 
-  @Column({ name: 'registration_date', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.NORMAL_USER,
+  })
+  role: UserRole;
+
+  // CORRECTION : Ajout explicite { type: 'varchar' }
+  @Column({ nullable: true, type: 'varchar' })
+  twoFactorSecret?: string;
+
+  // CORRECTION : Ajout explicite { type: 'boolean' }
+  @Column({ default: false, type: 'boolean' })
+  twoFactorEnabled: boolean;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   registrationDate: Date;
 
   @OneToOne(() => Prestataire, (prestataire) => prestataire.utilisateur, {
@@ -106,5 +120,5 @@ export class User {
   favorites: Favorite[];
 
   @OneToMany(() => Temoignage, (temoignage) => temoignage.auteur)
-  temoignages: Temoignage[]; // Ajoutez cette ligne pour les témoignages
+  temoignages: Temoignage[];
 }

@@ -52,6 +52,9 @@ export class ProductUpdateComponent implements OnInit {
   }
 
   // Récupérer les informations du produit par son ID
+// ... (reste du code identique)
+
+  // Récupérer les informations du produit par son ID
   loadProductData(): void {
     console.log('Chargement du produit avec ID :', this.productId);
     
@@ -63,13 +66,17 @@ export class ProductUpdateComponent implements OnInit {
         prix: product.prix
       });
 
-      // Prévisualiser l'image principale existante
-      this.imagePreview = product.imagePrincipale ? `http://localhost:3000/public/images/${product.imagePrincipale}` : null;
+      // CORRECTION CLOUDINARY : L'image principale est déjà une URL complète
+      this.imagePreview = product.imagePrincipale ? product.imagePrincipale : null;
 
-      // Précharger les images supplémentaires
-      this.existingImages = product.images.map((image : any )=> `http://localhost:3000/public/images/${image.imageURL}`);
+      // CORRECTION CLOUDINARY : Les images de la galerie sont déjà des URLs complètes
+      if (product.images) {
+        this.existingImages = product.images.map((image: any) => image.imageURL);
+      }
     });
   }
+
+// ... (reste du code identique)
 
   onFileChange(event: any): void {
     const file = event.target.files[0];  // Get the first file (main image)

@@ -420,19 +420,28 @@ toggleEmojiPicker() {
     })
   );
 } */
+// Dans messagerie.component.ts
 getSafeMessage(content: string) {
-  return this.sanitizer.bypassSecurityTrustHtml(
-    twemoji.parse(content, {
-      base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
-      folder: 'svg',
-      ext: '.svg',
-      size: 'svg',
-      attributes: () => ({ 
-        class: 'emoji',
-        style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
+  // AJOUT DE SÉCURITÉ : Si le contenu est vide ou nul, retourner une chaîne vide
+  if (!content) return this.sanitizer.bypassSecurityTrustHtml('');
+
+  try {
+    return this.sanitizer.bypassSecurityTrustHtml(
+      twemoji.parse(content, {
+        base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
+        folder: 'svg',
+        ext: '.svg',
+        size: 'svg',
+        attributes: () => ({ 
+          class: 'emoji',
+          style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
+        })
       })
-    })
-  );
+    );
+  } catch (e) {
+    console.error('Twemoji error:', e);
+    return content; // Retourner le texte brut en cas d'erreur de parsing
+  }
 }
 
 // Ajoutez cette méthode

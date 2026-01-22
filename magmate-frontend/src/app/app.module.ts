@@ -63,6 +63,7 @@ import { AdminHomeComponent } from './admin-components/admin-home/admin-home.com
 import { AdminUserListComponent } from './admin-components/admin-user-list/admin-user-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { AdminReclamationPrestataireListComponent } from './admin-components/admin-reclamation-prestataire-list/admin-reclamation-prestataire-list.component';
 @Pipe({
   name: 'initial',
   standalone: true
@@ -138,6 +139,7 @@ const socketConfig: SocketIoConfig = {
     PageEventsDetailsAdminComponent,
     
     AdminUserListComponent,
+      
     
 
 
@@ -183,7 +185,7 @@ const socketConfig: SocketIoConfig = {
     QRCodeComponent,
         MatCardModule,
     MatIconModule,
-    
+    AdminReclamationPrestataireListComponent
     
   ],
   providers: [

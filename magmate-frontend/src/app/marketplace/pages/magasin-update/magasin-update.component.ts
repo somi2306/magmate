@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MagasinService } from '../../services/magasin.service';  // Service pour gérer les magasins
-import { AlertService } from '../../services/alerte.service'; // Service pour afficher les alertes
+import { MagasinService } from '../../services/magasin.service';
+import { AlertService } from '../../services/alerte.service';
 import { AuthService } from '../../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 
@@ -15,13 +15,12 @@ import { switchMap } from 'rxjs/operators';
 export class MagasinUpdateComponent implements OnInit {
   magasinForm: FormGroup;
   imagePreview: string | null = null;
-  selectedImages: { file: File; preview: string }[] = [];
-  existingImages: string[] = [];  // Pour stocker les URLs des images existantes
+  selectedFile: File | null = null; // Un seul endroit pour stocker le fichier
   alertMessage: string | null = null;
   alertType: 'success' | 'error' | null = null;
 
-  magasinId;
-  userId: string = '';  // Variable pour stocker l'ID de l'utilisateur connecté
+  magasinId!: number;
+  userId: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +28,7 @@ export class MagasinUpdateComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private alertService: AlertService,
-    private authService: AuthService // Injection du service AuthService
+    private authService: AuthService
   ) {
     this.magasinForm = this.fb.group({
       nom: ['', Validators.required],
@@ -43,27 +42,20 @@ export class MagasinUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Récupérer l'ID de l'utilisateur connecté
+    // Récupérer l'ID de l'utilisateur (optionnel selon votre logique auth)
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userId = user.id || '';
+    
     this.loadMagasin();
   }
 
   loadMagasin(): void {
-    // Récupérer l'ID du magasin à partir de l'URL
     this.route.paramMap.pipe(
       switchMap(params => {
         this.magasinId = +params.get('id')!;
-        console.log('ID du magasin récupéré :', this.magasinId);
         return this.magasinService.getMagasinById(this.magasinId);
       })
     ).subscribe(magasin => {
-      console.log('Magasin récupéré :', magasin);
-      // Si l'utilisateur connecté n'est pas le propriétaire du magasin, rediriger
-      /*if (magasin.proprietaireId !== this.userId) {
-        this.router.navigate(['/']);  // Rediriger si l'utilisateur n'est pas le propriétaire
-        return;
-      }*/
-
-      // Si l'utilisateur est le propriétaire, remplir le formulaire avec les données du magasin
       this.magasinForm.patchValue({
         nom: magasin.nom,
         description: magasin.description,
@@ -73,68 +65,58 @@ export class MagasinUpdateComponent implements OnInit {
         ville: magasin.ville
       });
 
+      // CORRECTION CLOUDINARY : On utilise directement l'URL stockée en base
       if (magasin.image) {
-        this.imagePreview = `http://localhost:3000/public/images/${magasin.image}`;
+        this.imagePreview = magasin.image;
       }
     });
   }
 
+  // Méthode unique pour gérer le changement de fichier
   onFileChange(event: any): void {
-  const file: File = event.target.files[0];
-  if (file) {
-    this.imagePreview = URL.createObjectURL(file);
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      // Création d'une URL temporaire pour la prévisualisation locale
+      this.imagePreview = URL.createObjectURL(file);
+    }
+  }
 
-    // Ajoute le vrai fichier dans le champ 'image' du FormGroup
-    this.magasinForm.patchValue({
-      image: file
+  onSubmit(): void {
+    if (this.magasinForm.invalid) {
+      return;
+    }
+
+    const magasinData = new FormData();
+    const formValues = this.magasinForm.value;
+
+    // On ajoute tous les champs texte au FormData
+    Object.keys(formValues).forEach(key => {
+      if (key !== 'image' && formValues[key]) {
+        magasinData.append(key, formValues[key]);
+      }
     });
 
-    this.magasinForm.get('image')!.updateValueAndValidity();
-  }
-}
-
-selectedFile: File | null = null;
-
-onFileSelected(event: any): void {
-  const file = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
-  }
-}
-
-onSubmit(): void {
-  if (this.magasinForm.invalid) {
-    return;
-  }
-
-  const magasinData = new FormData();
-  const formValues = this.magasinForm.value;
-
-  for (const key in formValues) {
-    if (key !== 'image' && formValues[key]) {  // Ne pas inclure 'image' depuis formValue
-      magasinData.append(key, formValues[key]);
+    // Si l'utilisateur a sélectionné une nouvelle image, on l'ajoute
+    if (this.selectedFile) {
+      magasinData.append('image', this.selectedFile);
     }
+
+    // On s'assure d'envoyer l'ID du propriétaire
+    magasinData.append('proprietaireId', this.userId);
+
+    this.magasinService.updateMagasin(this.magasinId, magasinData).subscribe({
+      next: () => {
+        this.alertService.success('Le magasin a été mis à jour avec succès !');
+        this.router.navigate(['/marketplace']);
+      },
+      error: (err) => {
+        console.error('Erreur update:', err);
+        this.alertService.error('Une erreur est survenue lors de la mise à jour.');
+      }
+    });
   }
 
-  if (this.selectedFile) {
-    magasinData.append('image', this.selectedFile);
-  }
-
-  magasinData.append('proprietaireId', this.userId);
-
-  this.magasinService.updateMagasin(this.magasinId, magasinData).subscribe({
-    next: () => {
-      this.alertService.success('Le magasin a été mis à jour avec succès!');
-      this.router.navigate(['/marketplace']);
-    },
-    error: () => {
-      this.alertService.error('Une erreur est survenue lors de la mise à jour.');
-    }
-  });
-}
-
-
-  // Méthode pour fermer l'alerte
   closeAlert() {
     this.alertMessage = null;
     this.alertType = null;

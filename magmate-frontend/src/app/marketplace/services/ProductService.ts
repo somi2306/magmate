@@ -32,7 +32,7 @@ export class ProductService {
     return this.http.get<Produit[]>(`http://localhost:3000/magasins/${magasinId}/produits`);
   }
   getProductById(id: number): Observable<Produit> {
-      return this.http.get<Produit>(`http://localhost:3000/products/${id}`);
+      return this.http.get<Produit>(`http://localhost:3000/produits/${id}`);
   
 } 
 deleteProduct(productId: number): Observable<void> {

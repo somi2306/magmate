@@ -1,5 +1,5 @@
 <body>
-  <h1>
+  <h1 style="margin-top: 100px;">
     Détails de {{ prestataire.utilisateur?.fname || "Prénom non disponible" }}
     {{ prestataire.utilisateur?.lname }}
   </h1>
@@ -11,7 +11,7 @@
         [src]="
           prestataire?.utilisateur?.photo
             ? prestataire.utilisateur?.photo
-            : 'assets/default-photo.jpg'
+            : 'images/default-photo.jpg'
         "
         class="main-image"
         alt="Image du prestataire"
