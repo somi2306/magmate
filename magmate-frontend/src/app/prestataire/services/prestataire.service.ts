@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 // Nouvelle énumération pour le statut du prestataire (doit correspondre au backend)
 export enum PrestataireStatus {
@@ -19,7 +20,7 @@ export interface CreatePrestataireDto {
 }
 
 export interface UpdatePrestataireDto extends Partial<CreatePrestataireDto> {
-  estApprouve?: PrestataireStatus; // Ajout du statut pour la mise à jour si nécessaire
+  estApprouve?: PrestataireStatus;
 }
 
 export interface Prestataire {
@@ -30,9 +31,9 @@ export interface Prestataire {
   telephone: string;
   ville: string;
   disponibilite: boolean;
-  estApprouve: PrestataireStatus; // Utilisation de l'énumération
+  estApprouve: PrestataireStatus;
   idUtilisateur: string;
-  utilisateur?: { // Ajoutez les infos de l'utilisateur si elles sont eager-loaded
+  utilisateur?: {
     id: string;
     email: string;
     fname: string;
@@ -45,9 +46,9 @@ export interface Prestataire {
   providedIn: 'root',
 })
 export class PrestataireService {
-  private baseUrl = 'http://localhost:3000/prestataires';
+  private baseUrl = `${environment.apiUrl}/prestataires`;
 
-  constructor(private http: HttpClient,) {}
+  constructor(private http: HttpClient) {}
 
   getAllPrestataires(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
@@ -63,23 +64,28 @@ export class PrestataireService {
       params.ville = ville;
     }
 
-    return this.http.get<any[]>(`http://localhost:3000/prestataires`, {
+    return this.http.get<any[]>(this.baseUrl, {
       params
     });
+  }
 
-  }
   getUuidByEmail(email: string): Observable<{ uuid: string }> {
-    return this.http.get<{ uuid: string }>(`http://localhost:3000/user/uuid-by-email?email=${email}`);
+    // Utilisation de environment.apiUrl pour l'endpoint user
+    return this.http.get<{ uuid: string }>(`${environment.apiUrl}/user/uuid-by-email?email=${email}`);
   }
+
   isPrestataire(uuid: string): Observable<boolean> {
-    return this.http.get<boolean>(`http://localhost:3000/prestataires/is-prestataire?uuid=${uuid}`);
+    return this.http.get<boolean>(`${this.baseUrl}/is-prestataire?uuid=${uuid}`);
   }
+
   getPrestataireByUuid(uuid: string): Observable<Prestataire | null> {
-    return this.http.get<Prestataire | null>(`http://localhost:3000/prestataires/${uuid}`);
+    return this.http.get<Prestataire | null>(`${this.baseUrl}/${uuid}`);
   }
-  updateDisponibilite(id: string, disponibilite: boolean) { // Change id to string
+
+  updateDisponibilite(id: string, disponibilite: boolean) { 
     return this.http.patch(`${this.baseUrl}/${id}/disponibilite`, { disponibilite });
   }
+
   getByUuid(uuid: string): Observable<Prestataire> {
     return this.http.get<Prestataire>(`${this.baseUrl}/uuid/${uuid}`);
   }
@@ -91,6 +97,7 @@ export class PrestataireService {
   getMe(): Observable<Prestataire> {
     return this.http.get<Prestataire>(`${this.baseUrl}/me`);
   }
+
   getMe2(uuid: string): Observable<Prestataire> {
     return this.http.get<Prestataire>(`${this.baseUrl}/me/${uuid}`);
   }
@@ -99,18 +106,18 @@ export class PrestataireService {
     return this.http.put<Prestataire>(`${this.baseUrl}/${id}`, dto);
   }
 
-
   delete(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/me`);
   }
+
   deletePrestataire(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
   createWithUuid(dto: CreatePrestataireDto, uuid: string): Observable<Prestataire> {
     return this.http.post<Prestataire>(`${this.baseUrl}/create-with-uuid/${uuid}`, dto);
   }
 
-  // Nouvelle méthode pour récupérer les prestataires par statut
   getPrestatairesByStatus(status: PrestataireStatus): Observable<Prestataire[]> {
     return this.http.get<Prestataire[]>(`${this.baseUrl}/status/${status}`);
   }
@@ -127,7 +134,6 @@ export class PrestataireService {
     return this.getPrestatairesByStatus(PrestataireStatus.REJECTED);
   }
 
-  // Méthodes pour approuver et rejeter
   approvePrestataire(idPrestataire: string): Observable<Prestataire> {
     return this.http.patch<Prestataire>(`${this.baseUrl}/${idPrestataire}/approve`, {});
   }

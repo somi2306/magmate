@@ -1,15 +1,15 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Magasin } from '../models/magasin.model'; // Importer le modèle Magasin
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Injectable({
   providedIn: 'root'
 })
 export class MagasinService {
-  private apiUrl = 'http://localhost:3000/magasins'; // URL de l'API, assurez-vous qu'elle est correcte
-  private productUrl = 'http://localhost:3000/produits'; // URL pour les produits
+  private apiUrl = `${environment.apiUrl}/magasins`;
+  private productUrl = `${environment.apiUrl}/produits`;
 
   constructor(private http: HttpClient) {}
 
@@ -39,7 +39,8 @@ export class MagasinService {
   }
 
   getUuidByEmail(email: string): Observable<{ uuid: string }> {
-    return this.http.get<{ uuid: string }>(`http://localhost:3000/user/uuid-by-email?email=${email}`);
+    // URL mise à jour avec environment.apiUrl
+    return this.http.get<{ uuid: string }>(`${environment.apiUrl}/user/uuid-by-email?email=${email}`);
   }
 
   // Approuver un magasin
@@ -52,24 +53,26 @@ export class MagasinService {
     return this.http.patch(`${this.apiUrl}/${id}/reject`, {});
   }
 
-  // Récupérer tous les magasins (non approuvés)
-  /*getUnapprovedMagasins(): Observable<Magasin[]> {
-    return this.http.get<Magasin[]>(`${this.apiUrl}?estApprouve=pending`); // C'est la ligne clé !
-  }*/
- getMagasinsByStatus(status: string): Observable<Magasin[]> {
-  return this.http.get<Magasin[]>(`${this.apiUrl}/status/${status}`);
-}
-
-// Garder l'ancienne méthode pour la compatibilité
-getUnapprovedMagasins(): Observable<Magasin[]> {
-    return this.http.get<Magasin[]>(`http://localhost:3000/magasins/status/pending`); // C'est la ligne clé !
+  getMagasinsByStatus(status: string): Observable<Magasin[]> {
+    return this.http.get<Magasin[]>(`${this.apiUrl}/status/${status}`);
   }
-// Ajouter des méthodes pour les autres statuts
-getApprovedMagasins(): Observable<Magasin[]> {
-  return this.getMagasinsByStatus('approved');
-}
 
-getRejectedMagasins(): Observable<Magasin[]> {
-  return this.getMagasinsByStatus('rejected');
-}
+  // Garder l'ancienne méthode pour la compatibilité (mise à jour avec environment.apiUrl)
+  getUnapprovedMagasins(): Observable<Magasin[]> {
+    return this.http.get<Magasin[]>(`${this.apiUrl}/status/pending`); 
+  }
+  
+  // Ajouter des méthodes pour les autres statuts
+  getApprovedMagasins(): Observable<Magasin[]> {
+    return this.getMagasinsByStatus('approved');
+  }
+
+  getRejectedMagasins(): Observable<Magasin[]> {
+    return this.getMagasinsByStatus('rejected');
+  }
+
+  // Nouvelle méthode ajoutée pour supprimer un magasin (selon usage dans PageMagasinAdminComponent)
+  deleteMagasin(idMagasin: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${idMagasin}`);
+  }
 }

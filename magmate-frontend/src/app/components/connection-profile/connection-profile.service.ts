@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service'; 
-import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Injectable({ providedIn: 'root' })
 export class ConnectionProfileService {
-  private API = 'http://localhost:3000'; // Modifier l'URL de base
+  private API = environment.apiUrl;
 
-  constructor(private http: HttpClient,private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-
-  
   // Nouvelle méthode pour récupérer un profil spécifique
   getSpecificUserProfile(userId: string): Promise<any> {
     return firstValueFrom(this.http.get(`${this.API}/user/profile/${userId}`));
   }
-
 
   sendUserRequest(receiverId: string): Observable<any> {
     return this.http.post(`${this.API}/user/send/${receiverId}`, {});
@@ -33,7 +30,4 @@ export class ConnectionProfileService {
   getReceivedRequests(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API}/user/send/me/received-requests`);
   }
-  
 }
-
-

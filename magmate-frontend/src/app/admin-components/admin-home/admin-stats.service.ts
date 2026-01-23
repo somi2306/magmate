@@ -1,13 +1,13 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminStatsService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -31,36 +31,31 @@ export class AdminStatsService {
     return this.http.get<number>(`${this.baseUrl}/user/count`);
   }
 
-
-
   getMarketplaceProductsByStore(): Observable<{ storeName: string; productCount: number }[]> {
-
     return this.http.get<{ storeName: string; productCount: number }[]>(`${this.baseUrl}/produits/stats/by-store`);
   }
 
-getMarketplaceStoresByStatus(): Observable<{ estApprouve: string; count: number }[]> {
+  getMarketplaceStoresByStatus(): Observable<{ estApprouve: string; count: number }[]> {
     return this.http.get<{ estApprouve: string; count: number }[]>(`${this.baseUrl}/magasins/stats/by-status`);
-}
+  }
 
-getEventsByType(): Observable<{ type: string; count: number }[]> {
+  getEventsByType(): Observable<{ type: string; count: number }[]> {
     return this.http.get<{ type: string; count: number }[]>(`${this.baseUrl}/events/stats/by-type`);
-}
+  }
 
   getEventsByStatus(): Observable<{ status: string; count: number }[]> {
-
     return this.http.get<{ status: string; count: number }[]>(`${this.baseUrl}/events/stats/by-status`);
   }
 
   getPrestatairesBySpeciality(): Observable<{ speciality: string; count: number }[]> {
-
     return this.http.get<{ speciality: string; count: number }[]>(`${this.baseUrl}/prestataires/stats/by-speciality`);
   }
 
-getPrestatairesByStatus(): Observable<{ estApprouve: string; count: number }[]> {
+  getPrestatairesByStatus(): Observable<{ estApprouve: string; count: number }[]> {
     return this.http.get<{ estApprouve: string; count: number }[]>(`${this.baseUrl}/prestataires/stats/by-status`);
-}
-  getUsersByRole(): Observable<{ role: string; count: number }[]> {
+  }
 
+  getUsersByRole(): Observable<{ role: string; count: number }[]> {
     return this.http.get<{ role: string; count: number }[]>(`${this.baseUrl}/user/stats/by-role`);
   }
 }

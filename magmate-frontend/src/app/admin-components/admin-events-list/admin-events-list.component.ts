@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EventsService } from '../../events/events.service';
 import { Event, EventStatus } from '../../events/event.model';
@@ -7,7 +6,8 @@ import { ConnectionProfileService } from '../../components/connection-profile/co
 import { AuthService } from '../../auth/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../components/connection-profile/connection-profile.model';
-import { HttpClient } from '@angular/common/http'; // Pour envoyer des emails
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Component({
   selector: 'app-admin-events-list',
@@ -31,7 +31,7 @@ export class AdminEventsListComponent implements OnInit {
     private authService: AuthService,
     private connectionService: ConnectionProfileService,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient // Injection de HttpClient
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +45,6 @@ export class AdminEventsListComponent implements OnInit {
   }
 
   loadEventsByStatus(status: EventStatus, targetArray: 'pending' | 'approved' | 'rejected'): void {
-    // Changement ici : Utiliser la nouvelle méthode getEventsByStatus
     this.eventsService.getEventsByStatus(status).subscribe({
       next: (data: Event[]) => {
         if (targetArray === 'pending') {
@@ -138,7 +137,6 @@ export class AdminEventsListComponent implements OnInit {
     }
   }
 
-
   private async sendApprovalEmail(to: string, userName: string, eventTitle: string, isApproved: boolean): Promise<void> {
     try {
       const subject = isApproved
@@ -149,7 +147,8 @@ export class AdminEventsListComponent implements OnInit {
         ? `Bonjour ${userName},\n\nNous sommes heureux de vous informer que votre événement "${eventTitle}" a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
         : `Bonjour ${userName},\n\nNous regrettons de vous informer que votre événement "${eventTitle}" n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
@@ -166,7 +165,8 @@ export class AdminEventsListComponent implements OnInit {
       const subject = `Votre événement "${eventTitle}" a été supprimé`;
       const body = `Bonjour ${userName},\n\nNous vous informons que votre événement "${eventTitle}" a été supprimé de notre plateforme par un administrateur.\n\nPour toute question, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
@@ -179,6 +179,7 @@ export class AdminEventsListComponent implements OnInit {
   }
 
   async contactCreator(creatorId: string | undefined): Promise<void> {
+    // ... (Le reste de la méthode reste inchangé) ...
     console.log('[DEBUG] Début de contactCreator()');
     console.log('[DEBUG] ID du créateur:', creatorId);
 

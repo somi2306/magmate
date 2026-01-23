@@ -2,6 +2,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 export interface Produit {
   idProduit: number;
@@ -17,7 +18,7 @@ export interface Produit {
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:3000/produits';
+  private baseUrl = `${environment.apiUrl}/produits`;
 
   constructor(private http: HttpClient) {}
 
@@ -28,16 +29,17 @@ export class ProductService {
 
     return this.http.get<Produit[]>(this.baseUrl, { params });
   }
+
   getProduitsByMagasin(magasinId: number): Observable<Produit[]> {
-    return this.http.get<Produit[]>(`http://localhost:3000/magasins/${magasinId}/produits`);
+    // Utilisation de environment.apiUrl pour l'endpoint magasins
+    return this.http.get<Produit[]>(`${environment.apiUrl}/magasins/${magasinId}/produits`);
   }
-  getProductById(id: number): Observable<Produit> {
-      return this.http.get<Produit>(`http://localhost:3000/produits/${id}`);
   
-} 
-deleteProduct(productId: number): Observable<void> {
-  return this.http.delete<void>(`${this.baseUrl}/${productId}`);
-}
+  getProductById(id: number): Observable<Produit> {
+    return this.http.get<Produit>(`${this.baseUrl}/${id}`);
+  } 
 
-
+  deleteProduct(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${productId}`);
+  }
 }

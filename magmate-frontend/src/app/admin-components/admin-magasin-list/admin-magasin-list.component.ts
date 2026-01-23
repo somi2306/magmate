@@ -1,5 +1,4 @@
-// admin-magasin-list.component.ts
-import { Component, OnInit,ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MagasinService } from '../../marketplace/services/magasin.service';
 import { Magasin } from '../../marketplace/models/magasin.model';
 import { MessagerieService } from '../../components/messagerie/services/messagerie.service';
@@ -8,7 +7,8 @@ import { Router } from '@angular/router';
 import { ConnectionProfileService } from '../../components/connection-profile/connection-profile.service';
 import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../components/connection-profile/connection-profile.model';
-import { HttpClient } from '@angular/common/http'; // Importez HttpClient
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Component({
   selector: 'app-admin-magasin-list',
@@ -35,7 +35,7 @@ export class AdminMagasinListComponent implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private connectionService: ConnectionProfileService,
-    private http: HttpClient // Injectez HttpClient
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -80,77 +80,71 @@ export class AdminMagasinListComponent implements OnInit {
     this.errorMessage = 'Erreur lors du chargement des données.';
   }
 
-async approveMagasin(id: number): Promise<void> {
-  try {
-    // Trouver le magasin dans n'importe quelle liste
-    const magasin = [...this.unapprovedMagasins, ...this.approvedMagasins, ...this.rejectedMagasins].find(m => m.idMagasin === id);
-    if (!magasin || !magasin.proprietaire) {
-      throw new Error('Informations du magasin ou du propriétaire manquantes');
+  async approveMagasin(id: number): Promise<void> {
+    try {
+      const magasin = [...this.unapprovedMagasins, ...this.approvedMagasins, ...this.rejectedMagasins].find(m => m.idMagasin === id);
+      if (!magasin || !magasin.proprietaire) {
+        throw new Error('Informations du magasin ou du propriétaire manquantes');
+      }
+
+      const response = await firstValueFrom(this.magasinService.approveMagasin(id));
+      console.log('Magasin approuvé:', response);
+      
+      await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, true);
+      
+      this.loadAllMagasins();
+      this.errorMessage = null;
+    } catch (error) {
+      console.error('Erreur lors de l\'approbation du magasin:', error);
+      this.errorMessage = 'Erreur lors de l\'approbation.';
     }
-
-    // Approuver le magasin
-    const response = await firstValueFrom(this.magasinService.approveMagasin(id));
-    console.log('Magasin approuvé:', response);
-    
-    // Envoyer l'email de confirmation
-    await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, true);
-    
-    // Recharger la liste
-    this.loadAllMagasins();
-    this.errorMessage = null;
-  } catch (error) {
-    console.error('Erreur lors de l\'approbation du magasin:', error);
-    this.errorMessage = 'Erreur lors de l\'approbation.';
   }
-}
 
-async rejectMagasin(id: number): Promise<void> {
-  try {
-    // Trouver le magasin dans n'importe quelle liste
-    const magasin = [...this.unapprovedMagasins, ...this.approvedMagasins, ...this.rejectedMagasins].find(m => m.idMagasin === id);
-    if (!magasin || !magasin.proprietaire) {
-      throw new Error('Informations du magasin ou du propriétaire manquantes');
+  async rejectMagasin(id: number): Promise<void> {
+    try {
+      const magasin = [...this.unapprovedMagasins, ...this.approvedMagasins, ...this.rejectedMagasins].find(m => m.idMagasin === id);
+      if (!magasin || !magasin.proprietaire) {
+        throw new Error('Informations du magasin ou du propriétaire manquantes');
+      }
+
+      const response = await firstValueFrom(this.magasinService.rejectMagasin(id));
+      console.log('Magasin rejeté:', response);
+      
+      await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, false);
+      
+      this.loadAllMagasins();
+      this.errorMessage = null;
+    } catch (error) {
+      console.error('Erreur lors du rejet du magasin:', error);
+      this.errorMessage = 'Erreur lors du rejet.';
     }
-
-    // Rejeter le magasin
-    const response = await firstValueFrom(this.magasinService.rejectMagasin(id));
-    console.log('Magasin rejeté:', response);
-    
-    // Envoyer l'email de notification
-    await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, false);
-    
-    // Recharger la liste
-    this.loadAllMagasins();
-    this.errorMessage = null;
-  } catch (error) {
-    console.error('Erreur lors du rejet du magasin:', error);
-    this.errorMessage = 'Erreur lors du rejet.';
   }
-}
 
-private async sendApprovalEmail(to: string, magasinNom: string, isApproved: boolean): Promise<void> {
-  try {
-    const subject = isApproved 
-      ? `Votre magasin ${magasinNom} a été approuvé` 
-      : `Votre magasin ${magasinNom} n'a pas été approuvé`;
+  private async sendApprovalEmail(to: string, magasinNom: string, isApproved: boolean): Promise<void> {
+    try {
+      const subject = isApproved 
+        ? `Votre magasin ${magasinNom} a été approuvé` 
+        : `Votre magasin ${magasinNom} n'a pas été approuvé`;
 
-    const body = isApproved
-      ? `Bonjour,\n\nNous sommes heureux de vous informer que votre magasin "${magasinNom}" a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
-      : `Bonjour,\n\nNous regrettons de vous informer que votre magasin "${magasinNom}" n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
+      const body = isApproved
+        ? `Bonjour,\n\nNous sommes heureux de vous informer que votre magasin "${magasinNom}" a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
+        : `Bonjour,\n\nNous regrettons de vous informer que votre magasin "${magasinNom}" n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-    await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
-      to: to,
-      subject: subject,
-      body: body
-    }));
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
+        to: to,
+        subject: subject,
+        body: body
+      }));
 
-    console.log('Email envoyé avec succès à', to);
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'email:', error);
-    // Ne pas bloquer le processus même si l'email échoue
+      console.log('Email envoyé avec succès à', to);
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi de l\'email:', error);
+    }
   }
-}
+
   async contactProprietaire(proprietaireId: string | undefined): Promise<void> {
+    // ... (Code identique au précédent) ...
     console.log('[DEBUG] Début de contactProprietaire()');
     console.log('[DEBUG] ID du propriétaire:', proprietaireId);
 
@@ -203,7 +197,6 @@ private async sendApprovalEmail(to: string, magasinNom: string, isApproved: bool
     }
   }
 
-  // Nouvelle méthode pour voir les produits d'un magasin
   viewMagasinProducts(magasinId: number): void {
     this.router.navigate(['/admin/magasin-products', magasinId]);
   }
@@ -219,15 +212,15 @@ private async sendApprovalEmail(to: string, magasinNom: string, isApproved: bool
       const subject = `Concernant votre magasin : ${magasinNom}`;
       const body = `Bonjour,\n\nNous souhaitons discuter de votre magasin ${magasinNom}.\n\nCordialement, \nL'équipe Magmate`;
 
-      // Appel à l'API backend pour envoyer l'email
-      await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: proprietaireEmail,
         subject: subject,
         body: body
       }));
 
       alert(`Email envoyé avec succès à ${proprietaireEmail} concernant le magasin ${magasinNom}.`);
-      this.errorMessage = null; // Efface toute erreur précédente
+      this.errorMessage = null;
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email via l\'API:', error);
       this.errorMessage = 'Échec de l\'envoi de l\'email. Veuillez réessayer.';

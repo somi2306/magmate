@@ -3,30 +3,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Injectable({
   providedIn: 'root',
 })
 export class MagasinService {
-  private baseUrl = 'http://localhost:3000/magasins'; // URL de base pour l'API
+  private baseUrl = `${environment.apiUrl}/magasins`;
 
-  constructor(private http: HttpClient,
-        
-  ) {}
+  constructor(private http: HttpClient) {}
 
   // Méthode pour récupérer un magasin par userId
   getMagasinByUser(userId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/user/${userId}`); // Appel à l'API backend
+    return this.http.get(`${this.baseUrl}/user/${userId}`);
   }
+
   getMagasinById(id: number): Observable<any> {
-    return this.http.get(`http://localhost:3000/magasins/${id}`);
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
   deleteMagasin(id: number): Observable<any> {
-    return this.http.delete(`http://localhost:3000/magasins/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
   getUuidByEmail(email: string): Observable<{ uuid: string }> {
-    return this.http.get<{ uuid: string }>(`http://localhost:3000/user/uuid-by-email?email=${email}`);
+    // Utilisation de environment.apiUrl pour l'endpoint user
+    return this.http.get<{ uuid: string }>(`${environment.apiUrl}/user/uuid-by-email?email=${email}`);
   }
-  
 }

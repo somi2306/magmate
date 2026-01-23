@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router'; // Import Router
 import { ProductService as ProductServiceBackend } from '../../marketplace/services/product.service'; // Alias to avoid naming conflict
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for sending emails
 import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
-
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Component({
   selector: 'app-page-magasin-admin',
@@ -32,20 +32,20 @@ export class PageMagasinAdminComponent implements OnInit {
   ngOnInit(): void {
     const magasinId = Number(this.route.snapshot.paramMap.get('id')); // Convert to number
     if (magasinId) {
-      this.loadMagasin(magasinId); //
-      this.loadProduits(magasinId); //
+      this.loadMagasin(magasinId);
+      this.loadProduits(magasinId);
     } else {
-      this.error = 'ID de magasin invalide.'; //
+      this.error = 'ID de magasin invalide.';
     }
   }
 
   loadMagasin(magasinId: number): void {
     this.magasinService.getMagasinById(magasinId).subscribe(
       (data) => {
-        this.magasin = data; //
+        this.magasin = data;
       },
       (error) => {
-        this.error = 'Magasin introuvable.'; //
+        this.error = 'Magasin introuvable.';
       }
     );
   }
@@ -53,22 +53,22 @@ export class PageMagasinAdminComponent implements OnInit {
   loadProduits(magasinId: number): void {
     this.productService.getProduitsByMagasin(magasinId).subscribe(
       (data) => {
-        this.produits = data; //
+        this.produits = data;
       },
       (error) => {
-        this.error = 'Impossible de récupérer les produits.'; //
+        this.error = 'Impossible de récupérer les produits.';
       }
     );
   }
 
   deleteProduct(productId: number): void {
-    if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce produit ?')) { //
+    if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce produit ?')) {
       // Find the product to get its name before deleting
       const productToDelete = this.produits.find(p => p.idProduit === productId);
 
       this.productServiceBackend.deleteProduct(productId).subscribe({
         next: () => {
-          alert('Produit supprimé avec succès ✅'); //
+          alert('Produit supprimé avec succès ✅');
           this.loadProduits(this.magasin.idMagasin); // Reload products after deletion
           // Send email to owner about product deletion
           if (this.magasin && this.magasin.proprietaire?.email && productToDelete) {
@@ -80,19 +80,19 @@ export class PageMagasinAdminComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.error('Erreur lors de la suppression du produit :', error); //
-          alert('Erreur lors de la suppression du produit ❌'); //
+          console.error('Erreur lors de la suppression du produit :', error);
+          alert('Erreur lors de la suppression du produit ❌');
         }
       });
     }
   }
 
   deleteMagasin(idMagasin: number): void {
-    if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce magasin et tous ses produits associés ?')) { //
-      this.magasinService.deleteMagasin(idMagasin).subscribe( //
+    if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce magasin et tous ses produits associés ?')) {
+      this.magasinService.deleteMagasin(idMagasin).subscribe(
         (response) => {
-          console.log('Magasin supprimé avec succès', response); //
-          alert('Magasin et ses produits associés supprimés avec succès. ✅'); //
+          console.log('Magasin supprimé avec succès', response);
+          alert('Magasin et ses produits associés supprimés avec succès. ✅');
           // Send email to owner about store deletion
           if (this.magasin && this.magasin.proprietaire?.email) {
             this.sendEmailToProprietaire(
@@ -104,8 +104,8 @@ export class PageMagasinAdminComponent implements OnInit {
           this.router.navigate(['/admin/dashboard']); // Rediriger l'admin vers le tableau de bord ou une autre page après suppression
         },
         (error) => {
-          console.error('Erreur lors de la suppression du magasin :', error); //
-          alert('Une erreur est survenue lors de la suppression du magasin. ❌'); //
+          console.error('Erreur lors de la suppression du magasin :', error);
+          alert('Une erreur est survenue lors de la suppression du magasin. ❌');
         }
       );
     }
@@ -118,7 +118,8 @@ export class PageMagasinAdminComponent implements OnInit {
     }
 
     try {
-      await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body

@@ -1,12 +1,12 @@
-
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; //
-import { PrestataireService, Prestataire, PrestataireStatus } from '../../prestataire/services/prestataire.service'; //
-import { Router } from '@angular/router'; //
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { PrestataireService, Prestataire, PrestataireStatus } from '../../prestataire/services/prestataire.service';
+import { Router } from '@angular/router';
 import { ConnectionProfileService } from '../../components/connection-profile/connection-profile.service';
 import { AuthService } from '../../auth/auth.service';
-import { firstValueFrom } from 'rxjs'; //
+import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../components/connection-profile/connection-profile.model';
-import { HttpClient } from '@angular/common/http'; //
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
 
 @Component({
   selector: 'app-admin-prestataire-list',
@@ -28,12 +28,12 @@ export class AdminPrestataireListComponent implements OnInit {
   currentRequestId: number | null = null;
 
   constructor(
-    private prestataireService: PrestataireService, //
-    private router: Router, //
+    private prestataireService: PrestataireService,
+    private router: Router,
     private authService: AuthService,
     private connectionService: ConnectionProfileService,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient // Inject HttpClient
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class AdminPrestataireListComponent implements OnInit {
   }
 
   loadPendingPrestataires(): void {
-    this.prestataireService.getPendingPrestataires().subscribe({ //
+    this.prestataireService.getPendingPrestataires().subscribe({
       next: (data) => {
         this.pendingPrestataires = data;
       },
@@ -56,7 +56,7 @@ export class AdminPrestataireListComponent implements OnInit {
   }
 
   loadApprovedPrestataires(): void {
-    this.prestataireService.getApprovedPrestataires().subscribe({ //
+    this.prestataireService.getApprovedPrestataires().subscribe({
       next: (data) => {
         this.approvedPrestataires = data;
       },
@@ -65,7 +65,7 @@ export class AdminPrestataireListComponent implements OnInit {
   }
 
   loadRejectedPrestataires(): void {
-    this.prestataireService.getRejectedPrestataires().subscribe({ //
+    this.prestataireService.getRejectedPrestataires().subscribe({
       next: (data) => {
         this.rejectedPrestataires = data;
       },
@@ -87,7 +87,7 @@ export class AdminPrestataireListComponent implements OnInit {
         throw new Error('Informations du prestataire ou de l\'utilisateur manquantes pour l\'email.');
       }
 
-      await firstValueFrom(this.prestataireService.approvePrestataire(idPrestataire)); //
+      await firstValueFrom(this.prestataireService.approvePrestataire(idPrestataire));
       await this.sendApprovalEmail(
         prestataire.utilisateur.email,
         `${prestataire.utilisateur.fname} ${prestataire.utilisateur.lname}`,
@@ -110,7 +110,7 @@ export class AdminPrestataireListComponent implements OnInit {
         throw new Error('Informations du prestataire ou de l\'utilisateur manquantes pour l\'email.');
       }
 
-      await firstValueFrom(this.prestataireService.rejectPrestataire(idPrestataire)); //
+      await firstValueFrom(this.prestataireService.rejectPrestataire(idPrestataire));
       await this.sendApprovalEmail(
         prestataire.utilisateur.email,
         `${prestataire.utilisateur.fname} ${prestataire.utilisateur.lname}`,
@@ -134,7 +134,8 @@ export class AdminPrestataireListComponent implements OnInit {
         ? `Bonjour ${prestataireName},\n\nNous sommes heureux de vous informer que votre profil de prestataire a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
         : `Bonjour ${prestataireName},\n\nNous regrettons de vous informer que votre profil de prestataire n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      await firstValueFrom(this.http.post('http://localhost:3000/mail/send-contact-email', {
+      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
@@ -143,17 +144,15 @@ export class AdminPrestataireListComponent implements OnInit {
       console.log('Email envoyé avec succès à', to);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email:', error);
-      // Ne pas bloquer le processus même si l'email échoue
     }
   }
-
 
   async deletePrestataire(idPrestataire: string): Promise<void> {
     if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce profil de prestataire ?')) {
       try {
-        await firstValueFrom(this.prestataireService.deletePrestataire(idPrestataire)); //
+        await firstValueFrom(this.prestataireService.deletePrestataire(idPrestataire));
         alert('Profil prestataire supprimé avec succès ✅');
-        this.loadAllPrestataires(); // Recharger les listes après suppression
+        this.loadAllPrestataires();
         this.errorMessage = null;
       } catch (error) {
         console.error('Erreur lors de la suppression du prestataire :', error);
@@ -161,11 +160,6 @@ export class AdminPrestataireListComponent implements OnInit {
       }
     }
   }
-
-  // Cette méthode n'est plus nécessaire car le routerLink est directement dans le HTML
-  // viewPrestataireDetails(uuid: string): void {
-  //   this.router.navigate(['/prestataires', uuid]);
-  // }
 
   viewPrestataireProfile(uuid: string): void {
     this.router.navigate(['/monprofil']);

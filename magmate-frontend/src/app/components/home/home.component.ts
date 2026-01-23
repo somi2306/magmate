@@ -3,8 +3,10 @@ import Swiper from 'swiper';
 import { CommonModule } from '@angular/common';
 import ScrollReveal from 'scrollreveal';
 import { ViewEncapsulation } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Importez HttpClient
-import { FormsModule } from '@angular/forms'; // Importez FormsModule
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment'; // <-- IMPORT URL
+import { AuthService } from '../../auth/auth.service'; // <-- IMPORT AUTH SERVICE
 
 interface Temoignage {
   idTemoignage?: string;
@@ -26,14 +28,14 @@ interface Temoignage {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, FormsModule] // Ajoutez FormsModule ici
+  imports: [CommonModule, FormsModule]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   isMenuOpen = false;
   currentLanguage: 'french' | 'arabic' = 'arabic';
   isVideoPlaying = false;
   temoignages: Temoignage[] = [];
-  newTemoignage: { commentaire: string; note?: number } = { commentaire: '', note: 5 }; // Valeurs initiales
+  newTemoignage: { commentaire: string; note?: number } = { commentaire: '', note: 5 };
 
   @ViewChild('navLinks') navLinks!: ElementRef;
   @ViewChild('menuBtnIcon') menuBtnIcon!: ElementRef;
@@ -42,42 +44,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('translateBtn') translateBtn!: ElementRef;
   @ViewChild('arabicParagraph') arabicParagraph!: ElementRef;
   @ViewChild('frenchParagraph') frenchParagraph!: ElementRef;
-@ViewChild('temoignageCarousel') temoignageCarousel!: ElementRef;
+  @ViewChild('temoignageCarousel') temoignageCarousel!: ElementRef;
 
-scrollRight(): void {
-  const container = this.temoignageCarousel.nativeElement;
-  const scrollWidth = container.scrollWidth;
-  const currentScroll = container.scrollLeft;
-  const cardWidth = container.firstElementChild?.offsetWidth || 300;
-
-  if (currentScroll + container.offsetWidth >= scrollWidth - cardWidth) {
-    // retour au début
-    container.scrollTo({ left: 0, behavior: 'smooth' });
-  } else {
-    container.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
-  }
-}
-
-scrollLeft(): void {
-  const container = this.temoignageCarousel.nativeElement;
-  const cardWidth = container.firstElementChild?.offsetWidth || 300;
-
-  if (container.scrollLeft <= 0) {
-    // aller à la fin
-    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
-  } else {
-    container.scrollBy({ left: -cardWidth - 16, behavior: 'smooth' });
-  }
-}
-
-setRating(star: number): void {
-    this.newTemoignage.note = star;
-  }
-  constructor(private http: HttpClient) { } // Injectez HttpClient
+  // Injection de AuthService pour récupérer le vrai token
+  constructor(
+    private http: HttpClient, 
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.initScrollReveal();
-    this.loadTemoignages(); // Charge les témoignages au démarrage
+    this.loadTemoignages();
   }
 
   ngAfterViewInit(): void {
@@ -87,9 +64,36 @@ setRating(star: number): void {
     this.setupMenuToggle();
   }
 
+  scrollRight(): void {
+    const container = this.temoignageCarousel.nativeElement;
+    const scrollWidth = container.scrollWidth;
+    const currentScroll = container.scrollLeft;
+    const cardWidth = container.firstElementChild?.offsetWidth || 300;
+
+    if (currentScroll + container.offsetWidth >= scrollWidth - cardWidth) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+    }
+  }
+
+  scrollLeft(): void {
+    const container = this.temoignageCarousel.nativeElement;
+    const cardWidth = container.firstElementChild?.offsetWidth || 300;
+
+    if (container.scrollLeft <= 0) {
+      container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: -cardWidth - 16, behavior: 'smooth' });
+    }
+  }
+
+  setRating(star: number): void {
+    this.newTemoignage.note = star;
+  }
+
   smoothScroll(event: any): void {
     event.preventDefault();
-
     const targetId = event.target.getAttribute('href').substring(1);
     const targetElement = document.getElementById(targetId);
 
@@ -108,7 +112,6 @@ setRating(star: number): void {
 
     menuBtn?.addEventListener("click", (e) => {
       navLinks?.classList.toggle("open");
-
       const isOpen = navLinks?.classList.contains("open");
       if (menuBtnIcon) {
         menuBtnIcon.setAttribute("class", isOpen ? "ri-close-line" : "ri-menu-line");
@@ -141,7 +144,6 @@ setRating(star: number): void {
 
   toggleLanguage(): void {
     this.currentLanguage = this.currentLanguage === 'french' ? 'arabic' : 'french';
-
     setTimeout(() => {
       ScrollReveal().reveal(".showcase__content p", {
         origin: "bottom",
@@ -160,50 +162,17 @@ setRating(star: number): void {
       reset: true
     };
 
-    ScrollReveal().reveal(".header__image img", {
-      ...scrollRevealOption,
-      origin: "right",
-    });
-    ScrollReveal().reveal(".header__content p", {
-      ...scrollRevealOption,
-      delay: 500,
-    });
-    ScrollReveal().reveal(".header__content h1", {
-      ...scrollRevealOption,
-      delay: 1000,
-    });
-    ScrollReveal().reveal(".header__btns", {
-      ...scrollRevealOption,
-      delay: 1500,
-    });
-    ScrollReveal().reveal(".destination__card", {
-      ...scrollRevealOption,
-      interval: 500,
-    });
-    ScrollReveal().reveal(".showcase__image img", {
-      ...scrollRevealOption,
-      origin: "left",
-    });
-    ScrollReveal().reveal(".showcase__content h4", {
-      ...scrollRevealOption,
-      delay: 500,
-    });
-    ScrollReveal().reveal(".showcase__content p", {
-      ...scrollRevealOption,
-      delay: 1000,
-    });
-    ScrollReveal().reveal(".showcase__btn", {
-      ...scrollRevealOption,
-      delay: 1500,
-    });
-    ScrollReveal().reveal(".banner__card", {
-      ...scrollRevealOption,
-      interval: 500,
-    });
-    ScrollReveal().reveal(".discover__card", {
-      ...scrollRevealOption,
-      interval: 500,
-    });
+    ScrollReveal().reveal(".header__image img", { ...scrollRevealOption, origin: "right" });
+    ScrollReveal().reveal(".header__content p", { ...scrollRevealOption, delay: 500 });
+    ScrollReveal().reveal(".header__content h1", { ...scrollRevealOption, delay: 1000 });
+    ScrollReveal().reveal(".header__btns", { ...scrollRevealOption, delay: 1500 });
+    ScrollReveal().reveal(".destination__card", { ...scrollRevealOption, interval: 500 });
+    ScrollReveal().reveal(".showcase__image img", { ...scrollRevealOption, origin: "left" });
+    ScrollReveal().reveal(".showcase__content h4", { ...scrollRevealOption, delay: 500 });
+    ScrollReveal().reveal(".showcase__content p", { ...scrollRevealOption, delay: 1000 });
+    ScrollReveal().reveal(".showcase__btn", { ...scrollRevealOption, delay: 1500 });
+    ScrollReveal().reveal(".banner__card", { ...scrollRevealOption, interval: 500 });
+    ScrollReveal().reveal(".discover__card", { ...scrollRevealOption, interval: 500 });
   }
 
   private initSwiper(): void {
@@ -240,7 +209,8 @@ setRating(star: number): void {
 
   private initAutoTranslate(): void {
     let count = 0;
-    const interval = setInterval(() => {
+    // Utilisation de 'any' pour éviter les conflits de type NodeJS/Browser
+    const interval: any = setInterval(() => {
       if (count >= 3) {
         clearInterval(interval);
         return;
@@ -255,7 +225,7 @@ setRating(star: number): void {
     return new Array(starCount);
   }
 
-  @HostListener('window:visibilitychange', ['$event'])
+  @HostListener('window:visibilitychange')
   onVisibilityChange(): void {
     if (this.headerVideo) {
       if (document.hidden && this.isVideoPlaying) {
@@ -266,12 +236,11 @@ setRating(star: number): void {
     }
   }
 
-  // Nouvelle méthode pour charger les témoignages depuis le backend
+  // --- MODIFICATION ICI : Utilisation de environment.apiUrl ---
   loadTemoignages(): void {
-    this.http.get<Temoignage[]>('http://localhost:3000/temoignages').subscribe({
+    this.http.get<Temoignage[]>(`${environment.apiUrl}/temoignages`).subscribe({
       next: (data) => {
         this.temoignages = data;
-        // Réinitialiser Swiper après le chargement des données
         this.initSwiper(); 
       },
       error: (error) => {
@@ -280,37 +249,37 @@ setRating(star: number): void {
     });
   }
 
-  // Nouvelle méthode pour ajouter un témoignage
-  addTemoignage(): void {
-    // Supposons que vous avez un token d'authentification (e.g., Firebase ID token)
-    // Vous devrez obtenir ce token de Firebase Auth dans votre application Angular
-    const authToken = 'YOUR_FIREBASE_ID_TOKEN'; // Remplacez par votre vrai token
+  // --- MODIFICATION ICI : Récupération dynamique du token et URL environment ---
+  async addTemoignage(): Promise<void> {
+    try {
+      const authToken = await this.authService.getIdToken();
 
-    if (!authToken) {
-      console.error('Aucun token d\'authentification trouvé. Veuillez vous connecter.');
-      alert('Veuillez vous connecter pour ajouter un témoignage.');
-      return;
-    }
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}`
-    });
-
-    this.http.post<Temoignage>('http://localhost:3000/temoignages', this.newTemoignage, { headers }).subscribe({
-      next: (response) => {
-        console.log('Témoignage ajouté avec succès:', response);
-        alert('Témoignage ajouté avec succès !');
-        this.newTemoignage = { commentaire: '', note: 5 }; // Réinitialiser le formulaire
-        this.loadTemoignages(); // Recharger les témoignages pour afficher le nouveau
-      },
-      error: (error) => {
-        console.error('Erreur lors de l\'ajout du témoignage:', error);
-        alert('Erreur lors de l\'ajout du témoignage. Veuillez réessayer.');
+      if (!authToken) {
+        console.error('Aucun token d\'authentification trouvé.');
+        alert('Veuillez vous connecter pour ajouter un témoignage.');
+        return;
       }
-    });
-  }
-  
 
-  
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      });
+
+      // Appel HTTP avec l'URL d'environnement
+      this.http.post<Temoignage>(`${environment.apiUrl}/temoignages`, this.newTemoignage, { headers }).subscribe({
+        next: (response) => {
+          console.log('Témoignage ajouté avec succès:', response);
+          alert('Témoignage ajouté avec succès !');
+          this.newTemoignage = { commentaire: '', note: 5 }; 
+          this.loadTemoignages(); 
+        },
+        error: (error) => {
+          console.error('Erreur lors de l\'ajout du témoignage:', error);
+          alert('Erreur lors de l\'ajout du témoignage. Veuillez réessayer.');
+        }
+      });
+    } catch (error) {
+      console.error('Erreur lors de la récupération du token:', error);
+    }
+  }
 }
