@@ -250,6 +250,11 @@ setRating(star: number): void {
     }, 50);
   }
 
+  getStars(note: number | undefined): any[] {
+    const starCount = note || 0;
+    return new Array(starCount);
+  }
+
   @HostListener('window:visibilitychange', ['$event'])
   onVisibilityChange(): void {
     if (this.headerVideo) {
@@ -305,4 +310,7 @@ setRating(star: number): void {
       }
     });
   }
+  
+
+  
 }

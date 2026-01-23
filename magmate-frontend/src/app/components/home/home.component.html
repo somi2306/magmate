@@ -194,27 +194,25 @@
   <div class="temoignages-container" #temoignageCarousel>
     <div class="client__card" *ngFor="let temoignage of temoignages">
       <div class="client__content">
+        
         <div class="client__rating">
-          <span *ngFor="let star of [].constructor(temoignage.note)">
+          <span *ngFor="let star of getStars(temoignage.note)">
             <i class="ri-star-fill"></i>
           </span>
         </div>
+
         <p>{{ temoignage.commentaire }}</p>
       </div>
       <div class="client__details">
-        <img [src]="temoignage.auteur?.photo || 'images/default-avatar.png'" alt="client avatar" />
+        <img [src]="temoignage.auteur?.photo || 'images/default-avatar.png'" 
+             alt="client avatar" 
+             (error)="temoignage.auteur.photo = 'images/default-avatar.png'" />
         <div>
           <h4>{{ temoignage.auteur?.fname }} {{ temoignage.auteur?.lname }}</h4>
-          <!--<h5>{{ temoignage.auteur?.email }}</h5>-->
         </div>
       </div>
     </div>
   </div>
 
   <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button>
-</div>
-
-    </section>
-
-
 </div>
