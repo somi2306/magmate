@@ -8,7 +8,7 @@ import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from './entities/user.entity';
 import UserRequestEntity from './entities/userrequest.entity';
-import { UserRequestStatus } from './entities/userrequest.entity';  // Adaptez le chemin en fonction de la localisation de votre fichier
+import { UserRequestStatus } from './entities/userrequest.entity'; 
 import { BadRequestException } from '@nestjs/common';
 import { Delete } from '@nestjs/common';
 

@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable, firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

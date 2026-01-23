@@ -65,7 +65,6 @@ export class MagasinUpdateComponent implements OnInit {
         ville: magasin.ville
       });
 
-      // CORRECTION CLOUDINARY : On utilise directement l'URL stockée en base
       if (magasin.image) {
         this.imagePreview = magasin.image;
       }

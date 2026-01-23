@@ -1,10 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PrestatairedetailsService } from '../../prestataire/services/prestatairedetails.service'; // Assurez-vous que le chemin est correct
-import { Prestataire } from '../../prestataire/services/prestataire.service'; // Assurez-vous que le chemin est correct
-import { CommentPrestataireService } from '../../prestataire/services/comment-prestataire.service'; // Assurez-vous que le chemin est correct
-import { CommentPrestataire } from '../../prestataire/models/comment-prestataire.model'; // Assurez-vous que le chemin est correct
+import { PrestatairedetailsService } from '../../prestataire/services/prestatairedetails.service'; 
+import { Prestataire } from '../../prestataire/services/prestataire.service'; 
+import { CommentPrestataireService } from '../../prestataire/services/comment-prestataire.service'; 
+import { CommentPrestataire } from '../../prestataire/models/comment-prestataire.model'; 
 
 @Component({
   selector: 'app-page-prestataire-details-admin',

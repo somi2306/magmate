@@ -1,4 +1,3 @@
-// src/app/marketplace/components/product-card/product-card.component.ts
 import { Component, Input } from '@angular/core';
 import { Produit } from '../../services/ProductService';
 

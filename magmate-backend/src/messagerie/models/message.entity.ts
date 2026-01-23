@@ -22,7 +22,7 @@ export class MessageEntity implements IMessage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // CORRECTION : Ajoutez nullable: true pour éviter l'erreur sur les anciens messages vides
+  //pour éviter l'erreur sur les anciens messages vides
   @Column({ type: 'text', nullable: true }) 
   message: string;
 

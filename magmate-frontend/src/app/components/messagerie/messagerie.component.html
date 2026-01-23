@@ -118,12 +118,11 @@
 </div>
 
     
-    <!-- Ajoutez ce input caché -->
 <input type="file" #fileInput style="display: none" 
        (change)="onFileSelected($event)" 
        accept="image/*">
 
-<!-- Modifiez le bouton 📎 pour déclencher l'input file -->
+
 <button type="button" class="icon-button" (click)="fileInput.click()">
   <span>📎</span>
 </button>

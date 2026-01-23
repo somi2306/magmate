@@ -19,7 +19,8 @@ import { firstValueFrom } from 'rxjs';
 @WebSocketGateway({
   namespace: '/messagerie',
   cors: {
-    origin: 'http://localhost:4200',
+    // Si la variable FRONTEND_URL existe (Prod), on l'utilise. Sinon localhost:4200 (Dev).
+    origin: process.env.FRONTEND_URL || 'http://localhost:4200',
     credentials: true,
   },
 })
@@ -213,7 +214,7 @@ createConversation(socket: Socket, friend: User) {
     .createConversation(socket.data.user, friend)
     .pipe(take(1))
     .subscribe((conversation) => {
-      this.server.emit('conversationCreated', conversation); // Ajoutez cette ligne
+      this.server.emit('conversationCreated', conversation);
       this.getConversations(socket, socket.data.user.id);
     });
 }

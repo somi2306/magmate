@@ -74,7 +74,6 @@
   background-color: #eaf5ff;
   color: #3498db;
   margin-bottom: 10px;
-  /* Ajoutez ces lignes pour forcer le centrage */
   padding: 0; /* Supprime tout padding interne */
   line-height: 60px; /* Ajuste la hauteur de ligne à la hauteur du cercle */
 }

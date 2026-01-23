@@ -2,7 +2,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../environments/environment'; 
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {

@@ -194,7 +194,7 @@ async function runMigration() {
   console.log('--- Migration Réclamations Prestataire ---');
   const recPrestataireRepo = AppDataSource.getRepository(Reclamationprestataire);
   
-  // CORRECTION : loadEagerRelations: false est CRUCIAL ici car l'entité a eager: true sur Utilisateur
+  // loadEagerRelations: false est CRUCIAL ici car l'entité a eager: true sur Utilisateur
   const recPrestas = await recPrestataireRepo.find({
       select: {
           idReclamation: true,

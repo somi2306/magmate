@@ -39,7 +39,7 @@ export class ProductController {
       images?: Express.Multer.File[];
     },
   ) {
-    // CORRECTION : Validation de l'ID magasin
+    // Validation de l'ID magasin
     if (!formData.magasinIdMagasin) {
       throw new BadRequestException("L'ID du magasin est obligatoire");
     }

@@ -33,9 +33,6 @@ export class ProfileService {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) throw new NotFoundException('Utilisateur non trouvé');
 
-    // Note : Si vous souhaitez supprimer l'ancienne image de Cloudinary,
-    // il faudrait stocker le "public_id" de l'image Cloudinary.
-    // Pour l'instant, on se contente de remplacer l'URL.
 
     user.photo = photoUrl; // Mise à jour avec l'URL Cloudinary
 

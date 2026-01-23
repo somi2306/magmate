@@ -31,11 +31,11 @@ export class AdminAuthComponent implements OnInit {
   get2FASecret() {
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (!user) {
-      this.router.navigate(['/login']); // Redirigez vers la page de connexion si l'utilisateur n'est pas authentifié
+      this.router.navigate(['/login']); // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
       return;
     }
 
-    const userObj :User = JSON.parse(user!); // Assure-toi que c'est bien un JSON stringifié
+    const userObj :User = JSON.parse(user!); 
 
     this.http
       .post<{ otpauthUrl: string }>(`${environment.apiUrl}/auth/2fa/generate`, {
@@ -52,10 +52,10 @@ export class AdminAuthComponent implements OnInit {
   }
 
   enable2FA() {
-    console.log('Attempting to enable 2FA with code:', this.totpCode); // <-- Ajoutez ceci
+    console.log('Attempting to enable 2FA with code:', this.totpCode);
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (!user) {
-      this.router.navigate(['/login']); // Redirigez vers la page de connexion si l'utilisateur n'est pas authentifié
+      this.router.navigate(['/login']); // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
       return;
     }
     const userObj:User = JSON.parse(user); // Assure-toi que c'est bien un JSON stringifié

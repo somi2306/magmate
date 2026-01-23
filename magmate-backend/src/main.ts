@@ -8,13 +8,17 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // --- MODIFICATION 1 : Ajouter le préfixe global ---
+  // 1. Préfixe API (Très important pour ne pas conflire avec les routes Angular)
   app.setGlobalPrefix('api');
   
-  // Configuration CORS (autoriser Angular)
+  // 2. Configuration CORS dynamique
+  // En local, on utilise 4200. En prod, on lira la variable d'environnement ou on autorisera tout si même domaine.
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+  
   app.enableCors({
-    origin: 'http://localhost:4200', // Recommandé de préciser l'origine
-    credentials: true
+    origin: frontendUrl, // Utilise la variable d'env
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
 
   app.useGlobalPipes(new ValidationPipe());
@@ -23,7 +27,7 @@ async function bootstrap() {
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-  // Configuration Swagger
+  // Swagger (Accessible via /api/docs)
   const config = new DocumentBuilder()
     .setTitle('API de Magmate')
     .setDescription("La documentation de l'API")
@@ -33,12 +37,11 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  
-  // --- MODIFICATION 2 : Déplacer la doc sur 'api/docs' ---
-  // Comme 'api' est maintenant le préfixe de tout, il vaut mieux mettre la doc sur un sous-chemin
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(3000);
+  // Le port aussi peut être dynamique (Render/Heroku/Railway utilisent process.env.PORT)
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}/api`);
 }
 bootstrap();

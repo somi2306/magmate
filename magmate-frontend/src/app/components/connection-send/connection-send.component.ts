@@ -60,7 +60,7 @@ private statusCheckInterval: any;
     }
   }
   private startStatusChecking() {
-    // Vérifier le statut toutes les 10 secondes (ajustez selon vos besoins)
+    // Vérifier le statut toutes les 10 secondes
     this.statusCheckInterval = setInterval(async () => {
       await this.checkRequestStatus();
     }, 1000);

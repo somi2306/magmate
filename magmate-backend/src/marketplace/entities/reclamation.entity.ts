@@ -1,4 +1,3 @@
-// src/marketplace/entities/reclamation.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Produit } from './produit.entity';  // Importer Produit
 import { User } from 'src/user/entities/user.entity';

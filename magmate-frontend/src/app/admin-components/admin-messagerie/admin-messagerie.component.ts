@@ -46,8 +46,8 @@ unreadCounts: { [conversationId: string]: number } = {};
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-        private route: ActivatedRoute, // Ajoutez cette ligne
-    private router: Router // Ajoutez cette ligne
+        private route: ActivatedRoute, 
+    private router: Router 
   ) {}
 
   async ngOnInit() {
@@ -135,7 +135,7 @@ isUserInConversation(conversationId: string): boolean {
 
   private setupListeners() {
     // Écoute des nouveaux messages
-// Dans setupListeners(), modifiez la partie getNewMessages()
+
 this.subscriptions.add(
   this.messagerieService.getNewMessages().subscribe({
     next: (message: Message) => {
@@ -317,7 +317,6 @@ async selectConversation(conversation: Conversation) {
   }
 }
 
-// Modifiez startNewConversation
 async startNewConversation(friend: User) {
   try {
     const newConv = await firstValueFrom(
@@ -387,13 +386,10 @@ getUserImage(user: User): string | null {
   return user?.photo || null;
 }
 
-// Vérifier si un utilisateur est en ligne (à implémenter)
 
-
-// Ajoutez cette variable à votre classe
 showEmojiPicker = false;
 
-// Ajoutez cette méthode pour gérer la sélection d'emojis
+
 addEmoji(event: any) {
   if (event && event.emoji && event.emoji.native) {
     this.newMessage += event.emoji.native;
@@ -431,7 +427,6 @@ getSafeMessage(content: string) {
   );
 }
 
-// Ajoutez cette méthode
 @ViewChild('fileInput') fileInput!: ElementRef;
 
 async onFileSelected(event: any) {

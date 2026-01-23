@@ -1,4 +1,3 @@
-// src/config/multer.config.ts
 import { memoryStorage } from 'multer';
 
 // On change diskStorage pour memoryStorage

@@ -1,5 +1,3 @@
-// src/app/admin-components/pages/page-magasin-admin/page-magasin-admin.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { MagasinService } from '../../marketplace/services/MagasinService';
 import { ProductService } from '../../marketplace/services/ProductService'; // Use the correct ProductService
@@ -7,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router'; // Import Router
 import { ProductService as ProductServiceBackend } from '../../marketplace/services/product.service'; // Alias to avoid naming conflict
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for sending emails
 import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
-import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-page-magasin-admin',

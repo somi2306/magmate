@@ -109,7 +109,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Assurez-vous que la modale soit au-dessus du reste */
+    z-index: 1000; 
     backdrop-filter: blur(5px); /* Applique l'effet de flou sur l'arrière-plan */
     visibility: visible; /* Assure que l'overlay est visible */
   }

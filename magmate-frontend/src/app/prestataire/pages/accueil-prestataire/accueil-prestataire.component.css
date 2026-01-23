@@ -441,7 +441,7 @@ html, body {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4); /* fond semi-transparent */
-    display: flex; /* Utilisez flex pour centrer */
+    display: flex; 
     justify-content: center; /* Centrage horizontal */
     align-items: center; /* Centrage vertical */
   }
@@ -621,7 +621,6 @@ html, body {
   margin-top: 1rem;
 }
 .modal {
-  /* Supprimez display: none; d'ici pour que *ngIf gère l'affichage */
   position: fixed;
   z-index: 1000;
   left: 0;

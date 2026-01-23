@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-page-magasin-client',
   standalone: false,
   templateUrl: './page-magasin-client.component.html',
-  styleUrls: ['./page-magasin-client.component.css']  // Correction de styleUrl à styleUrls
+  styleUrls: ['./page-magasin-client.component.css']  
 })
 export class PageMagasinClientComponent implements OnInit {
   magasin: any;

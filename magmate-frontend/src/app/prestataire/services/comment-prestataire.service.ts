@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommentPrestataire } from '../models/comment-prestataire.model';
 import { CreateCommentDto } from '../dto/create-comment.dto';
-import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

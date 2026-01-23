@@ -1,5 +1,3 @@
-// src/app/models/comment-prestataire.model.ts
-
 export interface CommentPrestataire {
     idAvis: string;
     note: number;

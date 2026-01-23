@@ -721,7 +721,7 @@ header::before {
 
 
   .navigation {
-    position: static; /* Ou 'fixed' si vous voulez qu'il reste en haut */
+    position: static; 
     padding: 2rem 0; /* Modifié: 0 sur les côtés */
     display: flex;
     align-items: center;
@@ -812,7 +812,6 @@ header::before {
   }
 
   .header__image {
-    /* Ajoutez ceci pour cacher l'image par défaut */
     display: none;
   }
 
@@ -877,7 +876,6 @@ header::before {
   z-index: -1;
   overflow: hidden;
   
-  /* Supprimez display: none */
 }
 
 

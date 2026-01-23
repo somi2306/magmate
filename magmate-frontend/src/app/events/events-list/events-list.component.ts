@@ -24,7 +24,7 @@ export class EventsListComponent implements OnInit {
     private eventsService: EventsService,
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService // Assurez-vous d'importer et d'injecter votre service d'authentification
+    private authService: AuthService 
   ) {
     this.filterForm = this.fb.group({
       searchTerm: [''],

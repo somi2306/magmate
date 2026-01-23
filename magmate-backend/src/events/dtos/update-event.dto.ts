@@ -1,4 +1,3 @@
-// src/events/dto/update-event.dto.ts
 import { IsString, IsOptional, IsEnum, IsDate, IsUrl, IsDateString } from 'class-validator';
 import { EventType, EventStatus } from '../entities/event.entity';
 

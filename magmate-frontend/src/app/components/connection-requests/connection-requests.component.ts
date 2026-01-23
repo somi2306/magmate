@@ -72,7 +72,6 @@ export class ConnectionRequestsComponent implements OnInit, OnDestroy {
       ).catch(err => {
         console.error('Erreur réponse:', err);
         // Si erreur, on pourrait éventuellement réafficher la demande
-        // Mais dans votre cas, vous préférez qu'elle disparaisse
       });
       
     } catch (err: any) {

@@ -99,10 +99,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * CORRECTION CLOUDINARY
-   * On utilise l'URL directe car le backend renvoie maintenant l'URL complète.
-   */
   selectImage(thumbnailImage: { imageURL: string }): void {
     if (this.product) {
       this.product.imagePrincipale = thumbnailImage.imageURL;

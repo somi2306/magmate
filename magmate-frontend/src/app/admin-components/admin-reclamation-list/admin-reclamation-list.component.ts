@@ -1,7 +1,7 @@
 // admin-reclamation-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ReclamationService } from '../../marketplace/services/reclamation.service'; // Ajustez le chemin si nécessaire
-import { Reclamation } from '../../marketplace/models/reclamation.model'; // Ajustez le chemin si nécessaire
+import { ReclamationService } from '../../marketplace/services/reclamation.service'; 
+import { Reclamation } from '../../marketplace/models/reclamation.model';
 
 @Component({
   selector: 'app-admin-reclamation-list',

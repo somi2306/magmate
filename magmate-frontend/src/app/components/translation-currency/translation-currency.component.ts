@@ -27,7 +27,7 @@ interface CountryList {
 @Component({
   standalone: true,
   
-  imports: [IonicModule, CommonModule], // Ajoutez ceci
+  imports: [IonicModule, CommonModule],
   selector: 'app-translation-currency',
   templateUrl: './translation-currency.component.html',
   styleUrls: ['./translation-currency.component.css'],
@@ -48,7 +48,7 @@ export class TranslationCurrencyComponent implements OnInit {
     this.activeTab = 'common-phrases';  // Définit l'onglet actif sur 'common-phrases'
     console.log('Phrase sélectionnée:', phrase);  // Tu peux aussi faire ce que tu veux avec la phrase ici
   }
-  // Vous pouvez aussi ajouter un tableau de phrases courantes
+  
   public commonPhrases = [
     {
 
@@ -859,19 +859,19 @@ export class TranslationCurrencyComponent implements OnInit {
           };
         });
         
-        console.log("Available voices:", voices); // Ajoutez ceci pour déboguer
+        console.log("Available voices:", voices); 
     
         const utterance = new SpeechSynthesisUtterance(text);
         
-        // Essayez d'abord une correspondance exacte
+       
         let voice = voices.find(v => v.lang === langCode);
         
-        // Si non trouvé, essayez une correspondance partielle
+        
         if (!voice) {
           voice = voices.find(v => v.lang.startsWith(langCode));
         }
         
-        // Si toujours non trouvé, essayez de trouver une voix avec un nom pertinent
+       
         if (!voice) {
           voice = voices.find(v => v.name.toLowerCase().includes(langCode));
         }
@@ -881,7 +881,7 @@ export class TranslationCurrencyComponent implements OnInit {
           utterance.lang = voice.lang;
         } else {
           console.warn("Aucune voix appropriée trouvée pour", langCode);
-          // Vous pourriez vouloir afficher un message à l'utilisateur ici
+          
           return;
         }
     
@@ -1063,7 +1063,7 @@ export class TranslationCurrencyComponent implements OnInit {
       li.className = "option"; // Classe importante pour le CSS
       li.setAttribute('data-value', lang.code);
       
-      // Créez un span pour le contenu textuel si nécessaire
+      
       const content = document.createElement("span");
       content.textContent = `${lang.name} (${lang.native})`;
       li.appendChild(content);

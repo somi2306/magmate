@@ -249,7 +249,6 @@ html, body {
 
 
 
-/* Correction pour les ancres */
 :target::before {
   content: "";
   display: block;
@@ -362,7 +361,7 @@ html, body {
     align-items: center;
 }
 
-/* Correction pour le dropdown */
+
 .profile-dropdown {
     height: 100%;
     display: flex;

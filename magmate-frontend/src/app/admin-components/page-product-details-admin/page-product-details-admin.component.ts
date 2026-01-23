@@ -60,10 +60,6 @@ export class PageProductDetailsAdminComponent implements OnInit {
     });
   }
 
-  /**
-   * CORRECTION CLOUDINARY
-   * On ne rajoute plus le préfixe localhost car l'URL est déjà complète
-   */
   selectImage(thumbnailImage: { imageURL: string }): void {
     if (this.product) {
       // Utilisation directe de l'URL stockée (Cloudinary)

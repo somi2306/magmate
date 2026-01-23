@@ -1,6 +1,6 @@
 
 import { Controller, Post, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express'; // Importez FileInterceptor
+import { FileInterceptor } from '@nestjs/platform-express'; 
 import { ReclamationService } from '../services/reclamation.service';
 import { CreateReclamationDto } from '../dto/create-reclamation.dto';
 import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';

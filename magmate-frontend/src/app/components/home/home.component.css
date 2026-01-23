@@ -532,7 +532,7 @@ header::before {
   color: white;
   border: none;
   
-  /* CORRECTION : Ajustement pour le centrage */
+ 
   width: 45px;            /* Un peu plus grand pour l'esthétique */
   height: 45px;
   padding: 0;             /* Important : pas de padding interne */
@@ -566,7 +566,7 @@ header::before {
   right: 0;
 }
 
-/* --- Correction mathématique des cartes --- */
+
 .client__card {
   /* CALCUL : (100% de l'espace - (2 espaces de 20px)) divisé par 3 cartes 
      Cela garantit que 3 cartes remplissent EXACTEMENT la vue.
@@ -760,7 +760,6 @@ header::before {
   }
 
   .header__image {
-    /* Ajoutez ceci pour cacher l'image par défaut */
     display: none;
   }
 
@@ -825,7 +824,6 @@ header::before {
   z-index: -1;
   overflow: hidden;
   
-  /* Supprimez display: none */
 }
 
 
@@ -1016,7 +1014,7 @@ header::before {
   box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
 }
 
-/* --- Correction du conteneur scrollable --- */
+
 .temoignages-container {
   display: flex;
   overflow-x: auto;

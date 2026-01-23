@@ -1,4 +1,3 @@
-/* src/app/admin-components/pages/page-magasin-admin/page-magasin-admin.component.css */
 
 html, body {
   min-height: 100vh;
@@ -136,9 +135,6 @@ html, body {
   margin-top: 20px;
 }
 
-/* src/app/admin-components/pages/page-magasin-admin/page-magasin-admin.component.css */
-
-/* ... (conserver les styles existants) ... */
 
 .header-content {
   color: white;

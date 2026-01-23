@@ -1,5 +1,5 @@
-/* src/app/admin/admin-prestataire/admin-prestataire.component.css */
-.admin-magasin-container { /* Renommer si vous préférez, mais le style est similaire */
+
+.admin-magasin-container { 
   padding: 25px;
   max-width: 1200px;
   margin: 20px auto;
@@ -26,14 +26,14 @@ h3 {
   border-bottom: 1px solid #eee;
 }
 
-.magasin-list { /* Renommer si vous préférez, mais le style est similaire */
+.magasin-list { 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   padding: 10px 0;
 }
 
-.magasin-card { /* Renommer si vous préférez, mais le style est similaire */
+.magasin-card { 
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;

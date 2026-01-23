@@ -33,7 +33,7 @@ export class ReclamationPrestataireController {
       const result = await this.cloudinaryService.uploadImage(file);
       dto.pieceJointe = result.secure_url;
     } else {
-      // CORRECTION ICI : Utiliser undefined au lieu de null
+      // Utiliser undefined au lieu de null
       dto.pieceJointe = undefined; 
     }
 

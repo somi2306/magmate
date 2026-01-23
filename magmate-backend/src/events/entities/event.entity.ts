@@ -26,7 +26,7 @@ export class Event {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ type: 'varchar' })
   title: string;
 
@@ -34,11 +34,11 @@ export class Event {
   @Column({ type: 'text' })
   description: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ type: 'varchar' })
   city: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ type: 'varchar' })
   lieu: string;
 
@@ -48,11 +48,11 @@ export class Event {
   })
   type: EventType;
 
-  // CORRECTION : Ajout explicite { type: 'timestamp' }
+  // Ajout explicite { type: 'timestamp' }
   @Column({ type: 'timestamp' })
   date: Date;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ type: 'varchar', nullable: true })
   imageUrl?: string;
 

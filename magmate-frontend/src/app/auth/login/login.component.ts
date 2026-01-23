@@ -51,9 +51,9 @@ export class LoginComponent implements OnInit {
     if (user) {
       try {
         const parsedUser = JSON.parse(user);
-        console.log('Parsed user:', parsedUser); // Vérifiez si le JSON est bien parsé
+        console.log('Parsed user:', parsedUser); 
         if (parsedUser && parsedUser.emailVerified) {
-          console.log('User role:', parsedUser.role); // Vérifiez le rôle de l'utilisateur
+          console.log('User role:', parsedUser.role); 
           this.redirectUser(parsedUser.role);
         }
       } catch (error) {
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     console.log('Initializing Firebase and reCAPTCHA...');
     if (!firebase.apps.length) {
       console.error('Firebase app is not initialized.');
-      firebase.initializeApp(environment.firebase); // Initialisez Firebase si nécessaire
+      firebase.initializeApp(environment.firebase); 
     }
   }
 
@@ -191,7 +191,6 @@ export class LoginComponent implements OnInit {
   async sendSmsCode(phoneNumber: string) {
   console.log('Sending SMS to:', phoneNumber);
 
-  // Vérifiez si reCAPTCHA est déjà initialisé
   if (!this.recaptchaVerifier) {
     console.log('Initializing reCAPTCHA verifier...');
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(

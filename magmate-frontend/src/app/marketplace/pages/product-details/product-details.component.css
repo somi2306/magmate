@@ -1,4 +1,3 @@
-/* src/app/marketplace/pages/product-details/product-details.component.css */
 
 
  html, body {
@@ -342,10 +341,10 @@
 
 /* Ajouter un espacement entre les paragraphes */
 .product-info p {
-  margin-bottom: 50px; /* Ajustez la valeur pour plus ou moins d'espace */
+  margin-bottom: 50px; 
 }
 .store-name, .price  {
-  margin-bottom: 50px; /* Ajustez la valeur pour plus ou moins d'espace */
+  margin-bottom: 50px; 
 }
 .button-container {
  

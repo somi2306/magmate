@@ -21,7 +21,7 @@
     align-items: center;
     padding: 15px;
     border-bottom: 1px solid #e1e1e1;
-    height: 60px; /* Ajoutez une hauteur fixe */
+    height: 60px; 
     box-sizing: border-box; /* Inclut le padding dans la hauteur */
   }
   
@@ -773,7 +773,7 @@ button[type="submit"]:disabled {
   vertical-align: middle;
 }
 
-/* Ou si vous préférez un style plus subtil */
+
 .total-notification-badge.subtle {
   background-color: #2ed573;
   width: 20px;

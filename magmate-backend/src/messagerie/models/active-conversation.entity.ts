@@ -12,7 +12,7 @@ export class ActiveConversationEntity implements ActiveConversation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // CORRECTION : Ajout explicite du type
+  // Ajout explicite du type
   @Column({ type: 'varchar' })
   socketId: string;
 

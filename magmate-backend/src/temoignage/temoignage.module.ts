@@ -4,13 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TemoignageService } from './services/services/temoignage.service';
 import { TemoignageController } from './controllers/temoignage.controller';
 import { Temoignage } from './entities/temoignage.entity';
-import { User } from '../user/entities/user.entity'; // Importez l'entité User
-import { UserModule } from '../user/user.module'; // Importez UserModule
+import { User } from '../user/entities/user.entity'; 
+import { UserModule } from '../user/user.module'; 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Temoignage, User]),
-    UserModule, // Ajoutez cette ligne pour importer UserModule
+    UserModule,
   ],
   providers: [TemoignageService],
   controllers: [TemoignageController],

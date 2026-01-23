@@ -26,11 +26,11 @@ import { CurrencyComponent } from './components/currency/currency.component';
 import { AdminAuthComponent } from './admin-auth/admin-auth.component';
 import { AdminProfileComponent } from './admin-components/admin-profile/admin-profile.component';
 import { AdminMagasinListComponent } from './admin-components/admin-magasin-list/admin-magasin-list.component';
-import { AdminReclamationListComponent } from './admin-components/admin-reclamation-list/admin-reclamation-list.component'; // Importer le nouveau composant
-import { PageMagasinAdminComponent } from './admin-components/page-magasin-admin/page-magasin-admin.component'; // Import the new component
-import { PageProductDetailsAdminComponent } from './admin-components/page-product-details-admin/page-product-details-admin.component'; // Importez le nouveau composant admin
-import { AdminPrestataireListComponent } from './admin-components/admin-prestataire-list/admin-prestataire-list.component'; // Importez le nouveau composant
-import { PagePrestataireDetailsAdminComponent } from './admin-components/page-prestataire-details-admin/page-prestataire-details-admin.component'; // Assurez-vous que le chemin est correct
+import { AdminReclamationListComponent } from './admin-components/admin-reclamation-list/admin-reclamation-list.component'; 
+import { PageMagasinAdminComponent } from './admin-components/page-magasin-admin/page-magasin-admin.component'; 
+import { PageProductDetailsAdminComponent } from './admin-components/page-product-details-admin/page-product-details-admin.component'; 
+import { AdminPrestataireListComponent } from './admin-components/admin-prestataire-list/admin-prestataire-list.component'; 
+import { PagePrestataireDetailsAdminComponent } from './admin-components/page-prestataire-details-admin/page-prestataire-details-admin.component';
 import { AdminEventsListComponent } from './admin-components/admin-events-list/admin-events-list.component';
 import { PageEventsDetailsAdminComponent } from './admin-components/page-events-details-admin/page-events-details-admin.component';
 import { AdminMessagerieComponent } from './admin-components/admin-messagerie/admin-messagerie.component';
@@ -51,7 +51,7 @@ const routes: Routes = [
     { 
     path: 'admin/magasins', 
     component: AdminMagasinListComponent,
-    // canActivate: [AdminGuard] // Si vous avez un guard pour l'admin
+    
   },
   { path: 'admin/magasin-products/:id', component: PageMagasinAdminComponent }, //
 
@@ -86,7 +86,6 @@ const routes: Routes = [
     component: AdminUserListComponent,
 
   },
-  // Dans src/app/app-routing.module.ts
 { 
   path: 'admin/reclamations-prestataires', 
   component: AdminReclamationPrestataireListComponent 

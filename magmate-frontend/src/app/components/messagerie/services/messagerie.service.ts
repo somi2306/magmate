@@ -4,7 +4,7 @@ import { Observable, fromEvent } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../../environments/environment';
 
 export interface User {
   id: string;

@@ -4,7 +4,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Subscription } from 'rxjs';
-import { MessagerieService  } from '../messagerie/services/messagerie.service'; // Ajustez le chemin
+import { MessagerieService  } from '../messagerie/services/messagerie.service';
 @Component({
   selector: 'app-header',
   standalone: false,

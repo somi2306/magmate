@@ -1,4 +1,3 @@
-// src/auth/auth.controller.ts
 import { Body, Controller, Post, UnauthorizedException, Headers,BadRequestException} from '@nestjs/common';
 
 import * as admin from 'firebase-admin';
@@ -15,10 +14,10 @@ export class AuthController {
   @Post('login')
   async login(@Body('token') token: string) {
     try {
-      console.log('Received token:', token); // Ajoutez ce log
+      console.log('Received token:', token); 
       const decodedToken = await admin.auth().verifyIdToken(token);
       const email = decodedToken.email;
-      console.log('Decoded token:', decodedToken); // Vérifiez si le token est valide
+      console.log('Decoded token:', decodedToken); 
 
       if (!email) throw new UnauthorizedException('Email not found in token');
       let user = await this.userService.findByEmail(email);

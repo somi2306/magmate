@@ -66,10 +66,10 @@ export class ProductUpdateComponent implements OnInit {
         prix: product.prix
       });
 
-      // CORRECTION CLOUDINARY : L'image principale est déjà une URL complète
+      // L'image principale est déjà une URL complète
       this.imagePreview = product.imagePrincipale ? product.imagePrincipale : null;
 
-      // CORRECTION CLOUDINARY : Les images de la galerie sont déjà des URLs complètes
+      // Les images de la galerie sont déjà des URLs complètes
       if (product.images) {
         this.existingImages = product.images.map((image: any) => image.imageURL);
       }

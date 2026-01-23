@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Prestataire, PrestataireStatus } from '../entities/prestataire.entity'; // Importez PrestataireStatus
+import { Prestataire, PrestataireStatus } from '../entities/prestataire.entity'; 
 
 import { CreatePrestataireDto } from '../dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from '../dto/update-prestataire.dto';

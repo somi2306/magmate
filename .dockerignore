@@ -1,0 +1,20 @@
+# Ignorer le dossier Git (lourd et inutile)
+.git
+.gitignore
+
+# Ignorer les modules Node.js 
+**/node_modules
+
+# Ignorer les builds locaux 
+**/dist
+**/build
+
+# Ignorer les fichiers de config IDE
+.vscode
+.idea
+*.swp
+*.iml
+
+# Ignorer les logs locaux
+npm-debug.log
+yarn-error.log

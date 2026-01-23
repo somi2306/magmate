@@ -1,8 +1,7 @@
-// src/app/marketplace/services/product.service.ts
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../environments/environment';
 
 export interface Produit {
   idProduit: number;

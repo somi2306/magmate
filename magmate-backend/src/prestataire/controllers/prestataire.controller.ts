@@ -17,13 +17,12 @@ import { Prestataire, PrestataireStatus } from '../entities/prestataire.entity';
 
 import { CreatePrestataireDto } from '../dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from '../dto/update-prestataire.dto';
-import { PrestatairedetailsService } from '../services/prestatairedetails.service'; // Importez PrestatairedetailsService
+import { PrestatairedetailsService } from '../services/prestatairedetails.service';
 
 @Controller('prestataires')
 export class PrestataireController {
   constructor(
     private readonly prestataireService: PrestataireService,
-    // Injectez PrestatairedetailsService ici
     private readonly prestataireDetailsService: PrestatairedetailsService,
   ) {}
 
@@ -77,7 +76,7 @@ export class PrestataireController {
 
   @Get(':idPrestataire') // Cette route doit maintenant utiliser le service de détails du prestataire
   async findByIdPrestataire(@Param('idPrestataire') idPrestataire: string): Promise<Prestataire> {
-    // Utilisez prestataireDetailsService pour récupérer les détails par idPrestataire (clé primaire de l'entité Prestataire)
+    // prestataireDetailsService pour récupérer les détails par idPrestataire (clé primaire de l'entité Prestataire)
     return this.prestataireDetailsService.findById(idPrestataire);
   }
 

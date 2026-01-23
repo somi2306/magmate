@@ -1,4 +1,3 @@
-// src/app/marketplace/models/create-reclamation.dto.ts
 export interface CreateReclamationDto {
     idCible: number;         // ID du produit concerné par la réclamation
     description: string;     // Description de la réclamation

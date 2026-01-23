@@ -29,31 +29,31 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ unique: true, type: 'varchar' })
   email: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   username: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   fname: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   lname: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   password?: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   phoneNumber?: string;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   photo?: string;
 
@@ -64,11 +64,11 @@ export class User {
   })
   role: UserRole;
 
-  // CORRECTION : Ajout explicite { type: 'varchar' }
+  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   twoFactorSecret?: string;
 
-  // CORRECTION : Ajout explicite { type: 'boolean' }
+  // Ajout explicite { type: 'boolean' }
   @Column({ default: false, type: 'boolean' })
   twoFactorEnabled: boolean;
 

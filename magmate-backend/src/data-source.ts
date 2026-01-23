@@ -9,7 +9,7 @@ import UserRequestEntity from './user/entities/userrequest.entity';
 import { ConversationEntity } from './messagerie/models/conversation.entity';
 import { MessageEntity } from './messagerie/models/message.entity';
 import { ActiveConversationEntity } from './messagerie/models/active-conversation.entity';
-import { Temoignage } from './temoignage/entities/temoignage.entity'; // Ajoutez cette ligne
+import { Temoignage } from './temoignage/entities/temoignage.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -29,7 +29,7 @@ export default new DataSource({
     ConversationEntity,
     MessageEntity,
     ActiveConversationEntity,
-    Temoignage // Ajoutez cette ligne
+    Temoignage 
   ],
   migrations: ['src/migrations/*.ts'],
   ssl: true ? { 

@@ -27,7 +27,7 @@ export class MarketplaceComponent implements OnInit {
     'Agadir',
     'Chefchaouen',
   ];
-  magasin: Magasin | null = null; // Assurez-nous que le type est Magasin ou null
+  magasin: Magasin | null = null; //
   message: string = ''; //
   showPopup: boolean = false; //
   showMagasinPopup: boolean = false; //

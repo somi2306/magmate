@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../components/connection-profile/connection-profile.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../environments/environment'; 
 
 @Component({
   selector: 'app-admin-prestataire-list',

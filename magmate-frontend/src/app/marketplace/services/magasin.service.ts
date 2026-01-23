@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Magasin } from '../models/magasin.model'; // Importer le modèle Magasin
-import { environment } from '../../../environments/environment'; // <-- IMPORT AJOUTÉ
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

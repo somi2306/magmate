@@ -8,7 +8,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { MagasinService } from '../services/MagasinService';
-// CORRECTION : Import du service unifié
 import { ProductService } from '../services/product.service'; 
 import { Magasin } from '../entities/magasin.entity';
 import { Produit } from '../entities/produit.entity';

@@ -1,5 +1,3 @@
-// src/app/marketplace/models/produit.model.ts
-
 import { Image } from "./image.model";
 
 // Interface pour l'image du produit

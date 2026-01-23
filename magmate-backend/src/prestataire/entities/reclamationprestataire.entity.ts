@@ -1,5 +1,3 @@
-// src/prestataire/entities/reclamation-prestataire.entity.ts
-
 import {
   Entity,
   PrimaryGeneratedColumn,

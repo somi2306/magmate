@@ -79,7 +79,6 @@ export class AccueilPrestataireComponent implements OnInit {
 
   ngOnInit() {
     this.loadPrestataires();
-    // Supprimez tout appel à openModal() ou à des logiques similaires ici.
     // Les pop-ups ne doivent être activés que par le clic sur "Mon profil".
   }
   
@@ -106,7 +105,6 @@ export class AccueilPrestataireComponent implements OnInit {
     }
   }
   // Ces fonctions sont maintenant redondantes, car les pop-ups sont gérés par *ngIf.
-  // Vous pouvez les laisser ou les supprimer si elles ne sont plus utilisées nulle part ailleurs.
   openModal() {
     // La logique est maintenant gérée par showPrestatairePopup et *ngIf.
   }
@@ -138,21 +136,21 @@ export class AccueilPrestataireComponent implements OnInit {
                 } else if (prestataire.estApprouve === 'pending') {
                   this.message = 'Votre profil est en attente d\'approbation.';
                   this.showPopup = true;
-                  this.showPrestatairePopup = false; // Assurez-vous que l'autre popup est fermé.
+                  this.showPrestatairePopup = false; 
                 } else if (prestataire.estApprouve === 'rejected') {
                   this.message = 'Votre profil prestataire a été rejeté. Veuillez contacter l\'administrateur pour plus d\'informations.';
                   this.showPopup = true;
-                  this.showPrestatairePopup = false; // Assurez-vous que l'autre popup est fermé.
+                  this.showPrestatairePopup = false; 
                 }
               } else {
                 this.showPrestatairePopup = true; // Afficher le popup "créer profil" si aucun prestataire n'est trouvé.
-                this.showPopup = false; // Assurez-vous que l'autre popup est fermé.
+                this.showPopup = false; 
               }
             },
             error: (err) => {
               console.error("Erreur lors de la récupération du prestataire :", err);
               this.showPrestatairePopup = true; // En cas d'erreur lors de la récupération, suggérer de créer le profil.
-              this.showPopup = false; // Assurez-vous que l'autre popup est fermé.
+              this.showPopup = false; 
             }
           });
         },
