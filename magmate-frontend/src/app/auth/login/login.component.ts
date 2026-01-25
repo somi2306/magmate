@@ -1,4 +1,4 @@
-// login.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -41,26 +41,26 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(
+    /*console.log(
       'User in localStorage/sessionStorage:',
       localStorage.getItem('user') || sessionStorage.getItem('user')
-    );
+    );*/
 
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
-    console.log('Retrieved user from storage:', user); // Vérifier si on récupère bien quelque chose
+    //console.log('Retrieved user from storage:', user); // Vérifier si on récupère bien quelque chose
     if (user) {
       try {
         const parsedUser = JSON.parse(user);
-        console.log('Parsed user:', parsedUser); 
+        //console.log('Parsed user:', parsedUser); 
         if (parsedUser && parsedUser.emailVerified) {
-          console.log('User role:', parsedUser.role); 
+          //console.log('User role:', parsedUser.role); 
           this.redirectUser(parsedUser.role);
         }
       } catch (error) {
         console.error('Error parsing user:', error); // Gestion des erreurs de parsing
       }
     }
-    console.log('Initializing Firebase and reCAPTCHA...');
+    //console.log('Initializing Firebase and reCAPTCHA...');
     if (!firebase.apps.length) {
       console.error('Firebase app is not initialized.');
       firebase.initializeApp(environment.firebase); 
@@ -73,13 +73,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log('Setting up reCAPTCHA...');
+    //console.log('Setting up reCAPTCHA...');
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-container',
       {
         size: 'invisible',
         callback: (response: any) => {
-          console.log('reCAPTCHA resolved:', response);
+          //console.log('reCAPTCHA resolved:', response);
         },
         'expired-callback': () => {
           console.error('reCAPTCHA expired');
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
     );
 
     this.recaptchaVerifier.render().then((widgetId) => {
-      console.log('reCAPTCHA widgetId:', widgetId);
+      //console.log('reCAPTCHA widgetId:', widgetId);
     });
   }
 
@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit {
         this.showTwoFactorForm = true;
         this.phoneNumber = backendUser.phoneNumber; // si tu veux l’afficher ou l’utiliser
         this.backendRole = backendUser.role;
-        console.log('Calling sendSmsCode with phone number:', this.phoneNumber);
+        //console.log('Calling sendSmsCode with phone number:', this.phoneNumber);
         this.sendSmsCode(this.phoneNumber);
 
         return;
@@ -189,16 +189,16 @@ export class LoginComponent implements OnInit {
   }
 
   async sendSmsCode(phoneNumber: string) {
-  console.log('Sending SMS to:', phoneNumber);
+  //console.log('Sending SMS to:', phoneNumber);
 
   if (!this.recaptchaVerifier) {
-    console.log('Initializing reCAPTCHA verifier...');
+    //console.log('Initializing reCAPTCHA verifier...');
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-container',
       {
         size: 'invisible',
         callback: (response: any) => {
-          console.log('reCAPTCHA resolved:', response);
+          //console.log('reCAPTCHA resolved:', response);
         },
         'expired-callback': () => {
           console.error('reCAPTCHA expired');
@@ -208,7 +208,7 @@ export class LoginComponent implements OnInit {
 
     try {
       await this.recaptchaVerifier.render();
-      console.log('reCAPTCHA verifier initialized successfully.');
+      //console.log('reCAPTCHA verifier initialized successfully.');
     } catch (error) {
       console.error('Failed to initialize reCAPTCHA verifier:', error);
       this.errorMessage = 'Erreur lors de l\'initialisation de reCAPTCHA.';
@@ -220,11 +220,11 @@ export class LoginComponent implements OnInit {
     const result = await firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier);
-    console.log('SMS sent successfully');
+    //console.log('SMS sent successfully');
 
     // Stocker le confirmationResult dans la classe
     this.confirmationResult = result;
-    console.log('Confirmation result stored:', this.confirmationResult);
+    //console.log('Confirmation result stored:', this.confirmationResult);
   } catch (error: any) {
     this.errorMessage = "Erreur lors de l'envoi du SMS : " + error.message;
     console.error('SMS Error:', error);
@@ -236,8 +236,8 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Veuillez entrer le code reçu par SMS.';
       return;
     }
-    console.log('Code entered by user:', this.twoFactorCode);
-    console.log('Verifying code...');
+    //console.log('Code entered by user:', this.twoFactorCode);
+    //console.log('Verifying code...');
 
     if (!this.confirmationResult) {
       console.error('No confirmationResult found.');
@@ -246,9 +246,9 @@ export class LoginComponent implements OnInit {
     }
 
     try {
-      console.log('Confirmation result retrieved:', this.confirmationResult);
+      //console.log('Confirmation result retrieved:', this.confirmationResult);
       const result = await this.confirmationResult.confirm(this.twoFactorCode);
-      console.log('Verification successful:', result);
+      //console.log('Verification successful:', result);
 
       // Authentification réussie
       if (this.loginForm.value.remember) {
@@ -284,7 +284,7 @@ export class LoginComponent implements OnInit {
   }
 
   redirectUser(role: string) {
-    console.log('Redirecting user with role:', role); // Log du rôle pour vérifier la redirection
+    //console.log('Redirecting user with role:', role); // Log du rôle pour vérifier la redirection
     switch (role) {
       case 'admin':
         this.router.navigate(['/admin-auth']);

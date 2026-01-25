@@ -21,27 +21,21 @@ export class Prestataire {
   @PrimaryGeneratedColumn('uuid')
   idPrestataire: string;
 
-  // AJOUT : { type: 'varchar' }
   @Column({ type: 'varchar' })
   specialite: string;
 
-  // AJOUT : { type: 'varchar' }
   @Column({ type: 'varchar' })
   experience: string;
 
-  // AJOUT : { type: 'varchar' }
   @Column({ type: 'varchar' })
   localisation: string;
 
-  // AJOUT : { type: 'boolean' }
   @Column({ type: 'boolean', default: true })
   disponibilite: boolean;
 
-  // AJOUT : { type: 'varchar' }
   @Column({ type: 'varchar' })
   telephone: string;
 
-  // AJOUT : { type: 'varchar' }
   @Column({ type: 'varchar' })
   ville: string;
 
@@ -52,7 +46,6 @@ export class Prestataire {
   })
   estApprouve: PrestataireStatus;
 
-  // AJOUT : { type: 'varchar' } (car c'est une string ici)
   @Column({ nullable: false, type: 'varchar' })
   idUtilisateur: string;
 

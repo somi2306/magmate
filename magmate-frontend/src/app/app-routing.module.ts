@@ -9,7 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MessagerieComponent } from './components/messagerie/messagerie.component';
 import { PrestataireDetailsComponent } from './prestataire/pages/prestatairedetails/prestataire-details.component';
 import { AuthGuard } from './auth/guards/auth.guard';
-import { ProductDetailsComponent } from './marketplace/pages/product-details/product-details.component'; // Importation de votre composant de détails de produit
+import { ProductDetailsComponent } from './marketplace/pages/product-details/product-details.component'; 
 import { MarketplaceComponent } from './marketplace/pages/marketplacehome/marketplacehome.component';
 import { AccueilPrestataireComponent } from './prestataire/pages/accueil-prestataire/accueil-prestataire.component';
 import { ConnectionProfileComponent } from './components/connection-profile/connection-profile.component';
@@ -57,12 +57,12 @@ const routes: Routes = [
 
     { path: 'admin/reclamations', component: AdminReclamationListComponent }, //
 
-      // Nouvelle route pour afficher les produits d'un magasin (pour l'admin)
+      //   route pour afficher les produits d'un magasin (pour l'admin)
   {
-    path: 'admin/produit-details/:id', // Nouvelle route pour les détails du produit admin
+    path: 'admin/produit-details/:id', //   route pour les détails du produit admin
     component: PageProductDetailsAdminComponent, // Composant admin
   },
-    {path :'admin/prestataires', component:AdminPrestataireListComponent}, // Nouvelle route pour l'admin
+    {path :'admin/prestataires', component:AdminPrestataireListComponent}, //   route pour l'admin
 
   { path: 'admin/prestataire-details/:id', component: PagePrestataireDetailsAdminComponent },
 

@@ -2,7 +2,7 @@
   padding: 25px;
   max-width: 1200px;
   
-  /* CORRECTION : Marge du haut pour éviter le header fixe (80px + 30px espace) */
+  /* Marge du haut pour éviter le header fixe (80px + 30px espace) */
   margin: 110px auto 30px auto;
   
   background-color: #ffffff;

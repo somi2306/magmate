@@ -1,6 +1,6 @@
-// marketplace backend/dto/update-magasin.dto/update-magasin.dto.ts
-import { IsOptional, IsString, IsPhoneNumber, IsEnum } from 'class-validator'; // Importer IsEnum
-import { MagasinStatus } from '../../entities/magasin.entity'; // Importer l'enum
+
+import { IsOptional, IsString, IsPhoneNumber, IsEnum } from 'class-validator'; 
+import { MagasinStatus } from '../../entities/magasin.entity';
 
 export class UpdateMagasinDto {
   @IsOptional()

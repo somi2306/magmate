@@ -20,7 +20,7 @@ export class PrestataireCardComponent {
     if (user) {
       // Optionnel : récupérer le token si nécessaire
       const token = await user.getIdToken();
-      console.log('Token de l\'utilisateur connecté :', token);
+      //console.log('Token de l\'utilisateur connecté :', token);
       
       // Naviguer vers la page de détails du prestataire
       this.router.navigate(['/prestataires', idPrestataire]);

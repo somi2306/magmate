@@ -52,7 +52,7 @@ export class AdminAuthComponent implements OnInit {
   }
 
   enable2FA() {
-    console.log('Attempting to enable 2FA with code:', this.totpCode);
+    //console.log('Attempting to enable 2FA with code:', this.totpCode);
     const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (!user) {
       this.router.navigate(['/login']); // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié

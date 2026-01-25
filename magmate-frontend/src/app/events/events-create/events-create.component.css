@@ -1,4 +1,4 @@
-/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+
 * {
   box-sizing: border-box;
 }
@@ -12,7 +12,7 @@ body,
 .all {
   background: var(--secondary-bg);
   padding: 5%;
-  /* CORRECTION : Marge pour compenser le header fixe (80px + espace) */
+  /* Marge pour compenser le header fixe (80px + espace) */
   padding-top: 110px;
 }
 

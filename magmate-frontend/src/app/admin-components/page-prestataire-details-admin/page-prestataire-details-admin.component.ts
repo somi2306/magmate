@@ -59,11 +59,7 @@ export class PagePrestataireDetailsAdminComponent implements OnInit {
 
   deleteComment(commentId: string): void {
     if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce commentaire ?')) {
-      // Nous aurons besoin d'une méthode `deleteComment` dans `CommentPrestataireService`
-      // qui n'existe pas encore. Nous devrons la créer.
       console.log(`Tentative de suppression du commentaire avec l'ID: ${commentId}`);
-      // Temporairement, nous allons recharger les commentaires pour simuler la suppression
-      // Une fois la méthode backend implémentée, nous la remplacerons.
       this.commentService.deleteComment(commentId).subscribe({
         next: () => {
           alert('Commentaire supprimé avec succès.');

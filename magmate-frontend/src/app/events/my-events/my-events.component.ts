@@ -36,11 +36,11 @@ editEvent(eventId: string): void {
 }
 
  deleteEvent(eventId: string): void {
-  console.log('Tentative de suppression de l\'événement avec ID :', eventId);
+  //console.log('Tentative de suppression de l\'événement avec ID :', eventId);
   if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
     this.eventsService.deleteEvent(eventId).subscribe({
       next: () => {
-        console.log('Événement supprimé avec succès');
+        //console.log('Événement supprimé avec succès');
         this.myEvents = this.myEvents.filter((event) => event.id !== eventId);
         alert('Événement supprimé avec succès !');
       },

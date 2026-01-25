@@ -1,8 +1,8 @@
 .admin-magasin-container {
   padding: 25px;
   max-width: 1200px;
-  
-  /* CORRECTION : 80px (Header) + 30px (Espace) = 110px */
+
+  /* 80px (Header) + 30px (Espace) = 110px */
   margin: 110px auto 30px auto;
   
   background-color: #ffffff;

@@ -7,16 +7,11 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  // 1. Préfixe API (Très important pour ne pas conflire avec les routes Angular)
   app.setGlobalPrefix('api');
-  
-  // 2. Configuration CORS dynamique
-  // En local, on utilise 4200. En prod, on lira la variable d'environnement ou on autorisera tout si même domaine.
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
   
   app.enableCors({
-    origin: frontendUrl, // Utilise la variable d'env
+    origin: frontendUrl, 
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MagasinService } from '../../marketplace/services/MagasinService';
-import { ProductService } from '../../marketplace/services/ProductService'; // Use the correct ProductService
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
-import { ProductService as ProductServiceBackend } from '../../marketplace/services/product.service'; // Alias to avoid naming conflict
-import { HttpClient } from '@angular/common/http'; // Import HttpClient for sending emails
-import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
+import { ProductService } from '../../marketplace/services/ProductService'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
+import { ProductService as ProductServiceBackend } from '../../marketplace/services/product.service'; 
+import { HttpClient } from '@angular/common/http'; 
+import { firstValueFrom } from 'rxjs'; 
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -66,7 +66,7 @@ export class PageMagasinAdminComponent implements OnInit {
 
       this.productServiceBackend.deleteProduct(productId).subscribe({
         next: () => {
-          alert('Produit supprimé avec succès ✅');
+          alert('Produit supprimé avec succès ');
           this.loadProduits(this.magasin.idMagasin); // Reload products after deletion
           // Send email to owner about product deletion
           if (this.magasin && this.magasin.proprietaire?.email && productToDelete) {
@@ -79,7 +79,7 @@ export class PageMagasinAdminComponent implements OnInit {
         },
         error: (error) => {
           console.error('Erreur lors de la suppression du produit :', error);
-          alert('Erreur lors de la suppression du produit ❌');
+          alert('Erreur lors de la suppression du produit');
         }
       });
     }
@@ -89,8 +89,8 @@ export class PageMagasinAdminComponent implements OnInit {
     if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce magasin et tous ses produits associés ?')) {
       this.magasinService.deleteMagasin(idMagasin).subscribe(
         (response) => {
-          console.log('Magasin supprimé avec succès', response);
-          alert('Magasin et ses produits associés supprimés avec succès. ✅');
+          //console.log('Magasin supprimé avec succès', response);
+          alert('Magasin et ses produits associés supprimés avec succès.');
           // Send email to owner about store deletion
           if (this.magasin && this.magasin.proprietaire?.email) {
             this.sendEmailToProprietaire(
@@ -103,7 +103,7 @@ export class PageMagasinAdminComponent implements OnInit {
         },
         (error) => {
           console.error('Erreur lors de la suppression du magasin :', error);
-          alert('Une erreur est survenue lors de la suppression du magasin. ❌');
+          alert('Une erreur est survenue lors de la suppression du magasin.');
         }
       );
     }
@@ -116,13 +116,13 @@ export class PageMagasinAdminComponent implements OnInit {
     }
 
     try {
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
       }));
-      console.log(`Email envoyé avec succès à ${to} avec le sujet: ${subject}`);
+      //console.log(`Email envoyé avec succès à ${to} avec le sujet: ${subject}`);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email via l\'API:', error);
       alert('Échec de l\'envoi de l\'email de notification.');

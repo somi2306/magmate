@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MagasinService } from '../../services/magasin.service';
-import { AlertService } from '../../services/alerte.service'; // Import du service d'alerte
+import { AlertService } from '../../services/alerte.service'; 
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
@@ -61,7 +61,7 @@ export class MagasinFormComponent implements OnInit {
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.imageFile = file;  // ✅ Stocke dans une propriété à part
+      this.imageFile = file;  //  Stocke dans une propriété à part
     }
   }
 

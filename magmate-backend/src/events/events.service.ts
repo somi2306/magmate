@@ -166,7 +166,7 @@ export class EventsService {
     return favorites.map((f) => f.event);
   }
 
-  // ❌ 9. Supprimer un favori
+  // 9. Supprimer un favori
   async removeFromFavorites(eventId: string, userEmail: string): Promise<void> {
     const event = await this.eventsRepository.findOne({
       where: { id: eventId },
@@ -199,7 +199,7 @@ export class EventsService {
     return this.eventsRepository.save(event);
   }
 
-  // Nouvelle méthode pour rejeter un événement
+  //   méthode pour rejeter un événement
   async rejectEvent(id: string): Promise<Event> {
     const event = await this.eventsRepository.findOneBy({ id });
     if (!event) {
@@ -214,7 +214,7 @@ export class EventsService {
     return this.eventsRepository.find({
       where: { status: status },
       relations: ['createdBy'], // Charger les informations de l'utilisateur qui a créé l'événement
-      order: { createdAt: 'DESC' } // Exemple d'ordre
+      order: { createdAt: 'DESC' } 
     });
   }
 

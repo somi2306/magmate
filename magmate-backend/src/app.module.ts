@@ -8,14 +8,14 @@ import { FirebaseAdminModule } from './firebase/firebase-admin.module';
 import { ProfileModule } from './profile/profile.module';
 import { EventsModule } from './events/events.module';
 import { MarketplaceModule } from './marketplace/marketplace.module';
-import { ServeStaticModule } from '@nestjs/serve-static'; // <-- DÉCOMMENTÉ (Indispensable pour prod)
-import { join } from 'path'; // <-- DÉCOMMENTÉ (Indispensable pour prod)
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { MessagerieModule } from './messagerie/messagerie.module';
 import { PrestataireModule } from './prestataire/prestataire.module';
 import { MailModule } from './mail/mail.module';
 import { TemoignageModule } from './temoignage/temoignage.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { ConfigModule } from '@nestjs/config'; // <-- Recommandé pour gérer vos variables .env
+import { ConfigModule } from '@nestjs/config'; 
 
 @Module({
   imports: [
@@ -23,12 +23,8 @@ import { ConfigModule } from '@nestjs/config'; // <-- Recommandé pour gérer vo
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
-    // --- CONFIGURATION FRONTEND (PRODUCTION) ---
     ServeStaticModule.forRoot({
-      // Dans Docker, nous serons à la racine /app.
-      // Nous allons copier le build Angular dans le dossier 'static' du conteneur.
-      // Attention : Angular 17+ met souvent les fichiers dans dist/browser ou dist/nom-projet/browser
+      // Dans Docker,il sera à la racine /app.
       rootPath: join(process.cwd(), 'static'), 
       //exclude: ['/api/:any(.*)'],
     }),

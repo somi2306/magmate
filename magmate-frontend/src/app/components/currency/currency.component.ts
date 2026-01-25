@@ -41,7 +41,7 @@ export class CurrencyComponent {
   // Méthode appelée quand on clique sur une phrase
   onPhraseClick(phrase: any): void {
     this.activeTab = 'common-phrases';  // Définit l'onglet actif sur 'common-phrases'
-    console.log('Phrase sélectionnée:', phrase);  // Tu peux aussi faire ce que tu veux avec la phrase ici
+    //console.log('Phrase sélectionnée:', phrase);  // Tu peux aussi faire ce que tu veux avec la phrase ici
   }
 
   public commonPhrases = [
@@ -713,7 +713,7 @@ export class CurrencyComponent {
   }
 
   generateFallingLetters() {
-    console.log("Génération des lettres...");
+    //console.log("Génération des lettres...");
     const letterCount = window.innerWidth < 768 ? 15 : 30; // Moins de lettres sur mobile
     
     // Générer lettres latines
@@ -737,7 +737,7 @@ export class CurrencyComponent {
         delay: Math.random() * 10
       });
     }
-    console.log(this.fallingLetters);
+    //console.log(this.fallingLetters);
   }
   private setupSwiper(): void {
     const swiper = new Swiper(".swiper", {
@@ -854,7 +854,7 @@ export class CurrencyComponent {
           };
         });
         
-        console.log("Available voices:", voices);
+        //console.log("Available voices:", voices);
     
         const utterance = new SpeechSynthesisUtterance(text);
         
@@ -982,7 +982,7 @@ export class CurrencyComponent {
                     file,
                     tesseractLang,
                     {
-                        logger: (m: any) => console.log(m.status),
+                        //logger: (m: any) => console.log(m.status),
                     }
                 );
   
@@ -1241,7 +1241,7 @@ private updateOutputDropdownBasedOnDetection(forceUpdate: boolean = false): void
     li.setAttribute('data-value', lang.code);
     li.textContent = `${lang.name} (${lang.native})`;
 
-    // Nouvelle logique ici :
+    //   logique ici :
     // Si l'utilisateur avait choisi une langue qui est encore disponible dans le menu, on la garde !
     if (lang.code === currentSelectedLang) {
       li.classList.add("active");

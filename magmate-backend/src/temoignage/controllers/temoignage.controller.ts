@@ -1,4 +1,4 @@
-// bard app/src backend/temoignage/controllers/temoignage.controller.ts
+
 import { Controller, Post, Get, Body, UseGuards, Delete, Param, ValidationPipe } from '@nestjs/common';
 import { TemoignageService } from '../services/services/temoignage.service';
 import { CreateTemoignageDto } from '../dto/create-temoignage.dto';

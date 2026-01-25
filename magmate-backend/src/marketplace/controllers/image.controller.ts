@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';  // Importer les décorateurs Swagger
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { ImageService } from '../services/image.service';
 import { CreateImageDto } from '../dto/create-image.dto/create-image.dto';
 
@@ -10,7 +10,7 @@ export class ImageController {
 
   @Post()
   @ApiOperation({
-    summary: 'Créer une nouvelle image associée à un produit',  // Description de l’opération
+    summary: 'Créer une   image associée à un produit',  // Description de l’opération
   })
   @ApiBody({
     type: CreateImageDto,  // Définir le DTO attendu dans le corps de la requête

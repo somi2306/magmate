@@ -1,4 +1,4 @@
-/* page-events-details-admin.component.css */
+
 
 .all {
   background: var(--secondary-bg);
@@ -8,7 +8,7 @@
 .event-details-container {
   max-width: 900px;
   
-  /* CORRECTION : Marge du haut pour éviter le header fixe (80px + 30px) */
+  /* Marge du haut pour éviter le header fixe (80px + 30px) */
   margin: 110px auto 32px auto;
   
   padding: 0 0 32px 0;

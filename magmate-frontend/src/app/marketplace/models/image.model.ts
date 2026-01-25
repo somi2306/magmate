@@ -1,4 +1,4 @@
-import { Produit } from './produit.model';  // Importer le modèle Produit
+import { Produit } from './produit.model'; 
 
 export class Image {
   idImage: number;

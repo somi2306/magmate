@@ -1,7 +1,7 @@
-// marketplace backend/dto/create-magasin.dto/create-magasin.dto.ts
+
 import { IsString, IsNotEmpty, IsOptional, IsUUID, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { MagasinStatus } from '../../entities/magasin.entity'; // Importer l'enum
+import { MagasinStatus } from '../../entities/magasin.entity';
 
 export class CreateMagasinDto {
   @ApiProperty({

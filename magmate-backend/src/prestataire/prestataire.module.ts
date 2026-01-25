@@ -12,7 +12,7 @@ import { CommentPrestataireController } from './controllers/commentprestataire.c
 import { Reclamationprestataire } from './entities/reclamationprestataire.entity';
 import { ReclamationPrestataireController } from './controllers/reclamationprestataire.controller';
 import { ReclamationPrestataireService } from './services/reclamation-prestataire.service';
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module'; // 1. Import
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   controllers: [
@@ -30,7 +30,7 @@ import { CloudinaryModule } from 'src/cloudinary/cloudinary.module'; // 1. Impor
   ],
   imports: [
     TypeOrmModule.forFeature([avisprestataire, Prestataire, User, Reclamationprestataire]),
-    CloudinaryModule // 2. Ajout aux imports
+    CloudinaryModule
   ],
   exports: [TypeOrmModule],
 })

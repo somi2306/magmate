@@ -51,12 +51,10 @@ export class ProductUpdateComponent implements OnInit {
     });
   }
 
-  // Récupérer les informations du produit par son ID
-// ... (reste du code identique)
 
   // Récupérer les informations du produit par son ID
   loadProductData(): void {
-    console.log('Chargement du produit avec ID :', this.productId);
+    //console.log('Chargement du produit avec ID :', this.productId);
     
     this.productService.getProductById(this.productId).subscribe(product => {
       // Remplir le formulaire avec les données récupérées
@@ -131,7 +129,7 @@ export class ProductUpdateComponent implements OnInit {
     // Envoyer les données à l'API
     this.productService.updateProduct(this.productId, productData).subscribe({
       next: (response) => {
-        console.log('Produit mis à jour avec succès', response);
+        //console.log('Produit mis à jour avec succès', response);
         this.alertService.success('Le produit a été mis à jour avec succès!');
         this.router.navigate(['/magasin']);
       },

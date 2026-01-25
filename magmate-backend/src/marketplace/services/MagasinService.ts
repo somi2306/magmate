@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Magasin } from '../entities/magasin.entity';
-import { Produit } from '../entities/produit.entity'; // Importer Produit
+import { Produit } from '../entities/produit.entity'; 
 
 @Injectable()
 export class MagasinService {
@@ -62,7 +62,7 @@ export class MagasinService {
     }
   }
 
-  // Nouvelle méthode pour compter tous les magasins
+  //   méthode pour compter tous les magasins
   async getMagasinCount(): Promise<number> {
     return await this.magasinRepository.count();
   }

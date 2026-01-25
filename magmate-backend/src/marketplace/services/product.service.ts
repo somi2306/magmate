@@ -162,14 +162,14 @@ export class ProductService {
         const uploadPromises = galleryFiles.map(file => this.uploadToCloudinary(file));
         const urls = await Promise.all(uploadPromises);
 
-        const nouvellesImages = urls.map((url) => {
+        const  sImages = urls.map((url) => {
             const image = new Image();
             image.imageURL = url;
             image.produit = produit;
             return image;
           });
 
-        await manager.save(Image, nouvellesImages);
+        await manager.save(Image,  sImages);
       }
 
       return manager.findOne(Produit, {

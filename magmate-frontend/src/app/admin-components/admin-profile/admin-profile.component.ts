@@ -44,7 +44,6 @@ userProfile!: UserProfile;
     }
   }
 
-// profile.component.ts
 async uploadPhoto() {
   if (!this.selectedFile) {
     console.error('Aucun fichier sélectionné');
@@ -58,7 +57,7 @@ async uploadPhoto() {
 
   try {
     const res: any = await this.profileService.updateProfilePhoto(formData);
-    console.log('Réponse du backend:', res);
+    //console.log('Réponse du backend:', res);
     this.userProfile.photo = res.photo;
     this.previewUrl = null;
     this.uploadSuccess = true;

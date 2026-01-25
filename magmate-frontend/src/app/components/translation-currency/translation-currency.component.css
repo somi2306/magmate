@@ -265,7 +265,7 @@ body {
   }
 }
 
-/* Nouveaux styles pour les vidéos */
+/*  styles pour les vidéos */
 .video-container {
   position: relative;
   overflow: hidden;
@@ -1498,11 +1498,11 @@ textarea:focus {
 }
 
 .falling-letter.latin {
-  color: #678760; /* Nouvelle couleur pour les lettres latines */
+  color: #678760; /*   couleur pour les lettres latines */
 }
 
 .falling-letter.arabic {
-  color: #721a1a; /* Nouvelle couleur pour les lettres arabes */
+  color: #721a1a; /*   couleur pour les lettres arabes */
   font-size: 24px; /* Taille légèrement plus grande pour les lettres arabes */
 }
 

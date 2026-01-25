@@ -19,7 +19,6 @@ import { firstValueFrom } from 'rxjs';
 @WebSocketGateway({
   namespace: '/messagerie',
   cors: {
-    // Si la variable FRONTEND_URL existe (Prod), on l'utilise. Sinon localhost:4200 (Dev).
     origin: process.env.FRONTEND_URL || 'http://localhost:4200',
     credentials: true,
   },
@@ -36,12 +35,12 @@ export class MessagerieGateway implements OnGatewayConnection, OnGatewayDisconne
   server: Server;
 
   async handleConnection(socket: Socket) {
-    console.log('🔌 Connection attempt:', socket.id);
+    //console.log('🔌 Connection attempt:', socket.id);
     
     const token = socket.handshake.auth.token || socket.handshake.headers.authorization;
     
 if (!token) {
-      console.log('No token provided');
+      //console.log('No token provided');
       socket.disconnect();
       return;
     }
@@ -51,7 +50,7 @@ if (!token) {
       const user = await this.authService.loginOrCreateUser(decodedToken);
       
       if (!user) {
-        console.log('User not found/created');
+        //console.log('User not found/created');
         socket.disconnect();
         return;
       }
@@ -69,7 +68,7 @@ if (!token) {
       this.broadcastPresence();
 
       this.getConversations(socket, user.id);
-      console.log(`✅ User connected: ${user.email}`);
+      //console.log(` User connected: ${user.email}`);
     } catch (error) {
       console.error('Authentication error:', error);
       socket.disconnect();
@@ -86,7 +85,7 @@ if (!token) {
   }
 
   handleDisconnect(socket: Socket) {
-    console.log('❌ User disconnected:', socket.id);
+    //console.log(' User disconnected:', socket.id);
     const user = socket.data.user;
     
     if (user) {

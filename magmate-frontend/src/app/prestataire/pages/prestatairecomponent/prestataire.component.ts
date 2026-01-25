@@ -44,7 +44,7 @@ export class PrestataireComponent implements OnInit {
   load(): void {
     this.prestataireService.getMe().subscribe({
       next: (data) => {
-        console.log(data);
+        //console.log(data);
       //  this.prestataire = data;
        // this.initForm(data);
       },
@@ -61,7 +61,7 @@ export class PrestataireComponent implements OnInit {
 
     const dto = this.form.value;
 
-    // ❌ Partie mise à jour commentée temporairement
+    //  Partie mise à jour commentée temporairement
     /*
     const request$ = this.prestataire
       ? this.prestataireService.update(dto)
@@ -84,7 +84,7 @@ export class PrestataireComponent implements OnInit {
     });
     
 
-    // ✅ Création uniquement pour test
+    //  Création uniquement pour test
     this.prestataireService.create(dto).subscribe({
       next: () => {
         this.alertType = 'success';

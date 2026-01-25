@@ -134,14 +134,14 @@ export class AdminPrestataireListComponent implements OnInit {
         ? `Bonjour ${prestataireName},\n\nNous sommes heureux de vous informer que votre profil de prestataire a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
         : `Bonjour ${prestataireName},\n\nNous regrettons de vous informer que votre profil de prestataire n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
       }));
 
-      console.log('Email envoyé avec succès à', to);
+      //console.log('Email envoyé avec succès à', to);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email:', error);
     }
@@ -151,12 +151,12 @@ export class AdminPrestataireListComponent implements OnInit {
     if (confirm('Nous sommes-nous sûrs de vouloir supprimer ce profil de prestataire ?')) {
       try {
         await firstValueFrom(this.prestataireService.deletePrestataire(idPrestataire));
-        alert('Profil prestataire supprimé avec succès ✅');
+        alert('Profil prestataire supprimé avec succès ');
         this.loadAllPrestataires();
         this.errorMessage = null;
       } catch (error) {
         console.error('Erreur lors de la suppression du prestataire :', error);
-        this.errorMessage = 'Erreur lors de la suppression du prestataire ❌';
+        this.errorMessage = 'Erreur lors de la suppression du prestataire';
       }
     }
   }
@@ -167,8 +167,8 @@ export class AdminPrestataireListComponent implements OnInit {
   }
 
   async contactPrestataire(prestataireId: string | undefined): Promise<void> {
-    console.log('[DEBUG] Début de contactPrestataire()');
-    console.log('[DEBUG] ID du prestataire:', prestataireId);
+    //console.log('[DEBUG] Début de contactPrestataire()');
+    //console.log('[DEBUG] ID du prestataire:', prestataireId);
 
     if (!prestataireId) {
       console.error('[ERROR] Prestataire ID non trouvé');
@@ -203,7 +203,7 @@ export class AdminPrestataireListComponent implements OnInit {
         console.warn('[WARN] sendUserRequest a renvoyé une erreur, mais nous allons quand même tenter la redirection:', (sendRequestResponse as any).error);
       }
 
-      console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', prestataireId);
+      //console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', prestataireId);
       this.router.navigate(['/admin/messagerie'], {
         queryParams: { recipientId: prestataireId }
       });

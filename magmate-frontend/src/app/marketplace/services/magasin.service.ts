@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Magasin } from '../models/magasin.model'; // Importer le modèle Magasin
+import { Magasin } from '../models/magasin.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class MagasinService {
 
   // Méthode pour créer un magasin
   createMagasin(magasinData: FormData): Observable<any> {
-    console.log("Contenu de FormData:");
+    //console.log("Contenu de FormData:");
     magasinData.forEach((value, key) => {
-      console.log(key, value);
+      //console.log(key, value);
     });
     
     return this.http.post(`${this.apiUrl}`, magasinData);
@@ -71,7 +71,7 @@ export class MagasinService {
     return this.getMagasinsByStatus('rejected');
   }
 
-  // Nouvelle méthode ajoutée pour supprimer un magasin (selon usage dans PageMagasinAdminComponent)
+  //   méthode ajoutée pour supprimer un magasin (selon usage dans PageMagasinAdminComponent)
   deleteMagasin(idMagasin: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${idMagasin}`);
   }

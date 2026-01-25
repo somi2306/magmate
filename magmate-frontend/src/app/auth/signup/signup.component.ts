@@ -1,4 +1,4 @@
-// signup.component.ts
+
 import { Component } from '@angular/core';
 import {
   AbstractControl,
@@ -59,7 +59,7 @@ export class SignupComponent {
     this.afAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
-        console.log('Connecté avec Google :', result.user);
+        //console.log('Connecté avec Google :', result.user);
         this.router.navigate(['/login']);
       })
       .catch((error) => {
@@ -78,7 +78,7 @@ export class SignupComponent {
         password
       );
       await result.user?.sendEmailVerification();
-      this.successMessage = '📧 Vérifiez votre email pour confirmer le compte';
+      this.successMessage = ' Vérifiez votre email pour confirmer le compte';
 
       // Appel au backend pour créer / mettre à jour le profil
       const token = await result.user?.getIdToken();

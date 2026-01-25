@@ -35,16 +35,16 @@ export class EventsListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.isLoading = true;
-    console.log('Événements  :');
+    //console.log('Événements  :');
 
     this.eventsService.getAllEvents().subscribe({
       next: (events) => {
-        console.log('helo');
+        //console.log('helo');
         this.allEvents = events;
         this.events = events;
         this.extractCities();
 
-        console.log('Événements chargés :');
+        //console.log('Événements chargés :');
         // Vérifie si l'utilisateur est authentifié AVANT de charger les favoris
 
         this.eventsService.getFavorites().subscribe({
@@ -73,7 +73,7 @@ export class EventsListComponent implements OnInit {
     this.isLoading = true;
     this.eventsService.getAllEvents().subscribe({
       next: (events) => {
-        console.log('Événements chargés :', events);
+        //console.log('Événements chargés :', events);
         this.allEvents = events;
         this.events = events;
         this.extractCities();
@@ -139,11 +139,11 @@ export class EventsListComponent implements OnInit {
 
   async toggleFavorite(event: Event, e: MouseEvent): Promise<void> {
     e.stopPropagation();
-    console.log('Utilisateur authentifié:');
+    //console.log('Utilisateur authentifié:');
     this.isAuthenticated = await this.authService.isAuthenticated();
-    console.log('isAuthenticated:', this.isAuthenticated);
+    //console.log('isAuthenticated:', this.isAuthenticated);
     if (!this.isAuthenticated) {
-      console.log('Utilisateur non authentifié, redirection vers /login');
+      //console.log('Utilisateur non authentifié, redirection vers /login');
       this.router.navigate(['/login']);
       return;
     }

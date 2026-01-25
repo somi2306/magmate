@@ -16,12 +16,12 @@ export class ReclamationService {
   // Méthode pour ajouter une réclamation pour un produit
   addReclamation(productId: number, reclamationData: FormData): Observable<any> {
       // Pour debugger le contenu de l'objet
-      console.log('Données de réclamation:', reclamationData);
+      //console.log('Données de réclamation:', reclamationData);
 
       return this.http.post(`${this.apiUrl}/${productId}`, reclamationData);
   }
 
-  // NOUVELLE MÉTHODE : Récupérer toutes les réclamations (pour l'admin)
+  //   MÉTHODE : Récupérer toutes les réclamations (pour l'admin)
   getAllReclamations(): Observable<Reclamation[]> {
     return this.http.get<Reclamation[]>(this.apiUrl);
   }

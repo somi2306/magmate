@@ -1,5 +1,5 @@
-import { Produit } from './produit.model';  // Importer le modèle Produit
-import { User } from './user.model';  // Importer le modèle Utilisateur
+import { Produit } from './produit.model';  
+import { User } from './user.model';  
 
 export class Reclamation {
   idReclamation: number;

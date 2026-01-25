@@ -1,4 +1,4 @@
-// marketplace frontend/models/magasin.model.ts
+
 import { User } from './user.model';
 
 export interface Magasin {

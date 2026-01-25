@@ -72,7 +72,7 @@ export class AuthController {
   }
 
   
-  // ✅ Génére une URL OTP à transformer en QR code
+  // //console.log Génére une URL OTP à transformer en QR code
   @Post('2fa/generate')
   async generate2FA(@Body('email') email: string) {
     const user = await this.userService.findByEmail(email);
@@ -82,7 +82,7 @@ export class AuthController {
     return { otpauthUrl };
   }
 
-  // ✅ Vérifie le code 2FA (sans l’activer)
+  // //console.log Vérifie le code 2FA (sans l’activer)
   @Post('2fa/verify')
   async verify2FA(@Body('email') email: string, @Body('code') code: string) {
     const user = await this.userService.findByEmail(email);
@@ -96,7 +96,7 @@ export class AuthController {
     return { valid: true };
   }
 
-  // ✅ Active le 2FA
+  // //console.log Active le 2FA
   @Post('2fa/enable')
   async enable2FA(@Body('email') email: string, @Body('code') code: string) {
     const user = await this.userService.findByEmail(email);
@@ -112,7 +112,7 @@ export class AuthController {
     return { success: true };
   }
 
-  // ✅ Désactive le 2FA
+  // //console.log Désactive le 2FA
   @Post('2fa/disable')
   async disable2FA(@Body('userId') userId: string) {
     const user = await this.userService.findById(userId);

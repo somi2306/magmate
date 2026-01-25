@@ -1,4 +1,4 @@
-/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+
 * {
   box-sizing: border-box;
 }
@@ -17,7 +17,7 @@ html, body {
     background-color: #fff7ec;
     padding: 30px;
     
-    /* CORRECTION : Marge du haut pour compenser le header fixe (110px) */
+    /* Marge du haut pour compenser le header fixe (110px) */
     margin: 110px auto 40px auto; 
     
     max-width: 600px;

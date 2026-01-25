@@ -4,8 +4,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
-
-// --- IMPORT DE TOUTES LES ENTITÉS ---
 import { User } from './user/entities/user.entity';
 import { UserRequestEntity } from './user/entities/userrequest.entity';
 import { Event } from './events/entities/event.entity';
@@ -78,7 +76,7 @@ async function uploadToCloudinary(localPath: string): Promise<string | null> {
   }
 
   if (!fs.existsSync(absolutePath)) {
-    console.error(`❌ Fichier introuvable localement : ${cleanPath}`);
+    console.error(` Fichier introuvable localement : ${cleanPath}`);
     return null;
   }
 
@@ -88,7 +86,7 @@ async function uploadToCloudinary(localPath: string): Promise<string | null> {
     });
     return result.secure_url;
   } catch (error) {
-    console.error(`❌ Erreur upload Cloudinary pour ${cleanPath}:`, error.message);
+    console.error(` Erreur upload Cloudinary pour ${cleanPath}:`, error.message);
     return null;
   }
 }
@@ -102,7 +100,7 @@ async function runMigration() {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find({
       select: { id: true, email: true, photo: true },
-      loadEagerRelations: false // Important : ne pas charger les relations automatiquement
+      loadEagerRelations: false
   });
 
   for (const user of users) {

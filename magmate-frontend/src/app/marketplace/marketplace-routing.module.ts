@@ -7,7 +7,7 @@ import { ProductFormComponent } from './pages/product-form/product-form.componen
 import { ProductUpdateComponent } from './pages/product-update/product-update.component';
 import { MagasinUpdateComponent } from './pages/magasin-update/magasin-update.component';
 import { PageMagasinClientComponent } from './pages/page-magasin-client/page-magasin-client.component';
-import { PageMagasinAdminComponent } from './../admin-components/page-magasin-admin/page-magasin-admin.component'; // Import the new component
+import { PageMagasinAdminComponent } from './../admin-components/page-magasin-admin/page-magasin-admin.component';
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'produit/:id',
     component: ProductDetailsComponent,
   },
-  // Nouvelle route pour afficher les produits d'un magasin (pour l'admin)
+  //   route pour afficher les produits d'un magasin (pour l'admin)
   
 ];
 

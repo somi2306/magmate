@@ -1,8 +1,8 @@
 .reclamation-list-container {
   padding: 30px;
   max-width: 1400px;
-  
-  /* CORRECTION : Marge du haut pour éviter le header fixe */
+
+  /* Marge du haut pour éviter le header fixe */
   /* 80px (Header) + 30px (Espace) = 110px */
   margin: 110px auto 30px auto;
   

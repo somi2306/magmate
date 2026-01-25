@@ -33,7 +33,7 @@ export class ReclamationService {
     });
   }
 
-  // --- Créer une nouvelle réclamation ---
+  // --- Créer une   réclamation ---
   async createReclamation(
     dto: CreateReclamationDto, 
     userEmail: string, 
@@ -88,7 +88,7 @@ export class ReclamationService {
     });
   }
 
-  // NOUVELLE MÉTHODE : Récupérer toutes les réclamations
+  //   MÉTHODE : Récupérer toutes les réclamations
   async getAllReclamations(): Promise<Reclamation[]> {
     return this.reclamationRepository.find({
       relations: ['utilisateur', 'produit'], // Charger les relations pour afficher les infos

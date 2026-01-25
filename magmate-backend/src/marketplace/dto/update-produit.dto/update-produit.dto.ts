@@ -15,7 +15,7 @@ export class UpdateProduitDto {
   @ApiProperty({
     description: 'La description du produit',
     type: String,
-    example: 'Nouvelle description',
+    example: '  description',
     required: false,
   })
   @IsString()

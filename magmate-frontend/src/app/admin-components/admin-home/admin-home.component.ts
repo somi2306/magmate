@@ -4,7 +4,7 @@ import { AdminStatsService } from './admin-stats.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { BaseChartDirective } from 'ng2-charts'; // Import BaseChartDirective
+import { BaseChartDirective } from 'ng2-charts'; 
 
 // MODIFIED IMPORT: Add Chart and registerables
 import { ChartData, ChartOptions, ChartType, Chart, registerables } from 'chart.js';

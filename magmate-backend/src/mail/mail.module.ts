@@ -8,7 +8,6 @@ import { MailController } from './mail.controller';
   imports: [
     MailerModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
-// In mail.module.ts
 transport: {
   host: 'smtp.gmail.com',
   port: 587,

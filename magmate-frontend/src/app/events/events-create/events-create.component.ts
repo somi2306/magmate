@@ -16,7 +16,7 @@ export class EventsCreateComponent implements OnInit {
   eventTypes = Object.values(EventType);
   isSubmitting = false;
   formError = '';
-  isEditMode = false; // Détecte si on est en mode modification
+  isEditMode = false; // Détecte si on est en mode  
   eventId: string | null = null;
   selectedFile: File | null = null;
   imageError: string = '';
@@ -85,11 +85,11 @@ export class EventsCreateComponent implements OnInit {
       this.loadEventDetails(this.eventId);
     }
   }
-  // Charger les détails de l'événement en mode modification
+  // Charger les détails de l'événement en mode  
   loadEventDetails(id: string): void {
     this.eventsService.getEventById(id).subscribe({
       next: (event) => {
-        console.log('Valeur ville reçue:', event.city);
+        //console.log('Valeur ville reçue:', event.city);
 
         this.eventForm.patchValue({
           ...event,
@@ -138,7 +138,7 @@ export class EventsCreateComponent implements OnInit {
     }
 
     if (this.isEditMode && this.eventId) {
-      // Mode modification
+      // Mode  
       this.eventsService.updateEvent(this.eventId, formData).subscribe({
         next: () => {
           this.isSubmitting = false;
@@ -149,8 +149,8 @@ export class EventsCreateComponent implements OnInit {
           this.isSubmitting = false;
           this.formError =
             error.error?.message ||
-            "Une erreur est survenue lors de la modification de l'événement";
-          console.error("Erreur de modification d'événement", error);
+            "Une erreur est survenue lors de la   de l'événement";
+          console.error("Erreur de   d'événement", error);
         },
       });
     } else {
@@ -191,7 +191,7 @@ export class EventsCreateComponent implements OnInit {
   }
   cancel(): void {
     if (this.isEditMode) {
-      // Redirige vers la page "Mes événements" en mode modification
+      // Redirige vers la page "Mes événements" en mode  
       this.router.navigate(['/events/my']);
     } else {
       // Redirige vers la liste des événements en mode création

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment'; // Import environnement
+import { environment } from '../../../environments/environment'; 
 import { Produit } from '../models/produit.model'; 
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ProductService1 {
   constructor(private http: HttpClient) {}
 
   getProductById(id: number): Observable<Produit> {
-    console.log('Appel API à:', `${this.apiUrl}/${id}`);
+    //console.log('Appel API à:', `${this.apiUrl}/${id}`);
     return this.http.get<Produit>(`${this.apiUrl}/${id}`);
   }
 }

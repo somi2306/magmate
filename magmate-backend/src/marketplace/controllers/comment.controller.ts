@@ -1,7 +1,7 @@
-import { Controller, Post, Get, Param, Body, Delete } from '@nestjs/common'; // Importer Delete
+import { Controller, Post, Get, Param, Body, Delete } from '@nestjs/common';
 import { CommentService } from '../services/comment.service';
 import { CreateAvisDto } from '../dto/create-avis.dto'; // DTO pour la création d'avis
-import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard'; // Import du guard
+import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { UseGuards } from '@nestjs/common'; 
 
@@ -29,7 +29,7 @@ export class CommentController {
     return this.commentService.createComment(user, productId, createAvisDto);
   }
 
-  // Nouvelle route pour supprimer un commentaire par son ID
+  //   route pour supprimer un commentaire par son ID
   @Delete(':commentId')
   // @UseGuards(FirebaseAuthGuard)
   async deleteComment(@Param('commentId') commentId: number) {

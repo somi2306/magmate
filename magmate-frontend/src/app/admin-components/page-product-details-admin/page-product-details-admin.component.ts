@@ -1,4 +1,4 @@
-// page-product-details-admin.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService1 } from '../../marketplace/services/product1.service'; 

@@ -88,7 +88,7 @@ export class AdminMagasinListComponent implements OnInit {
       }
 
       const response = await firstValueFrom(this.magasinService.approveMagasin(id));
-      console.log('Magasin approuvé:', response);
+      //console.log('Magasin approuvé:', response);
       
       await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, true);
       
@@ -108,7 +108,7 @@ export class AdminMagasinListComponent implements OnInit {
       }
 
       const response = await firstValueFrom(this.magasinService.rejectMagasin(id));
-      console.log('Magasin rejeté:', response);
+      //console.log('Magasin rejeté:', response);
       
       await this.sendApprovalEmail(magasin.proprietaire.email, magasin.nom, false);
       
@@ -130,14 +130,14 @@ export class AdminMagasinListComponent implements OnInit {
         ? `Bonjour,\n\nNous sommes heureux de vous informer que votre magasin "${magasinNom}" a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
         : `Bonjour,\n\nNous regrettons de vous informer que votre magasin "${magasinNom}" n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
       }));
 
-      console.log('Email envoyé avec succès à', to);
+      //console.log('Email envoyé avec succès à', to);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email:', error);
     }
@@ -145,8 +145,8 @@ export class AdminMagasinListComponent implements OnInit {
 
   async contactProprietaire(proprietaireId: string | undefined): Promise<void> {
     // ... (Code identique au précédent) ...
-    console.log('[DEBUG] Début de contactProprietaire()');
-    console.log('[DEBUG] ID du propriétaire:', proprietaireId);
+    //console.log('[DEBUG] Début de contactProprietaire()');
+    //console.log('[DEBUG] ID du propriétaire:', proprietaireId);
 
     if (!proprietaireId) {
       console.error('[ERROR] Propriétaire ID non trouvé');
@@ -183,7 +183,7 @@ export class AdminMagasinListComponent implements OnInit {
         console.warn('[WARN] sendUserRequest a renvoyé une erreur, mais nous allons quand même tenter la redirection:', (sendRequestResponse as any).error);
       }
 
-      console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', proprietaireId);
+      //console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', proprietaireId);
       this.router.navigate(['/admin/messagerie'], {
         queryParams: { recipientId: proprietaireId }
       });
@@ -212,7 +212,7 @@ export class AdminMagasinListComponent implements OnInit {
       const subject = `Concernant votre magasin : ${magasinNom}`;
       const body = `Bonjour,\n\nNous souhaitons discuter de votre magasin ${magasinNom}.\n\nCordialement, \nL'équipe Magmate`;
 
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: proprietaireEmail,
         subject: subject,

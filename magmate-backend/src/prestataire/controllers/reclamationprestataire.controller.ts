@@ -40,7 +40,7 @@ export class ReclamationPrestataireController {
     // Associer l'ID du prestataire depuis le paramètre URL
     dto.prestataireId = idPrestataire;
 
-    console.log('Payload reçu :', dto);
+    //console.log('Payload reçu :', dto);
     return this.reclamationService.createReclamation(dto, user);
   }
     

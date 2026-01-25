@@ -52,14 +52,14 @@ export class AuthInterceptor implements HttpInterceptor {
       // Ajoute ici les autres routes privées
     ];
 
-    // Liste des routes à exclure de l'ajout du token (par exemple, les APIs externes)
+    // Liste des routes à exclure de l'ajout du token 
     const excludedRoutes = [
       'https://translate.googleapis.com', // Exclure l'API de Google Translate
 
     ];
 
-    // Pour les requêtes de modification sur /events, le token est requis
-    const isProtectedEventModification =
+    // Pour les requêtes de   sur /events, le token est requis
+    const isProtectedEvent  =
       req.url.includes('/events') &&
       ['POST', 'PUT', 'DELETE'].includes(req.method);
 
@@ -69,7 +69,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // Pour les autres routes privées
     const isProtected =
       protectedRoutes.some((route) => req.url.includes(route)) ||
-      isProtectedEventModification;
+      isProtectedEvent ;
 
     // Si la route est exclue, ne rien faire et passer la requête telle quelle
     if (isExcluded) {
@@ -85,7 +85,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 Authorization: `Bearer ${token}`,
               },
             });
-            console.log('Token:', token);
+            //console.log('Token:', token);
             return next.handle(cloned);
           }
           return next.handle(req);

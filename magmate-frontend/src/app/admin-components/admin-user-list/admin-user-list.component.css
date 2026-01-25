@@ -1,10 +1,10 @@
-/* admin-user-list.component.css */
+
 
 .admin-magasin-container {
   padding: 25px;
   max-width: 1200px;
-  
-  /* CORRECTION : Marge standardisée (110px PC / 95px Mobile) */
+
+  /* Marge standardisée (110px PC / 95px Mobile) */
   margin: 110px auto 30px auto;
   
   background-color: #ffffff;

@@ -29,31 +29,24 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ unique: true, type: 'varchar' })
   email: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   username: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   fname: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   lname: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   password?: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   phoneNumber?: string;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   photo?: string;
 
@@ -64,11 +57,9 @@ export class User {
   })
   role: UserRole;
 
-  // Ajout explicite { type: 'varchar' }
   @Column({ nullable: true, type: 'varchar' })
   twoFactorSecret?: string;
 
-  // Ajout explicite { type: 'boolean' }
   @Column({ default: false, type: 'boolean' })
   twoFactorEnabled: boolean;
 

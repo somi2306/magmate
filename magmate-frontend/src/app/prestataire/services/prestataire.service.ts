@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-// Nouvelle énumération pour le statut du prestataire (doit correspondre au backend)
+//   énumération pour le statut du prestataire (doit correspondre au backend)
 export enum PrestataireStatus {
   PENDING = 'pending',
   APPROVED = 'approved',

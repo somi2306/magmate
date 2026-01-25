@@ -143,7 +143,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
         this.reclamationService.addReclamation(this.productId, formData).subscribe(
           (newReclamation: any) => {
-            console.log('Nouvelle réclamation ajoutée:', newReclamation);
+            //console.log('  réclamation ajoutée:', newReclamation);
             this.reclamationData.description = '';
             this.selectedPieceJointeFile = null; 
             this.showReclamationForm = false; 

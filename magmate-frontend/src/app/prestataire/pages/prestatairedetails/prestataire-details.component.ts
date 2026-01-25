@@ -191,7 +191,7 @@ export class PrestataireDetailsComponent implements OnInit, OnDestroy {
 
     this.reclamationService.addReclamation(this.prestataireId, formData).subscribe({
       next: (response) => {
-        console.log('Réclamation envoyée :', response);
+        //console.log('Réclamation envoyée :', response);
         alert('Réclamation envoyée avec succès');
         this.closeReclamationModal();
       },

@@ -1,10 +1,10 @@
-// marketplace frontend/pages/marketplacehome/marketplacehome.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { ProductService, Produit } from '../../services/ProductService';
 import { MagasinService } from '../../services/MagasinService';
 import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
-import { Magasin } from '../../models/magasin.model'; // Importer le modèle Magasin
+import { Magasin } from '../../models/magasin.model'; 
 
 @Component({
   selector: 'app-marketplacehome',
@@ -49,11 +49,11 @@ export class MarketplaceComponent implements OnInit {
   }
 
   loadProduits(): void {
-    console.log('Recherche avec :', this.search, 'Ville :', this.selectedVille); //
+    //console.log('Recherche avec :', this.search, 'Ville :', this.selectedVille); //
 
     this.productService.getProduits(this.search, this.selectedVille).subscribe(
       (data) => {
-        console.log('Produits récupérés:', data); //
+        //console.log('Produits récupérés:', data); //
         this.produits = data; //
       },
       (error) => {
@@ -92,7 +92,7 @@ export class MarketplaceComponent implements OnInit {
     this.magasinService.getUuidByEmail(email).subscribe({
       next: (response) => {
         const userId = response.uuid; //
-        console.log(userId); //
+        //console.log(userId); //
   
         this.magasinService.getMagasinByUser(userId).subscribe({
           next: (magasin: Magasin | null) => { // Spécifier le type de retour
@@ -137,10 +137,10 @@ export class MarketplaceComponent implements OnInit {
   voirDetails(produitId: number): void {
     this.authService.getIdToken().then((token) => {
       if (token) {
-        console.log('Utilisateur connecté, redirection vers product-details'); //
+        //console.log('Utilisateur connecté, redirection vers product-details'); //
         this.router.navigate(['/produit', produitId]); //
       } else {
-        console.log('Utilisateur non connecté, redirection vers login'); //
+        //console.log('Utilisateur non connecté, redirection vers login'); //
         this.router.navigate(['/login']); //
       }
     });

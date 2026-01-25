@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-// profile.component.ts
+
 async uploadPhoto() {
   if (!this.selectedFile) {
     console.error('Aucun fichier sélectionné');
@@ -57,7 +57,7 @@ async uploadPhoto() {
 
   try {
     const res: any = await this.profileService.updateProfilePhoto(formData);
-    console.log('Réponse du backend:', res);
+    //console.log('Réponse du backend:', res);
     this.userProfile.photo = res.photo;
     this.previewUrl = null;
     this.uploadSuccess = true;
@@ -145,7 +145,7 @@ export class ProfileComponent implements OnInit {
 
     try {
       const res: any = await this.profileService.updateProfilePhoto(formData);
-      console.log('Réponse du backend:', res);
+      //console.log('Réponse du backend:', res);
       this.userProfile.photo = res.photo;
       this.previewUrl = null;
     this.uploadSuccess = true;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Important pour routerLink
+import { RouterModule } from '@angular/router'; 
 import { ReclamationPrestataireService } from '../../prestataire/services/reclamation-prestataire.service';
 
 @Component({

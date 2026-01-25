@@ -94,7 +94,7 @@ unreadCounts: { [conversationId: string]: number } = {};
         // Si une conversation existe, la sélectionner
         await this.selectConversation(existingConv);
       } else {
-        // Sinon, créer une nouvelle conversation
+        // Sinon, créer une   conversation
         const recipient = this.friends.find(f => f.id === recipientId);
         if (recipient) {
           await this.startNewConversation(recipient);
@@ -418,7 +418,6 @@ toggleEmojiPicker() {
   );
 } */
 getSafeMessage(content: string) {
-    // CORRECTION : Vérification de sécurité
     // Si content est null, undefined ou vide, on retourne une chaine vide sans appeler twemoji
     if (!content) {
       return '';

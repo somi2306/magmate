@@ -11,7 +11,7 @@ export class ReclamationPrestataireService {
 
   constructor(private http: HttpClient) {}
 
-  // MODIFICATION ICI : on accepte FormData (ou any) au lieu du DTO
+  //   ICI : on accepte FormData (ou any) au lieu du DTO
   addReclamation(idPrestataire: string, data: FormData | any): Observable<any> {
     return this.http.post(`${this.baseUrl}/${idPrestataire}`, data);
   }

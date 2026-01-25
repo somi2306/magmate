@@ -28,7 +28,7 @@ export class ProfileService {
     };
   }
 
-  // Modification de la signature : on attend une string (URL) et non plus un File
+  //   de la signature : on attend une string (URL) et non plus un File
   async updateProfilePhoto(email: string, photoUrl: string) {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) throw new NotFoundException('Utilisateur non trouvé');

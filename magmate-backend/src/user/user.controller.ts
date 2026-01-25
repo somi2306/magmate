@@ -80,7 +80,7 @@ getFriendRequestsFromRecipients(
 
 @Post('friends/my') // Changement de GET à POST pour envoyer un body
 getFriends(@Body() body: { userId: string }) { // Reçoit l'ID dans le body
-  console.log('User ID reçu:', body.userId);
+  //console.log('User ID reçu:', body.userId);
   return this.userService.getUsers({ id: body.userId } as User); // Simule l'objet User
 }
 

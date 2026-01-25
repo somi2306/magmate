@@ -1,4 +1,4 @@
-// admin-reclamation-list.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { ReclamationService } from '../../marketplace/services/reclamation.service'; 
 import { Reclamation } from '../../marketplace/models/reclamation.model';

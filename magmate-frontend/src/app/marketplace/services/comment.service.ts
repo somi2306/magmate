@@ -22,7 +22,7 @@ export class CommentService {
     return this.http.post(`${this.apiUrl}/${productId}`, commentData);  // Envoie des données au backend
   }
 
-  // Nouvelle méthode pour supprimer un commentaire par son ID
+  //   méthode pour supprimer un commentaire par son ID
   deleteComment(commentId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${commentId}`);
   }

@@ -47,7 +47,7 @@ export class PrestataireService {
           id: uuid,
         },
       },
-      relations: ['utilisateur'], // important pour charger la relation
+      relations: ['utilisateur'], 
     });
 
     if (!prestataire) {
@@ -107,16 +107,16 @@ export class PrestataireService {
     await this.prestataireRepo.remove(prestataire);
   }
 
-  // Nouvelle méthode pour trouver les prestataires par statut
+  //   méthode pour trouver les prestataires par statut
   async findByStatus(status: PrestataireStatus): Promise<Prestataire[]> {
     return this.prestataireRepo.find({
       where: { estApprouve: status },
       relations: ['utilisateur'],
-      order: { utilisateur: { registrationDate: 'DESC' } } // Exemple d'ordre
+      order: { utilisateur: { registrationDate: 'DESC' } } 
     });
   }
 
-  // Nouvelle méthode pour approuver un prestataire
+  //   méthode pour approuver un prestataire
   async approvePrestataire(idPrestataire: string): Promise<Prestataire> {
     const prestataire = await this.prestataireRepo.findOneBy({ idPrestataire });
     if (!prestataire) {
@@ -126,7 +126,7 @@ export class PrestataireService {
     return this.prestataireRepo.save(prestataire);
   }
 
-  // Nouvelle méthode pour rejeter un prestataire
+  //   méthode pour rejeter un prestataire
   async rejectPrestataire(idPrestataire: string): Promise<Prestataire> {
     const prestataire = await this.prestataireRepo.findOneBy({ idPrestataire });
     if (!prestataire) {

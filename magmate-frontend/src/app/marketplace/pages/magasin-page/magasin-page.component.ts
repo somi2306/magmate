@@ -60,7 +60,7 @@ export class MagasinPageComponent implements OnInit {
   loadMagasin(uuid: string): void {
     this.magasinService.getMagasinByUser(uuid).subscribe({
       next: (data) => {
-        console.log('Magasin récupéré:', data);
+        //console.log('Magasin récupéré:', data);
         this.magasin = data;
         if (!this.magasin) {
           this.error = 'Aucun magasin trouvé';
@@ -92,7 +92,7 @@ export class MagasinPageComponent implements OnInit {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce magasin ?')) {
       this.magasinService.deleteMagasin(idMagasin).subscribe(
         (response) => {
-          console.log('Magasin supprimé avec succès', response);
+          //console.log('Magasin supprimé avec succès', response);
           alert('Magasin supprimé avec succès.');
           this.router.navigate(['/']);
         },
@@ -113,7 +113,7 @@ export class MagasinPageComponent implements OnInit {
         },
         error: (error) => {
           console.error('Erreur lors de la suppression du produit :', error);
-          alert('Erreur lors de la suppression du produit ❌');
+          alert('Erreur lors de la suppression du produit');
         }
       });
     }

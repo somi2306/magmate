@@ -38,7 +38,7 @@ export class ReclamationController {
       file
     );
   }
-  // NOUVELLE ROUTE : Récupérer toutes les réclamations (pour l'admin)
+  //   ROUTE : Récupérer toutes les réclamations (pour l'admin)
   @Get()
   // @UseGuards(FirebaseAuthGuard) // Optionnel: Ajouter un guard pour les rôles d'administrateur si nécessaire
   async getAllReclamations() {

@@ -1,4 +1,4 @@
-// bard app/src backend/temoignage/temoignage.module.ts
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TemoignageService } from './services/services/temoignage.service';

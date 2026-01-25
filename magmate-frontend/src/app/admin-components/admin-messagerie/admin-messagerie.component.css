@@ -7,8 +7,8 @@
   height: calc(100vh - 130px);
   width: 95%;
   max-width: 1200px;
-  
-  /* CORRECTION : Marge du haut pour compenser le header fixe */
+
+  /* Marge du haut pour compenser le header fixe */
   margin: 110px auto 20px auto;
   
   background-color: #ffffff;
@@ -344,7 +344,6 @@ button[type="submit"]:disabled { background-color: #bdc3c7; cursor: not-allowed;
   border-radius: 10px;
   background-color: #fff;
   
-  /* --- CORRECTION SCROLL --- */
   max-height: 350px;       /* Hauteur maximale fixe */
   width: 300px;            /* Largeur fixe pour PC */
   overflow-y: auto;        /* Active le défilement vertical */
@@ -468,7 +467,6 @@ button[type="submit"]:disabled { background-color: #bdc3c7; cursor: not-allowed;
     margin-left: 5px;
   }
   
-  /* Si vous utilisez une icône texte/font, assurez-vous qu'elle est centrée */
   button[type="submit"] i {
     margin: 0;
     font-size: 1.1rem;

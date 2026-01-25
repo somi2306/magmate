@@ -79,7 +79,7 @@ export class AdminEventsListComponent implements OnInit {
         eventToUpdate.title,
         true
       );
-      alert('Événement approuvé avec succès ✅');
+      alert('Événement approuvé avec succès ');
       this.loadAllEvents();
       this.errorMessage = null;
     } catch (error: any) {
@@ -103,7 +103,7 @@ export class AdminEventsListComponent implements OnInit {
         eventToUpdate.title,
         false
       );
-      alert('Événement rejeté avec succès ❌');
+      alert('Événement rejeté avec succès');
       this.loadAllEvents();
       this.errorMessage = null;
     } catch (error: any) {
@@ -127,12 +127,12 @@ export class AdminEventsListComponent implements OnInit {
           `${eventToDelete.createdBy.fname} ${eventToDelete.createdBy.lname}`,
           eventToDelete.title
         );
-        alert('Événement supprimé avec succès ✅');
+        alert('Événement supprimé avec succès ');
         this.loadAllEvents();
         this.errorMessage = null;
       } catch (error: any) {
         console.error('Erreur lors de la suppression de l\'événement :', error);
-        this.errorMessage = error.message || 'Erreur lors de la suppression de l\'événement ❌';
+        this.errorMessage = error.message || 'Erreur lors de la suppression de l\'événement';
       }
     }
   }
@@ -147,14 +147,14 @@ export class AdminEventsListComponent implements OnInit {
         ? `Bonjour ${userName},\n\nNous sommes heureux de vous informer que votre événement "${eventTitle}" a été approuvé et est maintenant visible sur notre plateforme.\n\nCordialement,\nL'équipe Magmate`
         : `Bonjour ${userName},\n\nNous regrettons de vous informer que votre événement "${eventTitle}" n'a pas été approuvé pour figurer sur notre plateforme.\n\nPour plus d'informations, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
       }));
 
-      console.log('Email envoyé avec succès à', to);
+      //console.log('Email envoyé avec succès à', to);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email:', error);
     }
@@ -165,14 +165,14 @@ export class AdminEventsListComponent implements OnInit {
       const subject = `Votre événement "${eventTitle}" a été supprimé`;
       const body = `Bonjour ${userName},\n\nNous vous informons que votre événement "${eventTitle}" a été supprimé de notre plateforme par un administrateur.\n\nPour toute question, n'hésitez pas à nous contacter.\n\nCordialement,\nL'équipe Magmate`;
 
-      // MODIFICATION ICI : Utilisation de environment.apiUrl
+      //   ICI : Utilisation de environment.apiUrl
       await firstValueFrom(this.http.post(`${environment.apiUrl}/mail/send-contact-email`, {
         to: to,
         subject: subject,
         body: body
       }));
 
-      console.log('Email de suppression envoyé avec succès à', to);
+      //console.log('Email de suppression envoyé avec succès à', to);
     } catch (error) {
       console.error('Erreur lors de l\'envoi de l\'email de suppression:', error);
     }
@@ -180,8 +180,8 @@ export class AdminEventsListComponent implements OnInit {
 
   async contactCreator(creatorId: string | undefined): Promise<void> {
     // ... (Le reste de la méthode reste inchangé) ...
-    console.log('[DEBUG] Début de contactCreator()');
-    console.log('[DEBUG] ID du créateur:', creatorId);
+    //console.log('[DEBUG] Début de contactCreator()');
+    //console.log('[DEBUG] ID du créateur:', creatorId);
 
     if (!creatorId) {
       console.error('[ERROR] Créateur ID non trouvé');
@@ -216,7 +216,7 @@ export class AdminEventsListComponent implements OnInit {
         console.warn('[WARN] sendUserResponse a renvoyé une erreur, mais nous allons quand même tenter la redirection:', (sendRequestResponse as any).error);
       }
 
-      console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', creatorId);
+      //console.log('[DEBUG] Tentative de redirection vers la messagerie avec recipientId:', creatorId);
       this.router.navigate(['/admin/messagerie'], {
         queryParams: { recipientId: creatorId }
       });

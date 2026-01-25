@@ -89,7 +89,7 @@ export class AccueilPrestataireComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.prestataires = data;
-          console.log('Prestataires chargés:', data);
+          //console.log('Prestataires chargés:', data);
         },
         error: (err) => {
           console.error('Erreur:', err);
@@ -124,7 +124,7 @@ export class AccueilPrestataireComponent implements OnInit {
       this.prestataireService.getUuidByEmail(email).subscribe({
         next: (response) => {
           const uuid = response.uuid;
-          console.log('UUID depuis la BDD :', uuid);
+          //console.log('UUID depuis la BDD :', uuid);
   
           localStorage.setItem('uuid', uuid);
   

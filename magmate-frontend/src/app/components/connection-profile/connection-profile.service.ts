@@ -10,7 +10,7 @@ export class ConnectionProfileService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // Nouvelle méthode pour récupérer un profil spécifique
+  //   méthode pour récupérer un profil spécifique
   getSpecificUserProfile(userId: string): Promise<any> {
     return firstValueFrom(this.http.get(`${this.API}/user/profile/${userId}`));
   }

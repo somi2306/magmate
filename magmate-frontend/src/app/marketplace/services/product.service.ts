@@ -25,7 +25,7 @@ export class ProductService {
   // Méthode pour modifier un produit
   updateProduct(id: number, productData: FormData): Observable<any> {
     productData.forEach((value, key) => {
-      console.log(key, value);
+      //console.log(key, value);
     });
     return this.http.put(`${this.apiUrl}/${id}`, productData);
   }

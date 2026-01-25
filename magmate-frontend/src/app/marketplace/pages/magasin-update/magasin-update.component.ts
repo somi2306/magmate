@@ -96,7 +96,7 @@ export class MagasinUpdateComponent implements OnInit {
       }
     });
 
-    // Si l'utilisateur a sélectionné une nouvelle image, on l'ajoute
+    // Si l'utilisateur a sélectionné une   image, on l'ajoute
     if (this.selectedFile) {
       magasinData.append('image', this.selectedFile);
     }

@@ -1,11 +1,11 @@
-/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+
 * {
   box-sizing: border-box;
 }
 
 .profil-container {
   max-width: 500px;
-  /* CORRECTION : Marge du haut pour compenser le header fixe (110px) */
+  /* Marge du haut pour compenser le header fixe (110px) */
   margin: 110px auto 40px auto; 
   padding: 30px 20px;
   background-color: #ffffff;

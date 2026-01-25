@@ -21,7 +21,7 @@ export class AdminUserListComponent implements OnInit {
     this.AuthService.getAllUsers().subscribe({
       next: (data) => {
         this.utilisateurs = data;
-        console.log('Utilisateurs chargés:', data);
+        //console.log('Utilisateurs chargés:', data);
       },
       error: (err) => {
         console.error('Erreur chargement utilisateurs', err);

@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsInt } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger'; // Importer ApiProperty pour Swagger
+import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateImageDto {
   @ApiProperty({

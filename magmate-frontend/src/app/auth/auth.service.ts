@@ -43,7 +43,7 @@ export class AuthService {
     }
   }
 
-  // Nouvelle méthode pour obtenir l'ID utilisateur (UUID)
+  //   méthode pour obtenir l'ID utilisateur (UUID)
   async getUserId(): Promise<string | null> {
     const user = await this.afAuth.currentUser;
 

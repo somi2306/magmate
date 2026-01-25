@@ -1,4 +1,4 @@
-// marketplace backend/entities/magasin.entity.ts
+
 import {
   Entity,
   PrimaryGeneratedColumn,

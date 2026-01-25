@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import { AlertService } from '../../services/alerte.service'; // Import du service d'alerte
+import { AlertService } from '../../services/alerte.service';
 
 @Component({
   selector: 'app-product-create',
@@ -79,7 +79,7 @@ export class ProductFormComponent implements OnInit {
     // Append main image
     const imagePrincipale = this.productForm.get('imagePrincipale')?.value;
     if (imagePrincipale && imagePrincipale instanceof File) {
-      console.log('Main Image:', imagePrincipale);
+      //console.log('Main Image:', imagePrincipale);
       productData.append('imagePrincipale', imagePrincipale, imagePrincipale.name);  // Append main image
     } else {
       console.error('Main image is invalid or missing');
@@ -88,21 +88,21 @@ export class ProductFormComponent implements OnInit {
     // Append additional images
     const imagesArray = this.productForm.get('images')?.value;
     if (imagesArray && imagesArray instanceof Array) {
-      console.log('Additional Images:', imagesArray);
+      //console.log('Additional Images:', imagesArray);
       imagesArray.forEach((image: File) => {
         productData.append('images', image, image.name);  // Append each additional image
-        console.log('Added Image:', image);
+        //console.log('Added Image:', image);
       });
     } else {
       console.error('No additional images or invalid structure');
     }
 
-    console.log('Data sent to server:', productData);  // Log the FormData before sending
+    //console.log('Data sent to server:', productData);  // Log the FormData before sending
 
     // Send the data to the backend via the service
     this.productService.createProduct(productData).subscribe({
       next: (response) => {
-        console.log('Product successfully created', response);
+        //console.log('Product successfully created', response);
         this.alertService.success('votre produit est ajouté avec succée');
         this.router.navigate(['/magasin']);  // Navigate after successful creation
       },

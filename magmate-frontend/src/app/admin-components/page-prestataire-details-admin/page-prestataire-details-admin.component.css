@@ -14,7 +14,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   
-  /* CORRECTION : Marge pour le header fixe (80px + 30px espace) */
+  /* Marge pour le header fixe (80px + 30px espace) */
   padding-top: 110px; 
 }
 
@@ -393,7 +393,7 @@ h3 {
     font-size: 1.4em;
   }
 
-  /* --- MODIFICATION DEMANDÉE : CÔTE À CÔTE SUR MOBILE --- */
+  /* ---   DEMANDÉE : CÔTE À CÔTE SUR MOBILE --- */
   .button-group {
     flex-direction: row; /* Force l'alignement horizontal */
     width: 100%;

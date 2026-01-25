@@ -6,13 +6,13 @@ import { Event } from './entities/event.entity';
 import { User } from '../user/entities/user.entity';
 import { Favorite } from './entities/favorite.entity';
 import { UserModule } from 'src/user/user.module';
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module'; // Ajout de l'import
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Event, User, Favorite]), 
     UserModule, 
-    CloudinaryModule // Ajout du module
+    CloudinaryModule
   ],
   controllers: [EventsController],
   providers: [EventsService],

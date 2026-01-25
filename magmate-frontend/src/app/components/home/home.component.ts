@@ -196,10 +196,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
       const videoElement = this.headerVideo.nativeElement;
       videoElement.muted = true;
       videoElement.play().then(() => {
-        console.log("La vidéo a commencé à jouer.");
+        //console.log("La vidéo a commencé à jouer.");
         this.isVideoPlaying = true;
       }).catch((e: any) => {
-        console.log("Erreur lors de la lecture de la vidéo :", e);
+        //console.log("Erreur lors de la lecture de la vidéo :", e);
         if (this.headerImage) {
           this.headerImage.nativeElement.style.display = 'block';
         }
@@ -236,7 +236,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // --- MODIFICATION ICI : Utilisation de environment.apiUrl ---
+  // ---   ICI : Utilisation de environment.apiUrl ---
   loadTemoignages(): void {
     this.http.get<Temoignage[]>(`${environment.apiUrl}/temoignages`).subscribe({
       next: (data) => {
@@ -249,7 +249,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // --- MODIFICATION ICI : Récupération dynamique du token et URL environment ---
+  // ---   ICI : Récupération dynamique du token et URL environment ---
   async addTemoignage(): Promise<void> {
     try {
       const authToken = await this.authService.getIdToken();
@@ -268,7 +268,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       // Appel HTTP avec l'URL d'environnement
       this.http.post<Temoignage>(`${environment.apiUrl}/temoignages`, this.newTemoignage, { headers }).subscribe({
         next: (response) => {
-          console.log('Témoignage ajouté avec succès:', response);
+          //console.log('Témoignage ajouté avec succès:', response);
           alert('Témoignage ajouté avec succès !');
           this.newTemoignage = { commentaire: '', note: 5 }; 
           this.loadTemoignages(); 

@@ -9,7 +9,7 @@ import { MessagerieService } from '../../components/messagerie/services/messager
   selector: 'app-admin-header',
   standalone: false,
   templateUrl: './admin-header.component.html',
-  styleUrl: './admin-header.component.css' // Correction nom de propriété styleUrl -> styleUrls si ancien Angular, mais styleUrl OK v17+
+  styleUrl: './admin-header.component.css'
 })
 export class AdminHeaderComponent implements OnInit, OnDestroy {
   

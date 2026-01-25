@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { EventsService } from '../../events/events.service';
 import { Event } from '../../events/event.model';
-import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
+import { firstValueFrom } from 'rxjs'; 
 
 @Component({
   selector: 'app-page-events-details-admin',
@@ -68,11 +68,11 @@ export class PageEventsDetailsAdminComponent implements OnInit {
       try {
         // Appeler le service pour supprimer l'événement
         await firstValueFrom(this.eventsService.deleteEvent(eventId)); // L'email de l'admin n'est pas utilisé pour la suppression sur le backend, mais l'API l'exige.
-        alert('Événement supprimé avec succès ✅');
+        alert('Événement supprimé avec succès ');
         this.router.navigate(['/admin/events']); // Rediriger après suppression
       } catch (error: any) {
         console.error('Erreur lors de la suppression de l\'événement :', error);
-        this.errorMessage = error.message || 'Erreur lors de la suppression de l\'événement ❌';
+        this.errorMessage = error.message || 'Erreur lors de la suppression de l\'événement';
       }
     }
   }

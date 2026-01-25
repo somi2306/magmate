@@ -11,7 +11,7 @@ import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { Favorite } from './entities/favorite.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service'; // Import du service
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Controller('events')
 export class EventsController {

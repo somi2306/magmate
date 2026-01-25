@@ -52,7 +52,7 @@ export class MessagerieService {
 
   async connect(): Promise<void> {
     try {
-      console.log('⏳ Tentative de récupération du token...');
+      //console.log('⏳ Tentative de récupération du token...');
       const token = await this.authService.getIdToken();
       
       if (!token) {
@@ -60,7 +60,7 @@ export class MessagerieService {
         throw new Error('No token available');
       }
 
-      console.log('🟢 Token récupéré avec succès:', token);
+      //console.log('🟢 Token récupéré avec succès:', token);
       
       const socketUrl = environment.apiUrl.replace('/api', '') + '/messagerie';
 
@@ -69,16 +69,16 @@ export class MessagerieService {
         transports: ['websocket']
       });
 
-      console.log('⏳ Tentative de connexion WebSocket vers:', socketUrl);
+      //console.log('⏳ Tentative de connexion WebSocket vers:', socketUrl);
 
       return new Promise<void>((resolve, reject) => {
         this.socket.on('connect', () => {
-          console.log('✅ WebSocket connecté. ID:', this.socket.id);
+          //console.log('✅ WebSocket connecté. ID:', this.socket.id);
           resolve();
         });
 
         this.socket.on('connect_error', (err) => {
-          console.error('❌ Erreur de connexion WebSocket:', err);
+          console.error(' Erreur de connexion WebSocket:', err);
           reject(err);
         });
       });
@@ -254,7 +254,7 @@ export class MessagerieService {
   }
 
   getMyFriends(userId: string): Observable<User[]> {
-    // MODIFICATION ICI : Utilisation de environment.apiUrl
+    //   ICI : Utilisation de environment.apiUrl
     return this.http.post<User[]>(
       `${environment.apiUrl}/user/friends/my`,
       { userId }

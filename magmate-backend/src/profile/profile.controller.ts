@@ -11,7 +11,7 @@ import { ProfileService } from './profile.service';
 import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service'; // Import service
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service'; 
 
 @Controller('profile')
 export class ProfileController {

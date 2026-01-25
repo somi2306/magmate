@@ -41,7 +41,6 @@ img {
   -webkit-backdrop-filter: blur(8px);
   width: 100%;
   
-  /* Hauteur fixe que nous avons définie */
   height: 80px; 
   
   position: fixed;
@@ -332,7 +331,7 @@ img {
     color: #e0a33f;
   }
 
-  /* Correction Dropdowns sur Mobile (Marketplace & Prestataire) */
+  /* Dropdowns sur Mobile (Marketplace & Prestataire) */
   .dropdown-submenu {
     position: static; /* Plus de position absolute */
     width: 100%;
@@ -348,7 +347,7 @@ img {
     padding: 8px 0;
   }
 
-  /* Correction Profil Dropdown sur Mobile */
+  /*  Profil Dropdown sur Mobile */
   .nav__profile {
     width: 100%;
     margin-top: 1rem;

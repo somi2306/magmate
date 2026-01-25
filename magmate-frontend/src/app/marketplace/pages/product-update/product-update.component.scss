@@ -1,4 +1,4 @@
-/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+
 * {
   box-sizing: border-box;
 }
@@ -9,7 +9,7 @@ html, body {
   background-color: #edd1ab;
   margin: 0;
   padding: 0;
-  /* CORRECTION : Marge pour le header fixe */
+  /* Marge pour le header fixe */
   padding-top: 110px;
 }
 

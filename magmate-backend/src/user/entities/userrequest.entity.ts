@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn ,PrimaryColumn} from 'typeorm';
 import { User } from './user.entity';
 
-// ✅ Enum de statut
+//  Enum de statut
 export enum UserRequestStatus {
   NOT_SENT = 'not-sent',
   PENDING = 'pending',
@@ -17,12 +17,12 @@ id: number;
 
 
    @ManyToOne(() => User, (user) => user.sentUserRequests, {
-    onDelete: 'CASCADE', // ✅ suppression automatique si l'utilisateur est supprimé
+    onDelete: 'CASCADE', //  suppression automatique si l'utilisateur est supprimé
   })
   creator: User;
 
   @ManyToOne(() => User, (user) => user.receivedUserRequests, {
-    onDelete: 'CASCADE', // ✅ idem pour le destinataire
+    onDelete: 'CASCADE', //  idem pour le destinataire
   })
   receiver: User;
 

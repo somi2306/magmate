@@ -135,7 +135,7 @@ html, body {
   margin-top: 20px;
 }
 
-/* Nouveau style pour le bouton de suppression du magasin */
+
 .delete-magasin-btn {
   background-color: #dc3545; /* Couleur rouge pour le bouton de suppression */
   color: white;
@@ -153,10 +153,10 @@ html, body {
 .magasin-buttons {
   margin-top: 10px;
   display: flex;
-  justify-content: flex-end; /* ✅ Aligne les éléments à droite */
+  justify-content: flex-end; /*  Aligne les éléments à droite */
 }
 
-/* Style pour le nouveau bouton "Voir Détails" */
+
 .details-btn {
   background-color: #678760; /* Couleur similaire à votre thème */
   color: white;

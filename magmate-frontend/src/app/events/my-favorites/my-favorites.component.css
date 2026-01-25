@@ -5,7 +5,7 @@
 
 .all {
   background: var(--secondary-bg);
-  /* CORRECTION : Marge du haut pour éviter le header fixe (80px + espace) */
+  /* Marge du haut pour éviter le header fixe (80px + espace) */
   padding-top: 110px;
   padding-left: 5%;
   padding-right: 5%;

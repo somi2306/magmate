@@ -139,7 +139,7 @@
         </button>
         <button type="submit" class="submit-btn" [disabled]="isSubmitting">
           <span *ngIf="isSubmitting">{{
-            isEditMode ? "Modification en cours..." : "Création en cours..."
+            isEditMode ? "  en cours..." : "Création en cours..."
           }}</span>
           <span *ngIf="!isSubmitting">{{
             isEditMode ? "Modifier l'événement" : "Créer l'événement"

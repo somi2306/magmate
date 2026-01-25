@@ -27,7 +27,6 @@ export class ConversationEntity implements IConversation {
   @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.conversation)
   messages: MessageEntity[];
 
-  // Sécurité : ajout explicite du type timestamp
   @UpdateDateColumn({ type: 'timestamp' })
   lastUpdated: Date;
 }

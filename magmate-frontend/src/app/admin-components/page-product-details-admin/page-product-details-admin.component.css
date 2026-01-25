@@ -1,4 +1,4 @@
-/* AJOUT IMPORTANT : Gère les dimensions pour éviter le débordement (partie blanche) */
+
 * {
   box-sizing: border-box;
 }

@@ -34,7 +34,7 @@ export class EventsDetailsComponent implements OnInit {
  }
   loadEventDetails(): void {
     const eventId = this.route.snapshot.paramMap.get('id');
-    console.log('Event ID:', eventId);
+    //console.log('Event ID:', eventId);
     if (!eventId) {
       this.error = "Identifiant d'événement manquant";
       this.isLoading = false;
@@ -43,7 +43,7 @@ export class EventsDetailsComponent implements OnInit {
 
     this.eventsService.getEventById(eventId).subscribe({
       next: (event) => {
-        console.log('Event ID:', event);
+        //console.log('Event ID:', event);
 
         this.event = event;
         this.isLoading = false;
