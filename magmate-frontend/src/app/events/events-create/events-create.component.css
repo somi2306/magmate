@@ -1,13 +1,21 @@
+/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+* {
+  box-sizing: border-box;
+}
+
 body,
 .create-event-container {
   font-family: "Roboto", Arial, sans-serif;
   color: var(--text-color);
 }
-.all{
-    background: var(--secondary-bg) ;
-    padding: 5%;
 
+.all {
+  background: var(--secondary-bg);
+  padding: 5%;
+  /* CORRECTION : Marge pour compenser le header fixe (80px + espace) */
+  padding-top: 110px;
 }
+
 .create-event-container {
   max-width: 700px;
   margin: 32px auto;
@@ -66,7 +74,6 @@ body,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  box-sizing: border-box;
   padding: 12px 15px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
@@ -78,8 +85,7 @@ body,
 
 input[type="file"] {
   width: 100%;
-  box-sizing: border-box;
-  padding: 10px 0;
+  padding: 10px;
   background: #fafafa;
   border-radius: 10px;
   border: 1px solid var(--border-color);
@@ -155,16 +161,38 @@ input[type="file"] {
   cursor: not-allowed;
 }
 
-/* Responsive */
-@media (max-width: 700px) {
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  .all {
+    padding: 15px;
+    padding-top: 95px; /* Marge ajustée pour mobile */
+  }
+
   .create-event-container {
-    margin: 12px;
+    width: 100%;
+    margin: 0;
     padding: 0;
   }
-  .event-form {
-    padding: 16px 6px;
-  }
+
   .form-header h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+  }
+
+  .event-form {
+    padding: 20px 15px; /* Plus d'espace interne sur mobile */
+    border-radius: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column; /* Boutons l'un sur l'autre pour plus de place */
+    gap: 10px;
+  }
+
+  .cancel-btn, .submit-btn {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
   }
 }

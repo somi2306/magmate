@@ -1,10 +1,15 @@
-/* magasin.component.css */
+/* AJOUT SÉCURITÉ */
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   min-height: 100vh;
   background-color: #edd1ab;
   margin: 0;
   padding: 0;
+  /* CORRECTION : Marge header fixe */
+  padding-top: 110px;
 }
 
 .magasin-header {
@@ -35,23 +40,22 @@ html, body {
 .header-content {
   color: white;
   padding: 2rem;
-}
-.header-content {
   display: flex;
-  flex-direction: row; /* Pour disposer les éléments horizontalement */
-  gap: 20px; /* Espace entre chaque élément */
-  align-items: center; /* Aligner verticalement les éléments */
+  flex-direction: row; 
+  gap: 20px; 
+  align-items: center; 
 }
 
 .header-content p {
-  margin: 0; /* Supprimer la marge par défaut des <p> */
-  font-size: 1.2rem; /* Ajuster la taille de la police si nécessaire */
+  margin: 0; 
+  font-size: 1.2rem; 
 }
 
 .product-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center; /* Centrer sur grands écrans si pas assez de produits */
 }
 
 .product-card {
@@ -118,12 +122,44 @@ html, body {
 }
 
 button {
-    text-align: center;
-  padding: 6px 12px;  /* Adapter la taille du bouton */
+  text-align: center;
+  padding: 6px 12px;
   background-color: #678760;
   color: #ffffff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-   /* Ajouter une transition pour l'apparition */
+}
+
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  html, body {
+    padding-top: 95px;
+  }
+
+  .magasin-header {
+    height: 250px; /* Réduire la hauteur sur mobile */
+  }
+
+  .header-content {
+    flex-direction: column; /* Empiler les infos */
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .product-list {
+    padding: 10px;
+  }
+
+  .product-card {
+    width: 100%; /* Carte pleine largeur sur mobile */
+    max-width: 400px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin: 3rem 0;
+  }
 }

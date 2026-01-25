@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription, firstValueFrom } from 'rxjs';
-import { MessagerieService, User, Message, Conversation } from './services/messagerie.service';
+import { MessagerieService, User, Message, Conversation } from '../../components/messagerie/services/messagerie.service';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,16 +19,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-messagerie',
   standalone: true,
-  imports: [CommonModule, FormsModule,PickerModule,PickerComponent],
+  imports: [CommonModule, FormsModule, PickerModule, PickerComponent],
   templateUrl: './messagerie.component.html',
-  styleUrls: ['./messagerie.component.css'],
-  
-  
+  styleUrls: ['./messagerie.component.css']
 })
-
-
-export class MessagerieComponent implements OnInit, OnDestroy {
-  @ViewChild('messageForm') messageForm!: NgForm;
+export class MessagerieComponent implements OnInit, OnDestroy{
+ @ViewChild('messageForm') messageForm!: NgForm;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
   currentUserId: string | null = null;
@@ -82,6 +78,11 @@ unreadCounts: { [conversationId: string]: number } = {};
     }
   }
 
+  openImage(url: string | undefined): void {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
   private async handleRecipientParam(recipientId: string) {
     try {
       // Vérifier si une conversation existe déjà avec ce destinataire
@@ -139,6 +140,7 @@ isUserInConversation(conversationId: string): boolean {
 
   private setupListeners() {
     // Écoute des nouveaux messages
+
 this.subscriptions.add(
   this.messagerieService.getNewMessages().subscribe({
     next: (message: Message) => {
@@ -392,6 +394,7 @@ getUserImage(user: User): string | null {
 
 showEmojiPicker = false;
 
+
 addEmoji(event: any) {
   if (event && event.emoji && event.emoji.native) {
     this.newMessage += event.emoji.native;
@@ -414,29 +417,32 @@ toggleEmojiPicker() {
     })
   );
 } */
-// Dans messagerie.component.ts
 getSafeMessage(content: string) {
-  // AJOUT DE SÉCURITÉ : Si le contenu est vide ou nul, retourner une chaîne vide
-  if (!content) return this.sanitizer.bypassSecurityTrustHtml('');
+    // CORRECTION : Vérification de sécurité
+    // Si content est null, undefined ou vide, on retourne une chaine vide sans appeler twemoji
+    if (!content) {
+      return '';
+    }
 
-  try {
-    return this.sanitizer.bypassSecurityTrustHtml(
-      twemoji.parse(content, {
-        base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
-        folder: 'svg',
-        ext: '.svg',
-        size: 'svg',
-        attributes: () => ({ 
-          class: 'emoji',
-          style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
+    try {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        twemoji.parse(content, {
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
+          folder: 'svg',
+          ext: '.svg',
+          size: 'svg',
+          attributes: () => ({ 
+            class: 'emoji',
+            style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
+          })
         })
-      })
-    );
-  } catch (e) {
-    console.error('Twemoji error:', e);
-    return content; // Retourner le texte brut en cas d'erreur de parsing
+      );
+    } catch (error) {
+      console.warn('Erreur lors du parsing des emojis:', error);
+      // En cas d'erreur interne à twemoji, on retourne le texte brut pour ne pas casser l'affichage
+      return content;
+    }
   }
-}
 
 @ViewChild('fileInput') fileInput!: ElementRef;
 

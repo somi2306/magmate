@@ -5,49 +5,42 @@
         <img src="images/logo1.png" alt="Magmate" class="logo-icon" />
       </a>
     </div>
-    <div class="nav__menu__btn" id="menu-btn">
-      <i class="ri-menu-line"></i>
+    
+    <div class="nav__menu__btn" (click)="toggleMenu()">
+      <i [class]="isMenuOpen ? 'ri-close-line' : 'ri-menu-line'"></i>
     </div>
   </div>
-  <ul class="nav__links" id="nav-links">
-    <li><a routerLink="/">Accueil</a></li>
-    <!--<li><a [routerLink]="['/marketplace']"  (click)="smoothScroll($event)">Marketplace</a></li>-->
-    <li>
-      <a [routerLink]="['/marketplace']" (click)="smoothScroll($event)"
-        >Marketplace</a
-      >
-    </li>
-    <li><a [routerLink]="['/events']" (click)="smoothScroll($event)">Événement</a></li>
-    <li>
-      <a [routerLink]="['/prestataires']" (click)="smoothScroll($event)"
-        >Service de prestataire</a
-      >
-    </li>
-<li class="nav__dropdown" (mouseleave)="hideTranslationDropdown()">
-  <a href="#" (click)="toggleTranslationDropdown($event)">Service de traduction et monnaie <i class="ri-arrow-down-s-line"></i></a>
-  <ul class="dropdown-submenu" *ngIf="showTranslationDropdown">
-    <li><a class="dropdown-item" routerLink="/translation" (click)="hideTranslationDropdown()"><i class="ri-translate-2"></i> Service de Traduction</a></li>
-    <li><a class="dropdown-item" routerLink="/currency" (click)="hideTranslationDropdown()"><i class="ri-money-euro-box-line"></i> Convertisseur de Monnaie</a></li>
-  </ul>
-</li>
 
+  <ul class="nav__links" [class.open]="isMenuOpen">
+    
+    <li><a routerLink="/" (click)="closeMenu()">Accueil</a></li>
+    
+    <li><a routerLink="/marketplace" (click)="closeMenu()">Marketplace</a></li>
+    
+    <li><a routerLink="/events" (click)="closeMenu()">Événement</a></li>
+    
+    <li><a routerLink="/prestataires" (click)="closeMenu()">Service de prestataire</a></li>
 
-    <!--  
-    <li class="nav__profile">
-      <a routerLink="/profile">
-        <img src="images/header-bg1.jpg" alt="header" class="nav__profile-pic" />
+    <li class="nav__dropdown">
+      <a (click)="toggleTranslationDropdown($event)">
+        Service de traduction et monnaie <i class="ri-arrow-down-s-line"></i>
       </a>
+      <ul class="dropdown-submenu" *ngIf="showTranslationDropdown">
+        <li><a routerLink="/translation" (click)="hideTranslationDropdown()">Service de Traduction</a></li>
+        <li><a routerLink="/currency" (click)="hideTranslationDropdown()">Convertisseur de Monnaie</a></li>
+      </ul>
     </li>
--->
+
     <li class="nav__profile">
       <div class="profile-dropdown">
         <img
           [src]="profilePhotoUrl"
-          alt="Photo de profil"
+          alt="Profil"
           class="nav__profile-pic"
           (error)="profilePhotoUrl = 'images/default-profile.png'"
           (click)="toggleDropdown()"
         />
+        
         <div class="dropdown-menu" *ngIf="showDropdown">
           <a
             class="dropdown-item"

@@ -1,8 +1,10 @@
-
 .admin-magasin-container {
   padding: 25px;
   max-width: 1200px;
-  margin: 20px auto;
+  
+  /* CORRECTION : 80px (Header) + 30px (Espace) = 110px */
+  margin: 110px auto 30px auto;
+  
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -28,7 +30,8 @@ h3 {
 
 .magasin-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* 280px permet souvent d'avoir 2 colonnes sur tablette au lieu d'une seule */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 25px;
   padding: 10px 0;
 }
@@ -63,6 +66,7 @@ h3 {
   line-height: 1.5;
 }
 
+/* --- BOUTONS --- */
 .card-actions {
   margin-top: auto;
   display: flex;
@@ -73,7 +77,7 @@ h3 {
 }
 
 .approve-btn, .reject-btn, .contact-btn {
-  padding: 10px 18px;
+  padding: 8px 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -83,30 +87,21 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  min-width: 120px;
+  flex: 1; /* Partage l'espace équitablement */
+  min-width: 100px;
 }
 
-.approve-btn {
-  background-color: #2ecc71;
-  color: white;
-}
+.approve-btn { background-color: #2ecc71; color: white; }
+.approve-btn:hover { background-color: #27ae60; transform: translateY(-1px); }
 
-.approve-btn:hover {
-  background-color: #27ae60;
-  transform: translateY(-1px);
-}
+.reject-btn { background-color: #e74c3c; color: white; }
+.reject-btn:hover { background-color: #c0392b; transform: translateY(-1px); }
 
-.reject-btn {
-  background-color: #e74c3c;
-  color: white;
-}
+.contact-btn { background-color: #3498db; color: white; }
+.contact-btn:hover { background-color: #2980b9; transform: translateY(-1px); }
+.contact-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; transform: none; }
 
-.reject-btn:hover {
-  background-color: #c0392b;
-  transform: translateY(-1px);
-}
-
+/* --- MESSAGES --- */
 .error-message {
   color: #c0392b;
   background-color: #fdecea;
@@ -128,11 +123,14 @@ h3 {
   border-radius: 8px;
 }
 
+/* --- TABS --- */
 .tab-controls {
   display: flex;
   margin-bottom: 25px;
   border-bottom: 1px solid #eee;
   gap: 5px;
+  overflow-x: auto; /* Scroll horizontal sur petit écran */
+  white-space: nowrap;
 }
 
 .tab-controls button {
@@ -147,11 +145,7 @@ h3 {
   border-radius: 6px 6px 0 0;
 }
 
-.tab-controls button:hover {
-  color: #3498db;
-  background-color: #f8f9fa;
-}
-
+.tab-controls button:hover { color: #3498db; background-color: #f8f9fa; }
 .tab-controls button.active {
   border-bottom: 3px solid #3498db;
   color: #3498db;
@@ -159,60 +153,37 @@ h3 {
   font-weight: 600;
 }
 
+/* --- STATUS BADGES --- */
 .status {
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   display: inline-block;
   font-weight: 500;
   font-size: 0.85rem;
   margin: 5px 0;
 }
+.status.approved { background-color: #e8f8ef; color: #27ae60; }
+.status.rejected { background-color: #fdecea; color: #e74c3c; }
 
-.status.approved {
-  background-color: #e8f8ef;
-  color: #27ae60;
-}
-
-.status.rejected {
-  background-color: #fdecea;
-  color: #e74c3c;
-}
-
-.contact-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.contact-btn:hover {
-  background-color: #2980b9;
-  transform: translateY(-1px);
-}
-
-.contact-btn:disabled {
-  background-color: #bdc3c7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Responsive adjustments */
+/* --- MOBILE --- */
 @media (max-width: 768px) {
   .admin-magasin-container {
     padding: 15px;
-    margin: 15px;
+    /* Marge adaptée pour mobile (Header 80px + espace) */
+    margin: 95px 15px 20px 15px;
   }
   
   .magasin-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Une seule colonne */
   }
   
-  .tab-controls {
-    flex-wrap: wrap;
+  .card-actions {
+    flex-direction: column; /* Boutons l'un sous l'autre */
+  }
+  
+  .approve-btn, .reject-btn, .contact-btn {
+    width: 100%;
+    padding: 12px;
   }
   
   .tab-controls button {

@@ -32,7 +32,7 @@ export class CommentService {
   }
 
   async createComment(user: any, productId: number, createAvisDto: CreateAvisDto) {
-  console.log('Email de l\'utilisateur:', user.email);  // Vérifier si l'email est récupéré correctement
+  //console.log('Email de l\'utilisateur:', user.email);  // Vérifier si l'email est récupéré correctement
 
   // Recherche de l'utilisateur par son email dans la base de données
   const foundUser = await this.userRepository.findOne({ where: { email: user.email } });
@@ -56,7 +56,7 @@ export class CommentService {
     produit: product, // Le produit concerné
   });
 
-  console.log('Nouveau commentaire créé:', newComment);
+  //console.log('Nouveau commentaire créé:', newComment);
 
   await this.avisRepository.save(newComment);
 

@@ -1,11 +1,16 @@
+
+* {
+  box-sizing: border-box;
+}
+
 .all {
   background: var(--secondary-bg);
-  padding-top: 6%;
+  /* CORRECTION : Marge du haut pour éviter le header fixe (80px + espace) */
+  padding-top: 110px;
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 2%;
 }
-
 .my-favorites {
   padding: 16px;
   min-height: 100vh;
@@ -165,10 +170,31 @@
 
 /* Responsive */
 @media (max-width: 700px) {
-  .events-grid {
-    grid-template-columns: 1fr;
+  .all {
+    padding-top: 95px; /* Margin réduite pour mobile */
+    padding-left: 15px;
+    padding-right: 15px;
   }
+
+  .my-favorites {
+    padding: 0;
+  }
+.events-grid {
+    grid-template-columns: 1fr; /* Une seule colonne sur téléphone */
+    gap: 20px;
+  }
+
   .event-card {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
+    width: 100%;
   }
+  .card-content {
+    padding: 15px;
+  }
+
+  .details-btn, .favorite-btn {
+    width: 100%;
+    text-align: center;
+  }
+
 }

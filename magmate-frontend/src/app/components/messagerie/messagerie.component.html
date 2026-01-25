@@ -1,29 +1,28 @@
-
 <div class="messaging-container">
-  <!-- Liste des amis/conversations -->
+  
   <div class="friends-list">
     <div class="header">
       <h2>Conversations
-            <span class="total-notification-badge" *ngIf="totalUnreadCount > 0">
-      {{ totalUnreadCount }}
-    </span>
+        <span class="total-notification-badge" *ngIf="totalUnreadCount > 0">
+          {{ totalUnreadCount }}
+        </span>
       </h2>
-      <div class="actions">
-        <!-- Boutons optionnels -->
-      </div>
     </div>
     
-
-    <div *ngFor="let friend of friends" 
-         class="friend"
-         (click)="startNewConversation(friend)">
-      <div class="friend-info">
-        <img [src]="friend.photo || 'images/default-profile.png'" 
-             alt="Photo de profil" 
-             class="profile-image">
-        <div class="friend-details">
-          <h3>{{ friend.fname }} {{ friend.lname }}</h3>
-          <!-- Afficher le nombre de messages non lus -->
+    <div class="friends-scroll-area">
+      <div *ngFor="let friend of friends" 
+           class="friend"
+           [class.active]="selectedConversation && isUserInConversation(friend.id)"
+           (click)="startNewConversation(friend)">
+           
+        <div class="friend-info">
+          <img [src]="friend.photo || 'images/default-profile.png'" 
+               alt="Photo" 
+               class="profile-image">
+          <div class="friend-details">
+            <h3>{{ friend.fname }} {{ friend.lname }}</h3>
+          </div>
+          
           <div *ngIf="getUnreadCountForFriend(friend.id)" class="unread-badge">
             {{ getUnreadCountForFriend(friend.id) }}
           </div>
@@ -32,113 +31,101 @@
     </div>
   </div>
   
-  <!-- Zone de chat -->
   <div class="chat-area">
-    <!-- En-tête du chat -->
-<div class="chat-header" *ngIf="selectedConversation">
-  <div class="recipient-info">
-    <img [src]="getConversationImage(selectedConversation) || 'images/default-profile.png'" 
-         alt="Photo de profil" 
-         class="profile-image">
-    <div>
-      <h3>{{ getConversationName(selectedConversation) }}</h3>
-      <p class="status" [class.online]="isOnline(selectedConversation)">
-        {{ isOnline(selectedConversation) ? 'En ligne' : 'Hors ligne' }}
-      </p>
-    </div>
-  </div>
-      <div class="chat-actions">
-        <!-- Boutons optionnels -->
+    
+    <div class="chat-header" *ngIf="selectedConversation">
+      <div class="recipient-info">
+        <img [src]="getConversationImage(selectedConversation) || 'images/default-profile.png'" 
+             alt="Profil" 
+             class="profile-image small">
+        <div>
+          <h3>{{ getConversationName(selectedConversation) }}</h3>
+          <p class="status" [class.online]="isOnline(selectedConversation)">
+            {{ isOnline(selectedConversation) ? 'En ligne' : 'Hors ligne' }}
+          </p>
+        </div>
       </div>
     </div>
     
-    <!-- Messages -->
-<div class="chat-messages" #messagesContainer 
-     (scroll)="onMessagesVisible()" 
-     (mouseenter)="onMessagesVisible()">
-      <!-- Aucune conversation sélectionnée -->
+    <div class="chat-messages" #messagesContainer 
+         (scroll)="onMessagesVisible()" 
+         (mouseenter)="onMessagesVisible()">
+         
       <div *ngIf="!selectedConversation" class="empty-chat">
-        <p>Sélectionnez une conversation pour commencer à chatter</p>
+        <div style="text-align: center;">
+          <i class="ri-chat-smile-2-line" style="font-size: 3rem; color: #dfe6e9;"></i>
+          <p>Sélectionnez une conversation pour commencer</p>
+        </div>
       </div>
       
-      <!-- Messages de la conversation -->
-<!-- Messages de la conversation -->
-<div *ngFor="let message of messages" 
-     class="chat-message"
-     [class.sent]="message.user.id === currentUserId"
-     [class.received]="message.user.id !== currentUserId">
-     
-  <!-- Pour les messages reçus (afficher l'avatar) -->
-  <div *ngIf="message.user.id !== currentUserId" class="message-sender">
-    <img [src]="getUserImage(message.user)" class="profile-image small">
-  </div>
-  
-  <div class="message-content-container">
-    <div class="message-content">
-      <!-- Contenu du message -->
-      <ng-container *ngIf="message.image; else textMessage">
-        <img [src]="message.image" class="chat-image">
-      </ng-container>
-      <ng-template #textMessage>
-  <p [innerHTML]="getSafeMessage(message.message || '')"></p>
-</ng-template>
-      <div class="message-info">
-        <span class="message-time">{{ message.createdAt | date:'HH:mm' }}</span>
-        <!-- Indicateurs d'état seulement pour les messages envoyés -->
-        <span *ngIf="message.user.id === currentUserId" class="message-status">
-          <span *ngIf="message.read" class="read">✓✓</span>
-          <span *ngIf="!message.read && message.delivered" class="delivered">✓✓</span>
-          <span *ngIf="!message.delivered && !message.read" class="sent">✓</span>
-        </span>
+      <div *ngFor="let message of messages" 
+           class="chat-message"
+           [class.sent]="message.user.id === currentUserId"
+           [class.received]="message.user.id !== currentUserId">
+           
+        <div *ngIf="message.user.id !== currentUserId" class="message-sender">
+          </div>
+        
+        <div class="message-content">
+          <ng-container *ngIf="message.image; else textMessage">
+            <img [src]="message.image" class="chat-image" (click)="openImage(message.image)">
+          </ng-container>
+          <ng-template #textMessage>
+            <p [innerHTML]="getSafeMessage(message.message)" style="margin: 0;"></p>
+          </ng-template>
+
+          <div class="message-info">
+            <span class="message-time">{{ message.createdAt | date:'HH:mm' }}</span>
+            <span *ngIf="message.user.id === currentUserId" class="message-status">
+              <span *ngIf="message.read">✓✓</span> <span *ngIf="!message.read && message.delivered">✓✓</span> <span *ngIf="!message.delivered && !message.read">✓</span> </span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
     
-    <!-- Formulaire d'envoi de message -->
     <form class="message-form" #messageForm="ngForm" (ngSubmit)="sendMessage()" *ngIf="selectedConversation">
-<div class="message-input">
-  <input type="text" 
-         name="newMessage" 
-         [(ngModel)]="newMessage" 
-         required 
-         placeholder="Rédigez un message...">
-  <div class="message-actions">
-    <button type="button" class="icon-button" (click)="toggleEmojiPicker()">
-      <span>😊</span>
-    </button>
-    
-    <!-- Emoji picker with positioning -->
-<div class="emoji-picker-container" *ngIf="showEmojiPicker" 
-     style="max-height: 300px; overflow-y: auto;">
-  <emoji-mart
-    (emojiSelect)="addEmoji($event)"
-    [style.width]="'100%'">
-  </emoji-mart>
-</div>
-
-    
-<input type="file" #fileInput style="display: none" 
-       (change)="onFileSelected($event)" 
-       accept="image/*">
-
-
-<button type="button" class="icon-button" (click)="fileInput.click()">
-  <span>📎</span>
-</button>
-    <button type="submit" [disabled]="!messageForm.valid || !isConnected">Envoyer</button>
-  </div>
-</div>
+      <div class="message-input">
+        <input type="text" 
+               name="newMessage" 
+               [(ngModel)]="newMessage" 
+               required 
+               autocomplete="off"
+               placeholder="Écrivez votre message...">
+               
+        <div class="message-actions">
+          <button type="button" class="icon-button" (click)="toggleEmojiPicker()">
+            😊
+          </button>
+          
+          <input type="file" #fileInput style="display: none" 
+                 (change)="onFileSelected($event)" 
+                 accept="image/*">
+                 
+          <button type="button" class="icon-button" (click)="fileInput.click()">
+            📎
+          </button>
+          
+          <button type="submit" [disabled]="!messageForm.valid || !isConnected">
+            <i class="ri-send-plane-fill"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="emoji-picker-container" *ngIf="showEmojiPicker">
+        <emoji-mart
+          (emojiSelect)="addEmoji($event)"
+          [style]="{ width: '100%' }"
+          [showPreview]="false">
+        </emoji-mart>
+      </div>
     </form>
   </div>
 </div>
 
-<!-- Indicateur de chargement -->
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>
 </div>
 
-<!-- Message d'erreur -->
 <div *ngIf="error" class="error-message">
   {{ error }}
   <button (click)="error = null">×</button>

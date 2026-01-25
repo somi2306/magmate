@@ -1,3 +1,8 @@
+/* Règle CRUCIALE : Empêche les éléments (textarea, inputs) de dépasser de leur boîte */
+* {
+  box-sizing: border-box;
+}
+
 body { 
   background: linear-gradient(135deg, #ffecd2, #fcb69f);
   min-height: 100vh;
@@ -8,6 +13,9 @@ body {
   flex-direction: column;  /* Alignement vertical */
   align-items: center;
   justify-content: flex-start;
+  
+  /* CORRECTION : Marge pour le header fixe (80px + 30px espace) */
+  padding-top: 110px; 
 }
 
 h1 {
@@ -43,7 +51,7 @@ h1::after {
   align-items: center;
   padding: 30px;
   gap: 30px;
-  margin-bottom: 20px; /* Séparer du report */
+  margin-bottom: 20px; 
   background-image: url('/images/zellij-pattern.png');
   background-size: 200px;
   background-position: center;
@@ -162,7 +170,6 @@ h1::after {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* Contenu du modal */
 .modal-content {
   background-color: #fff0e7;
   color: #721a1a;
@@ -182,10 +189,10 @@ h1::after {
   margin: 10px auto;
   width: 90%;
 }
-h3{
+
+h3 {
   text-align: center;
 }
-
 
 .reclamation-form textarea,
 .reclamation-form input[type="file"] {
@@ -230,17 +237,16 @@ h3{
   color: white;
 }
 
-/* ========== Section Commentaires - En Bas ========== */
+/* ========== Section Commentaires ========== */
 .comments-section {
   background-color: #ca7575;
   padding: 20px;
   border-radius: 8px;
   width: 80%;
   max-width: 900px;
-  margin-top: 40px;  /* Séparer des détails du prestataire */
+  margin-top: 40px;  
   margin-bottom: 20px;
 }
-
 
 .comments-section h3 {
   font-size: 1.8em;
@@ -251,7 +257,7 @@ h3{
 
 .comment {
   background-color: #fff;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -282,8 +288,8 @@ h3{
 }
 
 .add-comment textarea {
-  width: 100%;
-  padding: 10px;
+  width: 100%; /* Ne dépassera plus grâce à box-sizing: border-box */
+  padding: 12px;
   margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -321,9 +327,6 @@ h3{
   background-color: #9c1a1a;
 }
 
-
-
-/* Style pour le bouton de suppression de commentaire */
 .delete-comment-btn {
   background-color: #721a1a;
   color: white;
@@ -345,4 +348,76 @@ h3{
   color: #721a1a;
   font-style: italic;
   margin-top: 20px;
+}
+
+/* =========================================
+   ADAPTATION MOBILE (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+  
+  body {
+    padding-top: 95px; /* Marge ajustée pour mobile */
+  }
+
+  h1 {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .prestataire-details {
+    flex-direction: column; 
+    width: 90%; 
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .prestataire-image {
+    width: 100%; 
+    flex: none; 
+    height: 230px; 
+  }
+
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .prestataire-info {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .prestataire-info h2 {
+    font-size: 1.4em;
+  }
+
+  /* --- MODIFICATION DEMANDÉE : CÔTE À CÔTE SUR MOBILE --- */
+  .button-group {
+    flex-direction: row; /* Force l'alignement horizontal */
+    width: 100%;
+    gap: 10px; /* Espace entre les deux boutons */
+  }
+
+  .contact-button,
+  .report-button {
+    flex: 1; /* Chaque bouton prend 50% de la largeur */
+    width: auto;
+    padding: 12px 5px; /* On réduit un peu le padding latéral pour éviter que le texte ne soit trop serré */
+    font-size: 0.9rem; /* Légère réduction de la police pour tenir sur une ligne */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .comments-section {
+    width: 90%; 
+    padding: 15px;
+  }
+
+  .comment {
+    padding: 12px;
+  }
 }

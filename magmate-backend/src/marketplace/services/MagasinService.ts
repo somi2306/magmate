@@ -29,7 +29,7 @@ export class MagasinService {
 
   async deleteMagasin(id: number): Promise<void> {
     try {
-      console.log('Suppression du magasin avec ID:', id);
+      //console.log('Suppression du magasin avec ID:', id);
 
       // Supprimer les produits associés au magasin
       const produitsSupprimes = await this.produitRepository.delete({
@@ -39,7 +39,7 @@ export class MagasinService {
       if (produitsSupprimes.affected === 0) {
         console.warn('Aucun produit trouvé pour le magasin avec ID:', id);
       } else {
-        console.log('Produits supprimés:', produitsSupprimes.affected);
+        //console.log('Produits supprimés:', produitsSupprimes.affected);
       }
 
       // Supprimer le magasin
@@ -49,10 +49,10 @@ export class MagasinService {
         throw new NotFoundException(`Magasin avec l'id ${id} non trouvé.`);
       }
 
-      console.log(
+      /*console.log(
         'Magasin supprimé avec succès. Résultat de la suppression:',
         result,
-      );
+      );*/
     } catch (err) {
       console.error('Erreur dans deleteMagasin :', err);
       // Lancer une erreur 500 pour les problèmes internes du serveur

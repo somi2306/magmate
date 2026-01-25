@@ -1,16 +1,16 @@
 /* Appliquer la couleur de fond uniquement au body */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html, body {
   min-height: 100vh;
   background-color: #fff0e7;
   margin: 0;
   padding: 0;
-}
-
-/* Ne pas forcer width: 100% sur tout ! */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  overflow-x: hidden; /* Empêche le défilement horizontal */
 }
 
 .search-bar {
@@ -19,29 +19,27 @@ html, body {
   align-items: center;
   padding: 20px;
   flex-wrap: wrap;
-  
 }
 
 .search-left {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-
 }
+
 .search-left input {
   width: 20vw; /* 50% de la largeur de l’écran */
   min-width: 300px;
   max-width: 800px;
+  padding: 8px; /* Ajout confort */
+  border: 1px solid #ccc; /* Ajout bordure */
+  border-radius: 4px;
 }
-
 
 .search-right {
   display: flex;
   justify-content: flex-end;
-  
-
 }
-
 
 /* Conteneur des produits */
 .produits-container {
@@ -51,7 +49,8 @@ html, body {
   gap: 20px;
   padding: 20px;
 }
-.market-button{
+
+.market-button {
   padding: 8px 12px;
   background-color: #721a1a;
   color: white;
@@ -59,9 +58,8 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
   transition: 0.3s;
-  
-  
 }
+
 .market-button:hover {
   color: #721a1a;
   background-color: white;
@@ -82,7 +80,6 @@ html, body {
   align-items: center;
 }
 
-
 .modal-content {
   background-color: #fff7ec;
   padding: 20px 30px;
@@ -92,9 +89,11 @@ html, body {
   width: 400px;
   text-align: center;
 }
-.modal p{
+
+.modal p {
   margin-top: 20px;
 }
+
 .close {
   color: #721a1a;
   float: right;
@@ -102,10 +101,12 @@ html, body {
   font-weight: bold;
   cursor: pointer;
 }
+
 .close:hover {
   color: red;
 }
-.create-magasin{
+
+.create-magasin {
   padding: 8px 12px;
   background-color: #721a1a;
   color: white;
@@ -115,6 +116,7 @@ html, body {
   transition: 0.3s;
   margin-top: 20px;
 }
+
 .select-ville {
   padding: 8px 12px;
   border: 1px solid #ccc;
@@ -135,6 +137,7 @@ html, body {
   border-color: #721a1a;
   box-shadow: 0 0 0 2px rgba(114, 26, 26, 0.2);
 }
+
 .aucun-resultat {
   text-align: center;
   color: #000000;
@@ -142,13 +145,13 @@ html, body {
   margin-top: 2rem;
   font-style: italic;
 }
+
 .welcome-banner {
   position: relative;
   width: 100%;
   height: 100vh; /* prend toute la hauteur de l'écran */
   overflow: hidden;
 }
-
 
 .welcome-banner img {
   width: 100%;
@@ -157,7 +160,6 @@ html, body {
   filter: brightness(0.7);
 }
 
-
 .welcome-text {
   position: absolute;
   top: 50%;
@@ -165,6 +167,7 @@ html, body {
   transform: translate(-50%, -50%);
   color: white;
   text-align: center;
+  width: 90%;
 }
 
 .welcome-text h1 {
@@ -193,4 +196,43 @@ html, body {
   background-color: white;
   color: #721a1a;
   border: 1px solid #721a1a;
+}
+
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+
+  .welcome-banner {
+    height: 60vh; /* Réduit pour voir le contenu en dessous */
+  }
+
+  .welcome-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .search-left {
+    flex-direction: column;
+  }
+
+  .search-left input,
+  .select-ville {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .search-right, .market-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .produits-container {
+    padding: 10px;
+  }
 }

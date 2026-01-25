@@ -1,320 +1,73 @@
-.messaging-container {
-    display: flex;
-    height: calc(100vh - 100px);
-    width: 900px;
-    margin: 100px auto 0;
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .friends-list {
-    width: 35%;
-    border-right: 1px solid #e1e1e1;
-    overflow-y: auto;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #e1e1e1;
-    height: 60px; 
-    box-sizing: border-box; /* Inclut le padding dans la hauteur */
-  }
-  
-  .header h2 {
-    margin: 0;
-    font-size: 18px;
-  }
-  
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .friend {
-    padding: 15px;
-    border-bottom: 1px solid #e1e1e1;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .friend:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .friend.active {
-    background-color: #f0f7ff;
-    border-left: 3px solid #0073b1;
-  }
-  
-  .friend-info h3 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-  }
-  
-  .friend-info p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .date {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 12px;
-    color: #666;
-  }
-  
-  .chat-area {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .chat-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #e1e1e1;
-    height: 60px; /* Même hauteur que .header */
-    box-sizing: border-box; /* Inclut le padding dans la hauteur */
-  }
-  
-  .recipient-info h3 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-  }
-  
-  .recipient-info p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-  }
-  
-  .chat-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .chat-messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #f9f9f9;
-  }
-  
-  .empty-chat {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    color: #999;
-  }
-  
-  .message-form {
-    padding: 15px;
-    border-top: 1px solid #e1e1e1;
-    background-color: white;
-  }
-  
-  .message-input {
-    position: relative;
-  }
-  
-  .message-input input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    outline: none;
-  }
-  
-  .message-actions {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 5px;
-    align-items: center;
-  }
-  
-  .icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 5px;
-  }
-  
-  button[type="submit"] {
-    background-color: #0073b1;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 15px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-
-  .chat-messages {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 20px;
-  }
-  
-  .chat-message {
-    max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 18px;
-    line-height: 1.4;
-    position: relative;
-  }
-  
-  /* Style pour les messages envoyés (à droite) */
-  .chat-message.sent {
-    align-self: flex-end;
-    background-color: #0073b1;
-    color: white;
-    border-bottom-right-radius: 4px;
-  }
-  
-  /* Style pour les messages reçus (à gauche) */
-  .chat-message.received {
-    align-self: flex-start;
-    background-color: #e5e5ea;
-    color: black;
-    border-bottom-left-radius: 4px;
-  }
-  
-  /* Style pour l'heure des messages */
-  .message-time {
-    font-size: 11px;
-    color: #999;
-    margin-top: 4px;
-    text-align: right;
-  }
-  
-  /* Style pour le nom de l'expéditeur (messages reçus seulement) */
-  .message-sender {
-    font-weight: bold;
-    margin-bottom: 4px;
-    font-size: 14px;
-  }
-
-  /* Animation pour les nouveaux messages */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .chat-message {
-    animation: fadeIn 0.3s ease-out;
-  }
-  
-  /* Style pour le défilement des messages */
-  .chat-messages {
-    scroll-behavior: smooth;
-  }
-  
-  /* Style pour le survol des messages */
-  .chat-message:hover {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  .friend-info {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* espace entre l'image et le nom */
-  }
-  
-  .profile-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .chat-header .recipient-info {
-    display: flex;
-    align-items: center; /* Aligne l'image et le texte au centre */
-  }
-  
-  .chat-header .recipient-info img.profile-image {
-    width: 40px;  /* Taille de l'image */
-    height: 40px; /* Taille de l'image */
-    border-radius: 50%; /* Rendre l'image ronde */
-    margin-right: 10px; /* Espacement entre l'image et le texte */
-  }
-  
-  .chat-header .recipient-info h3 {
-    font-size: 18px; /* Taille de la police */
-    margin: 0; /* Supprime les marges autour du texte */
-  }
-  
-
-  /* Styles de base */
+/* =========================================
+   1. CONTENEUR PRINCIPAL
+   ========================================= */
 .messaging-container {
   display: flex;
-  height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Hauteur : 100vh - (Header 80px + Marge Top 30px + Marge Bottom 20px) = ~130px */
+  height: calc(100vh - 130px);
+  width: 95%;
+  max-width: 1200px;
+  
+  /* CORRECTION : Marge du haut pour compenser le header fixe */
+  margin: 110px auto 20px auto;
+  
+  background-color: #ffffff;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: 'DM Sans', sans-serif;
 }
 
+/* =========================================
+   2. LISTE DES AMIS (GAUCHE)
+   ========================================= */
 .friends-list {
-  width: 300px;
-  background: #f8f9fa;
-  border-right: 1px solid #e0e0e0;
-  overflow-y: auto;
-}
-
-.chat-area {
-  flex: 1;
+  width: 320px; /* Largeur fixe confortable */
+  background-color: #f8f9fa;
+  border-right: 1px solid #e1e1e1;
   display: flex;
   flex-direction: column;
 }
 
-/* En-têtes */
-.header, .chat-header {
-  padding: 15px;
-  border-bottom: 1px solid #e0e0e0;
+.header {
+  height: 60px;
+  padding: 0 15px;
+  border-bottom: 1px solid #e1e1e1;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
 }
 
-.header h2, .chat-header h3 {
+.header h2 {
   margin: 0;
-  font-size: 16px;
+  font-size: 1.1rem;
   font-weight: 600;
+  color: #2c3e50;
 }
 
-/* Liste d'amis/conversations */
+/* Zone scrollable des amis */
+.friends-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+}
+
 .friend {
   padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
+  position: relative;
 }
 
 .friend:hover {
-  background: #e9ecef;
+  background-color: #e9ecef;
 }
 
 .friend.active {
-  background: #e0e0e0;
+  background-color: #e3f2fd;
+  border-left: 4px solid #3498db;
 }
 
 .friend-info {
@@ -323,43 +76,101 @@
 }
 
 .profile-image {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  margin-right: 12px;
   object-fit: cover;
-}
-
-.profile-image.small {
-  width: 30px;
-  height: 30px;
-}
-
-.friend-details {
-  flex: 1;
+  margin-right: 12px;
+  border: 1px solid #eee;
 }
 
 .friend-details h3 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
 }
 
-.last-message, .status {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: #6c757d;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Badges */
+.unread-badge {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Zone de messages */
-.chat-messages {
+.total-notification-badge {
+  display: inline-block;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* =========================================
+   3. ZONE DE CHAT (DROITE)
+   ========================================= */
+.chat-area {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  height: 100%; /* Important */
+  overflow: hidden; /* Empêche le chat de déborder du conteneur parent */
+}
+
+.chat-header {
+  height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid #e1e1e1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.chat-header .recipient-info {
+  display: flex;
+  align-items: center;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.status {
+  font-size: 0.8rem;
+  color: #95a5a6;
+  margin: 0;
+}
+.status.online { color: #2ecc71; font-weight: 500; }
+
+/* Messages */
+.chat-messages {
+  flex: 1; /* Prend tout l'espace disponible */
   padding: 20px;
-  overflow-y: auto;
-  background: #f0f2f5;
+  overflow-y: auto; /* Scroll uniquement sur les messages */
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 0; /* Astuce Flexbox importante pour le scroll */
 }
 
 .empty-chat {
@@ -367,417 +178,308 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  color: #6c757d;
+  color: #bdc3c7;
+  font-size: 1.1rem;
 }
 
-/* Messages individuels */
-/*
 .chat-message {
-  display: flex;
-  margin-bottom: 15px;
-  max-width: 70%;
-}
-
-.message-sender {
-  margin-right: 10px;
-}
-
-.message-content {
-  padding: 10px 15px;
-  border-radius: 18px;
-  position: relative;
-}
-*/
-/*
-.sent {
-  margin-left: auto;
-}
-
-.sent .message-content {
-  background: #007bff;
-  color: white;
-  border-bottom-right-radius: 4px;
-}
-
-.received {
-  margin-right: auto;
-}
-
-.received .message-content {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-bottom-left-radius: 4px;
-}
-  */
-  
-/*
-.message-time {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.7);
-  text-align: right;
-  margin-top: 4px;
-}
-
-.received .message-time {
-  color: #6c757d;
-}
-*/
-
-/* Conteneur principal du message */
-.chat-message {
-  display: flex;
-  margin-bottom: 12px;
-  max-width: 80%;
-}
-
-/* Messages envoyés (alignés à droite) */
-.chat-message.sent {
-  margin-left: auto;
-  justify-content: flex-end;
-}
-
-/* Messages reçus (alignés à gauche) */
-.chat-message.received {
-  margin-right: auto;
-  justify-content: flex-start;
-}
-
-/* Conteneur du contenu du message */
-.message-content-container {
+  max-width: 75%;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Style du contenu du message */
+.chat-message.sent {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat-message.received {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
 .message-content {
-  padding: 10px 15px;
+  padding: 12px 16px;
   border-radius: 18px;
+  font-size: 0.95rem;
+  line-height: 1.5;
   position: relative;
-  word-break: break-word;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Style spécifique pour les messages envoyés */
 .sent .message-content {
-  background: #007bff;
+  background-color: #3498db;
   color: white;
   border-bottom-right-radius: 4px;
 }
 
-/* Style spécifique pour les messages reçus */
 .received .message-content {
-  background: white;
+  background-color: white;
+  color: #333;
   border: 1px solid #e0e0e0;
   border-bottom-left-radius: 4px;
 }
 
-/* Style de l'heure du message */
-.message-time {
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.5);
+/* Images dans le chat */
+.chat-image {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.chat-image:hover { transform: scale(1.02); }
+
+.message-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Aligne temps et statut à droite */
+  gap: 5px;
   margin-top: 4px;
-  text-align: right;
+  line-height: 1;
 }
 
-.sent .message-time {
-  color: rgba(255, 255, 255, 0.7);
+.message-time {
+  font-size: 0.70rem;
 }
 
-/* Style de l'avatar */
-.message-sender {
-  margin-right: 10px;
+.message-status {
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
-.profile-image.small {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
+/* 1. Messages REÇUS (Fond blanc) */
+.received .message-time { color: #95a5a6; }
+.received .message-status { color: #3498db; } /* Bleu sur fond blanc */
+
+/* 2. Messages ENVOYÉS (Fond bleu) */
+.sent .message-time { 
+  color: rgba(255, 255, 255, 0.7); /* Blanc légèrement transparent */
 }
 
-/* Formulaire de message */
+.sent .message-status { 
+  color: rgba(255, 255, 255, 0.9); /* Blanc visible sur fond bleu */
+}
+
+/* Optionnel : Si le message est "Lu", on le met en blanc pur ou une autre couleur */
+.sent .message-status span {
+  display: inline-block;
+}
+
+/* =========================================
+   4. INPUT ZONE
+   ========================================= */
 .message-form {
-  padding: 15px;
-  border-top: 1px solid #e0e0e0;
-  background: white;
+  flex-shrink: 0; /* CRUCIAL : Empêche le formulaire d'être écrasé ou poussé */
+  padding: 10px; /* Un peu moins de padding sur mobile */
+  background-color: #fff;
+  border-top: 1px solid #e1e1e1;
+  position: relative; /* Stabilité */
+  z-index: 10;
 }
 
 .message-input {
   display: flex;
   align-items: center;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 24px;
+  padding: 5px 15px;
 }
 
 .message-input input {
   flex: 1;
-  padding: 10px 15px;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
+  border: none;
+  background: transparent;
+  padding: 10px;
+  font-size: 0.95rem;
   outline: none;
 }
 
 .message-actions {
   display: flex;
-  margin-left: 10px;
+  align-items: center;
+  gap: 5px;
 }
 
 .icon-button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
-  margin: 0 5px;
-  padding: 5px;
+  font-size: 1.2rem;
+  padding: 8px;
+  color: #7f8c8d;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.icon-button:hover { color: #3498db; }
 
 button[type="submit"] {
-  background: #007bff;
+  background-color: #3498db;
   color: white;
   border: none;
+  padding: 8px 20px;
   border-radius: 20px;
-  padding: 8px 15px;
-  margin-left: 5px;
+  font-weight: 600;
   cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.2s;
 }
 
-button[type="submit"]:disabled {
-  background: #cccccc;
-  cursor: not-allowed;
-}
+button[type="submit"]:hover { background-color: #2980b9; }
+button[type="submit"]:disabled { background-color: #bdc3c7; cursor: not-allowed; }
 
-/* Indicateurs de statut */
-.status.online {
-  color: #28a745;
-}
-
-/* Chargement et erreurs */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.error-message {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #dc3545;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.error-message button {
-  background: none;
-  border: none;
-  color: white;
-  margin-left: 15px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.empty-chat {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: #666;
-  font-size: 1.2em;
-}
-
-.loading-messages {
-  text-align: center;
-  padding: 10px;
-  color: #666;
-  font-style: italic;
-}
-
-/* Animation pour le chargement */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.chat-message {
-  animation: fadeIn 0.3s ease-in;
-}
-  
-.emoji-picker {
-  position: absolute;
-  bottom: 60px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.message-input {
-  position: relative;
-}
-
+/* Emoji Picker & Utils */
 .emoji-picker-container {
   position: absolute;
-  bottom: 50px;
-  right: 10px;
+  bottom: 80px;
+  right: 20px;
   z-index: 1000;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  background-color: #fff;
+  
+  /* --- CORRECTION SCROLL --- */
+  max-height: 350px;       /* Hauteur maximale fixe */
+  width: 300px;            /* Largeur fixe pour PC */
+  overflow-y: auto;        /* Active le défilement vertical */
+  overflow-x: hidden;      /* Cache le défilement horizontal inutile */
 }
 
-.message-content p {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+/* Pour cibler spécifiquement le composant emoji-mart à l'intérieur */
+.emoji-picker-container ::ng-deep .emoji-mart {
+  width: 100% !important; /* Force la largeur à suivre le conteneur */
+  height: auto !important;
+  border: none; /* Enlève la bordure par défaut du composant */
 }
 
-/* Pour l'input */
-.message-input input {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Force l'utilisation des polices Emoji modernes */
-.emoji-font {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif;
-}
+/* =========================================
+   5. RESPONSIVE / MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  .messaging-container {
+    /* Marge top ajustée pour mobile */
+    margin: 95px 10px 10px 10px; 
+    width: auto;
+    height: calc(100vh - 110px);
+    flex-direction: column; /* On empile la liste et le chat */
+  }
 
-@font-face {
-  font-family: "EmojiFont";
-  src: local("Apple Color Emoji"), 
-       local("Segoe UI Emoji"), 
-       local("Noto Color Emoji"),
-       local("Android Emoji");
-}
+  /* Liste des amis en haut, petite hauteur */
+  .friends-list {
+    width: 100%;
+    height: 140px; /* Zone fixe pour voir les amis */
+    border-right: none;
+    border-bottom: 1px solid #e1e1e1;
+    flex-shrink: 0;
+  }
+  
+  .friends-scroll-area {
+    display: flex; /* Scroll horizontal sur mobile si on veut, ou vertical */
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0;
+  }
 
-.emoji {
-  font-family: "EmojiFont", sans-serif;
-}
+  .friend {
+    min-width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-bottom: none;
+    padding: 5px;
+  }
+  
+  .friend-info {
+    flex-direction: column;
+  }
+  
+  .friend-details h3 {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
+  }
+  
+  .unread-badge {
+    top: 5px;
+    right: 5px;
+  }
 
-.emoji {
-  height: 1em;
-  width: 1em;
-  margin: 0 .05em 0 .1em;
-  vertical-align: -0.1em;
-}
+  .chat-area {
+    height: 100%; /* Le reste de la hauteur */
+  }
+  
+  .chat-messages {
+    padding: 10px;
+  }
+  
+  .message-content {
+    font-size: 0.9rem;
+  }
 
-/*
-.message-content img.emoji {
-  height: 1em;
-  width: 1em;
-  vertical-align: -0.1em;
-}
+  .message-form {
+    padding: 8px; /* Moins de marge autour */
+  }
 
-.message-content img {
-  height: 1em;
-  width: 1em;
-  vertical-align: -0.1em;
-}
-*/
+  .message-input {
+    padding: 4px 4px 4px 12px; /* Padding optimisé */
+    border-radius: 25px;
+  }
+  
+  .message-input input {
+    font-size: 16px; /* Évite le zoom automatique sur iPhone */
+    padding: 8px 0;
+  }
+  
+  .message-actions {
+    gap: 0; /* On réduit l'espace entre les icônes */
+  }
 
-/* Styles pour les emojis - taille fixe comme WhatsApp */
-.message-content img.emoji {
-  height: 20px !important; /* Taille fixe comme WhatsApp */
-  width: 20px !important;
-  vertical-align: middle !important;
-  margin: 0 2px !important;
-}
+  /* Icônes (Emoji/Trombone) */
+  .icon-button {
+    padding: 8px;
+    font-size: 1.2rem;
+  }
 
-/* Pour s'assurer que le texte et les emojis sont alignés correctement */
-.message-content {
-  line-height: 1.5;
-  display: inline-block;
-}
+  /* Bouton Envoyer : On le transforme en cercle compact */
+  button[type="submit"] {
+    width: 40px;      /* Largeur fixe */
+    height: 40px;     /* Hauteur fixe */
+    padding: 0;       /* On enlève le padding large */
+    border-radius: 50%; /* Cercle parfait */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;  /* Empêche l'écrasement */
+    margin-left: 5px;
+  }
+  
+  /* Si vous utilisez une icône texte/font, assurez-vous qu'elle est centrée */
+  button[type="submit"] i {
+    margin: 0;
+    font-size: 1.1rem;
+  }
 
-/* Style pour le contenu du message qui contient des emojis */
-.message-content p {
-  margin: 0;
-  display: inline;
-}
-
-
-.chat-image {
-  max-width: 100%;
-  height: auto;
-  margin: 5px 0;
-  cursor: pointer;
-  transition: transform 0.2s;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.chat-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.message-content {
-  word-break: break-word;
-}
-
-/* Dans messagerie.component.css */
-.message-status {
-  margin-left: 5px;
-  color: #999;
-  font-size: 0.8em;
-}
-
-.message-status span {
-  display: inline-block;
-}
-
-/* Pour les checks lus (bleus comme WhatsApp) */
-.message-status span:last-child {
-  color: #34b7f1; /* Couleur bleue WhatsApp */
-}
-
-
-/* Dans votre fichier CSS */
-.unread-badge {
-  position: absolute;
-  right: 15px;
-  background-color: #007bff;
-  color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.friend {
-  position: relative;
-  padding-right: 30px; /* Espace pour le badge */
-}
-
-.friend-info {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-.total-notification-badge {
-  display: inline-block;
-  background-color: #e0a33f;
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  text-align: center;
-  line-height: 24px;
-  font-size: 12px;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-
-.total-notification-badge.subtle {
-  background-color: #2ed573;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  font-size: 11px;
+  /* Ajustement du picker sur mobile */
+  .emoji-picker-container {
+    bottom: 70px;
+    right: 10px;
+    left: 10px; /* Prend toute la largeur disponible */
+    width: auto; /* Annule la largeur fixe */
+    max-height: 250px; /* Un peu moins haut sur mobile */
+  }
 }

@@ -1,4 +1,4 @@
-<div class="admin-magasin-container" style="margin-top: 80px;">
+<div class="admin-magasin-container">
   <h2>Gestion des Prestataires</h2>
 
   <div class="tab-controls">
@@ -30,9 +30,10 @@
           <button class="approve-btn" (click)="approvePrestataire(prestataire.idPrestataire)">Approuver</button>
           <button class="reject-btn" (click)="rejectPrestataire(prestataire.idPrestataire)">Rejeter</button>
           <button class="contact-btn" (click)="contactPrestataire(prestataire.utilisateur?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le prestataire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
-          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> Voir les détails publics
+          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> 
+            Détails
           </button>
         </div>
       </div>
@@ -56,11 +57,11 @@
           <button class="reject-btn" (click)="rejectPrestataire(prestataire.idPrestataire)">Rejeter</button>
           <button class="delete-btn" (click)="deletePrestataire(prestataire.idPrestataire)">Supprimer</button>
           <button class="contact-btn" (click)="contactPrestataire(prestataire.utilisateur?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le prestataire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
-          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> Voir les détails publics
+          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> 
+            Détails
           </button>
-          
         </div>
       </div>
     </div>
@@ -83,11 +84,11 @@
           <button class="approve-btn" (click)="approvePrestataire(prestataire.idPrestataire)">Approuver</button>
           <button class="delete-btn" (click)="deletePrestataire(prestataire.idPrestataire)">Supprimer</button>
           <button class="contact-btn" (click)="contactPrestataire(prestataire.utilisateur?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le prestataire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
-          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> Voir les détails publics
+          <button class="contact-btn" [routerLink]="['/admin/prestataire-details', prestataire.idPrestataire]"> 
+            Détails
           </button>
-          
         </div>
       </div>
     </div>

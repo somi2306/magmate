@@ -1,17 +1,17 @@
-/* Appliquer la couleur de fond uniquement au body 
+/* AJOUT SÉCURITÉ */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   min-height: 100vh;
   background-color: #edd1ab;
   margin: 0;
   padding: 0;
+  /* CORRECTION : Marge header fixe */
+  padding-top: 110px;
 }
 
-/* Ne pas forcer width: 100% sur tout ! 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}*/
 .magasin-header {
   position: relative;
   height: 400px;
@@ -46,6 +46,7 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center; /* Pour centrer sur grands écrans */
 }
 
 .product-card {
@@ -127,7 +128,7 @@ html, body {
 .magasin-buttons {
   margin-top: 10px;
   display: flex;
-  justify-content: flex-end; /* ✅ Aligne les éléments à droite */
+  justify-content: flex-end; /* Aligne les éléments à droite */
 }
 
 
@@ -148,4 +149,27 @@ html, body {
 .delete-magasin-btn {
   background-color: #e74c3c;
   color: white;
+}
+
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  html, body {
+    padding-top: 95px;
+  }
+
+  .magasin-header {
+    height: 250px;
+  }
+
+  .product-card {
+    width: 100%; /* Cartes pleines largeur sur mobile */
+    max-width: 400px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin: 3rem 0;
+  }
 }

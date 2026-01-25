@@ -349,16 +349,48 @@ body,
 }
 
 @media (max-width: 700px) {
+  /* Réduire la hauteur pour qu'elle s'adapte au contenu sur mobile */
   .landing-page {
-    height: 90vh;
-    margin-bottom: 18px;
+    height: 50vh; /* Réduit de 90vh à 50vh pour éviter le grand vide */
+    margin-bottom: 0; /* On colle la section suivante */
   }
+
+  /* Réduire le padding du haut qui crée l'espace vide blanc */
+  .all {
+    padding-top: 20px; /* Au lieu de 110px qui est trop grand pour mobile */
+  }
+
   .landing-text h1 {
-    font-size: 1.2rem;
+    font-size: 1.4rem; /* Taille plus adaptée */
   }
+
   .landing-text p {
-    font-size: 0.98rem;
+    font-size: 0.9rem;
     padding: 6px 10px;
+  }
+
+  /* Grille d'événements */
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Ajuster le header mobile */
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .mybtns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .create-btn, .myevent-btn, .myfavorites-btn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 }
 

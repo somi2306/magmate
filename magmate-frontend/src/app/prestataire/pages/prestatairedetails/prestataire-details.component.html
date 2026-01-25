@@ -54,7 +54,7 @@
         <button class="report-button" (click)="openReclamationModal()">
           Signaler le prestataire
         </button>
-        <button (click)="contactPrestataire()" [disabled]="isLoadingConnection">
+        <button class="contact-button" (click)="contactPrestataire()" [disabled]="isLoadingConnection">
           {{
             isLoadingConnection ? "Chargement..." : "Contacter le prestataire"
           }}

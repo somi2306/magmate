@@ -1,4 +1,4 @@
-<div class="admin-magasin-container" style="margin-top: 80px;">
+<div class="admin-magasin-container">
   <h2>Gestion des Magasins</h2>
 
   <div class="tab-controls">
@@ -32,10 +32,10 @@
           <button class="approve-btn" (click)="approveMagasin(magasin.idMagasin)">Approuver</button>
           <button class="reject-btn" (click)="rejectMagasin(magasin.idMagasin)">Rejeter</button>
           <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
           <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
-            Voir les produits
+            Produits
           </button>
         </div>
       </div>
@@ -58,12 +58,12 @@
         <p>Email: {{ magasin.proprietaire?.email }}</p>
         <p class="status approved">Statut: Approuvé</p>
         <div class="card-actions">
-          <button class="reject-btn" (click)="rejectMagasin(magasin.idMagasin)" >Rejeter</button>
+          <button class="reject-btn" (click)="rejectMagasin(magasin.idMagasin)">Rejeter</button>
           <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
           <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
-            Voir les produits
+            Produits
           </button>
         </div>
       </div>
@@ -86,12 +86,12 @@
         <p>Email: {{ magasin.proprietaire?.email }}</p>
         <p class="status rejected">Statut: Rejeté</p>
         <div class="card-actions">
-          <button class="approve-btn" (click)="approveMagasin(magasin.idMagasin)" >Approuver</button>
+          <button class="approve-btn" (click)="approveMagasin(magasin.idMagasin)">Approuver</button>
           <button class="contact-btn" (click)="contactProprietaire(magasin.proprietaire?.id)" [disabled]="isLoadingConnection">
-            {{ isLoadingConnection ? 'Chargement...' : 'Contacter le propriétaire' }}
+            {{ isLoadingConnection ? 'Chargement...' : 'Contacter' }}
           </button>
           <button class="contact-btn" (click)="viewMagasinProducts(magasin.idMagasin)">
-            Voir les produits
+            Produits
           </button>
         </div>
       </div>

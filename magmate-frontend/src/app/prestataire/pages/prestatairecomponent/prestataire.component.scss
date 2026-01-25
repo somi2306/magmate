@@ -1,3 +1,8 @@
+/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+* {
+  box-sizing: border-box;
+}
+
 /* Style général */
 html, body {
     min-height: 100vh;
@@ -11,7 +16,10 @@ html, body {
   .form-container {
     background-color: #fff7ec;
     padding: 30px;
-    margin: 40px auto;
+    
+    /* CORRECTION : Marge pour compenser le header fixe (80px + espace) */
+    margin: 110px auto 40px auto; 
+    
     max-width: 600px;
     border-radius: 10px;
     border: 2px solid #721a1a;
@@ -150,11 +158,18 @@ html, body {
     color: #721a1a;
     border: 1px solid #721a1a;
   }
-  
-  /* Style pour l'alerte d'erreur */
-  .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+
+/* =========================================
+   ADAPTATION TÉLÉPHONE (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+  .form-container {
+    margin-top: 95px; /* Marge réduite pour mobile */
+    width: 90%;      /* Prend toute la largeur de l'écran avec une petite marge */
+    padding: 20px;   /* Réduit légèrement l'espace interne */
   }
-  
+
+  .form-container h2 {
+    font-size: 20px; /* Titre plus adapté au petit écran */
+  }
+}

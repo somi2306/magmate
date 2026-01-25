@@ -70,7 +70,7 @@ export class EventsService {
   // 📄 4. Voir les événements créés par un utilisateur
   async findMyEvents(userEmail: string): Promise<Event[]> {
     // Trouver l'utilisateur par son email
-    console.log("Email de l'utilisateur:", userEmail);
+    //console.log("Email de l'utilisateur:", userEmail);
     const user = await this.usersRepository.findOne({
       where: { email: userEmail },
     });
@@ -160,8 +160,8 @@ export class EventsService {
       relations: ['event'],
     });
 
-    console.log('user:', user);
-    console.log('favorites:', favorites);
+    //console.log('user:', user);
+    //console.log('favorites:', favorites);
 
     return favorites.map((f) => f.event);
   }

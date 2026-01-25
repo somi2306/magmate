@@ -9,20 +9,26 @@ import { MessagerieService } from '../../components/messagerie/services/messager
   selector: 'app-admin-header',
   standalone: false,
   templateUrl: './admin-header.component.html',
-  styleUrl: './admin-header.component.css'
+  styleUrl: './admin-header.component.css' // Correction nom de propriété styleUrl -> styleUrls si ancien Angular, mais styleUrl OK v17+
 })
-export class AdminHeaderComponent implements OnInit, OnDestroy{
-profilePhotoUrl: string | null = null;
-  private profileUpdateSubscription: Subscription | null = null;
-  private authSubscription: Subscription | null = null;
-  private authStateSubscription: Subscription | null = null;
-  showDropdown = false;
-  showMarketplaceDropdown = false; // <-- Nouvelle propriété
-  showPrestataireDropdown: boolean = false;
-  totalUnreadMessages = 0;
-  private messagerieSubscription?: Subscription;
-  isPulsing = false;
+export class AdminHeaderComponent implements OnInit, OnDestroy {
+  
+  // Variables d'état
+  profilePhotoUrl: string | null = null;
+  isMenuOpen: boolean = false;
+  
+  // États des dropdowns
+  showDropdown = false; // Profil
+  showMarketplaceDropdown = false; 
+  showPrestataireDropdown = false;
   showTranslationDropdown = false;
+
+  // Notifications
+  totalUnreadMessages = 0;
+  isPulsing = false;
+
+  // Subscriptions
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private profileService: ProfileService,
@@ -31,33 +37,92 @@ profilePhotoUrl: string | null = null;
     private messagerieService: MessagerieService
   ) {}
 
-    toggleDropdown(): void {
+  ngOnInit(): void {
+    // Auth State change
+    this.subscriptions.add(
+      this.afAuth.authState.subscribe(async user => {
+        if (user) {
+          await this.loadProfile();
+          await this.initMessagerieNotifications();
+        } else {
+          this.profilePhotoUrl = 'images/default-profile.png';
+          this.totalUnreadMessages = 0;
+        }
+      })
+    );
+
+    // Profile updates
+    this.subscriptions.add(
+      this.profileService.profileUpdated.subscribe(async () => {
+        if (await this.afAuth.currentUser) {
+          await this.loadProfile();
+        }
+      })
+    );
+
+    // Login events
+    this.subscriptions.add(
+      this.authService.userLoggedIn.subscribe(async () => {
+        if (await this.afAuth.currentUser) {
+          await this.loadProfile();
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  // --- Gestion du Menu Mobile Principal ---
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (!this.isMenuOpen) {
+      this.closeAllDropdowns();
+    }
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+    this.closeAllDropdowns();
+  }
+
+  // --- Gestion des Dropdowns (Logique Mutuelle) ---
+  
+  // 1. Profil
+  toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
-    if (this.showDropdown) { // Ferme l'autre dropdown si celle-ci s'ouvre
-        this.hideMarketplaceDropdown();
+    if (this.showDropdown) {
+      this.showMarketplaceDropdown = false;
+      this.showPrestataireDropdown = false;
     }
   }
 
   hideDropdown(): void {
     this.showDropdown = false;
+    this.checkIfMenuShouldClose();
   }
 
-  // Nouvelle méthode pour le menu déroulant Marketplace
+  // 2. Marketplace
   toggleMarketplaceDropdown(event: Event): void {
-    event.preventDefault(); // Empêche le comportement par défaut du lien
+    event.preventDefault();
+    event.stopPropagation();
     this.showMarketplaceDropdown = !this.showMarketplaceDropdown;
-    if (this.showMarketplaceDropdown) { // Ferme l'autre dropdown si celle-ci s'ouvre
-        this.hideDropdown();
+    if (this.showMarketplaceDropdown) {
+      this.showDropdown = false;
+      this.showPrestataireDropdown = false;
     }
   }
 
-  // Nouvelle méthode pour masquer le menu déroulant Marketplace
   hideMarketplaceDropdown(): void {
     this.showMarketplaceDropdown = false;
+    this.checkIfMenuShouldClose();
   }
 
-  togglePrestataireDropdown(event: Event) {
+  // 3. Prestataire
+  togglePrestataireDropdown(event: Event): void {
     event.preventDefault();
+    event.stopPropagation();
     this.showPrestataireDropdown = !this.showPrestataireDropdown;
     if (this.showPrestataireDropdown) {
       this.showMarketplaceDropdown = false;
@@ -65,50 +130,25 @@ profilePhotoUrl: string | null = null;
     }
   }
 
-  hidePrestataireDropdown() {
+  hidePrestataireDropdown(): void {
+    this.showPrestataireDropdown = false;
+    this.checkIfMenuShouldClose();
+  }
+
+  // Helper pour tout fermer
+  private closeAllDropdowns(): void {
+    this.showDropdown = false;
+    this.showMarketplaceDropdown = false;
     this.showPrestataireDropdown = false;
   }
 
-  toggleTranslationDropdown(event: Event): void {
-  event.preventDefault(); // Prevents page jump
-  this.showTranslationDropdown = !this.showTranslationDropdown;
-}
-
-hideTranslationDropdown(): void {
-  this.showTranslationDropdown = false;
-}
-
-async ngOnInit(): Promise<void> {
-  this.authStateSubscription = this.afAuth.authState.subscribe(async user => {
-    if (user) {
-      await this.loadProfile();
-      await this.initMessagerieNotifications();
-    } else {
-      this.profilePhotoUrl = 'images/default-profile.png';
-      this.totalUnreadMessages = 0;
-    }
-  });
-
-  this.profileUpdateSubscription = this.profileService.profileUpdated.subscribe(async () => {
-    if (await this.afAuth.currentUser) {
-      await this.loadProfile();
-    }
-  });
-
-  this.authSubscription = this.authService.userLoggedIn.subscribe(async () => {
-    if (await this.afAuth.currentUser) {
-      await this.loadProfile();
-    }
-  });
-}
-
-  ngOnDestroy(): void {
-    this.profileUpdateSubscription?.unsubscribe();
-    this.authSubscription?.unsubscribe();
-    this.authStateSubscription?.unsubscribe();
-    this.messagerieSubscription?.unsubscribe();
+  // Helper pour fermer le menu mobile si on clique sur un lien final
+  private checkIfMenuShouldClose(): void {
+    // Optionnel : fermer tout le menu mobile après selection
+    this.isMenuOpen = false;
   }
 
+  // --- Chargement Données ---
   private async loadProfile() {
     try {
       const profile = await this.profileService.getProfile();
@@ -116,41 +156,30 @@ async ngOnInit(): Promise<void> {
         ? `${profile.photo}?${new Date().getTime()}`
         : 'images/default-profile.png';
     } catch (error) {
-      console.error('Erreur de chargement du profil', error);
+      console.error('Erreur chargement profil', error);
       this.profilePhotoUrl = 'images/default-profile.png';
     }
   }
 
-  smoothScroll(event: any): void {
-    event.preventDefault();
-    const targetId = event.target.getAttribute('href').substring(1);
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+  private async initMessagerieNotifications() {
+    try {
+      await this.messagerieService.connect();
+      this.subscriptions.add(
+        this.messagerieService.getUnreadCounts().subscribe({
+          next: (counts: { [conversationId: string]: number }) => {
+            const newTotal = Object.values(counts).reduce((sum, count) => sum + count, 0);
+            if (newTotal > this.totalUnreadMessages) {
+              this.isPulsing = true;
+              setTimeout(() => this.isPulsing = false, 500);
+            }
+            this.totalUnreadMessages = newTotal;
+          },
+          error: (err) => console.error('Erreur notifs:', err)
+        })
+      );
+      this.messagerieService.requestUnreadCounts();
+    } catch (err) {
+      console.error('Erreur init messagerie:', err);
     }
   }
-private async initMessagerieNotifications() {
-  try {
-    await this.messagerieService.connect();
-    this.messagerieSubscription = this.messagerieService.getUnreadCounts().subscribe({
-      next: (counts: { [conversationId: string]: number }) => {
-        const newTotal = Object.values(counts).reduce((sum, count) => sum + count, 0);
-        console.log('Nouveau total de messages non lus:', newTotal);
-        if (newTotal > this.totalUnreadMessages) {
-          this.isPulsing = true;
-          setTimeout(() => this.isPulsing = false, 500);
-        }
-        this.totalUnreadMessages = newTotal;
-      },
-      error: (err) => console.error('Erreur notifications messagerie:', err)
-    });
-    this.messagerieService.requestUnreadCounts();
-  } catch (err) {
-    console.error('Erreur initialisation messagerie:', err);
-  }
-}
 }

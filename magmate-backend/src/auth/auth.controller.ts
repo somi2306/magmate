@@ -14,10 +14,10 @@ export class AuthController {
   @Post('login')
   async login(@Body('token') token: string) {
     try {
-      console.log('Received token:', token); 
+      //console.log('Received token:', token); 
       const decodedToken = await admin.auth().verifyIdToken(token);
       const email = decodedToken.email;
-      console.log('Decoded token:', decodedToken); 
+      //console.log('Decoded token:', decodedToken); 
 
       if (!email) throw new UnauthorizedException('Email not found in token');
       let user = await this.userService.findByEmail(email);
@@ -28,7 +28,7 @@ export class AuthController {
       }
 
             if (!user) throw new UnauthorizedException('User not found');
-      console.log('User role:', user.role, user.phoneNumber);
+      //console.log('User role:', user.role, user.phoneNumber);
       // 🔒 Si admin avec 2FA activé
       if (user.role === UserRole.ADMIN && user.twoFactorEnabled) {
         return {
@@ -37,7 +37,7 @@ export class AuthController {
           user: { role: user.role },
         };
       }
-      // ✅ Sinon, login classique
+      // Sinon, login classique
       return {
         token: token,
         user: {

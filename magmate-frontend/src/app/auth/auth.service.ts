@@ -71,22 +71,22 @@ export class AuthService {
         return null;
       }
       const token = await user.getIdToken();
-      console.log('Token Firebase:', token);
+      //console.log('Token Firebase:', token);
       localStorage.setItem('firebase_token', token);
-      console.log(
+      /*console.log(
         'Token stocké dans localStorage:',
         localStorage.getItem('firebase_token')
-      );
+      );*/
       return token;
     } catch (error) {
-      console.error('Erreur getIdToken:', error);
+      //console.error('Erreur getIdToken:', error);
       return null;
     }
   }
 
   async loginBackend() {
     const token = await this.getIdToken();
-    console.log('Firebase token:', token);
+    //console.log('Firebase token:', token);
     const response: any = await firstValueFrom(
       this.http.post(`${this.API}/login`, { token })
     );

@@ -1,4 +1,4 @@
-<div class="reclamation-list-container" style="margin-top: 80px;">
+<div class="reclamation-list-container">
   <h2>Liste des Réclamations</h2>
 
   <div *ngIf="errorMessage" class="error-message">
@@ -10,17 +10,15 @@
       <thead>
         <tr>
           <th>Description</th>
-          <th>Date de Création</th>
-          <th>Nom du Produit</th>
-          <th>Utilisateur (Email)</th>
+          <th>Date</th> <th>Produit</th>
+          <th>Utilisateur</th>
           <th>Pièce Jointe</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let reclamation of reclamations">
           <td>{{ reclamation.description }}</td>
-          <td>{{ reclamation.dateCreation | date:'short' }}</td>
-          <td>
+          <td>{{ reclamation.dateCreation | date:'shortDate' }}</td> <td>
             <a *ngIf="reclamation.produit?.titre" [routerLink]="['/admin/produit-details', reclamation.produit.idProduit]">
               {{ reclamation.produit.titre }}
             </a>
@@ -29,9 +27,9 @@
           <td>{{ reclamation.utilisateur?.email || 'N/A' }}</td>
           <td>
             <a *ngIf="reclamation.pieceJointe" [href]="reclamation.pieceJointe" target="_blank">
-  Voir la pièce jointe
-</a>
-            <span *ngIf="!reclamation.pieceJointe">Aucune</span>
+              <i class="ri-attachment-line"></i> Voir
+            </a>
+            <span *ngIf="!reclamation.pieceJointe">-</span>
           </td>
         </tr>
       </tbody>
@@ -39,6 +37,8 @@
   </div>
 
   <ng-template #noReclamations>
-    <p class="no-reclamations-message">Aucune réclamation trouvée pour le moment.</p>
+    <div class="no-reclamations-message">
+      <p>Aucune réclamation trouvée.</p>
+    </div>
   </ng-template>
 </div>

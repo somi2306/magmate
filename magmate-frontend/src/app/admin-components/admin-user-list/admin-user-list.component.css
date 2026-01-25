@@ -1,24 +1,54 @@
+/* admin-user-list.component.css */
+
 .admin-magasin-container {
   padding: 25px;
   max-width: 1200px;
-  margin: 20px auto;
+  
+  /* CORRECTION : Marge standardisée (110px PC / 95px Mobile) */
+  margin: 110px auto 30px auto;
+  
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 h2 {
-  margin-top: 80px; 
+  /* On enlève le margin-top: 80px ici car c'est géré par le container maintenant */
+  margin-top: 0; 
   text-align: center;
   color: #2c3e50;
   margin-bottom: 30px;
   font-size: 2rem;
   font-weight: 600;
+  position: relative;
+  padding-bottom: 15px;
 }
 
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #3498db;
+}
 
+.info-message {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* Grille des utilisateurs */
 .magasin-list {
   display: grid;
+  /* Responsive automatique : min 300px ou fraction */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   padding: 10px 0;
@@ -41,31 +71,52 @@ h2 {
 }
 
 .magasin-card h4 {
-  margin-top: 0;
   color: #3498db;
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  margin-top: 0;
 }
 
 .magasin-card p {
   margin-bottom: 10px;
   color: #555;
-  font-size: 0.95em;
+  font-size: 0.95rem;
   line-height: 1.5;
+  word-break: break-all; /* Important pour les emails longs */
 }
 
+/* Badges de rôle */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.status.approved { /* Admin */
+  background-color: #e8f8ef;
+  color: #27ae60;
+  border: 1px solid #d4efdf;
+}
+
+.status.rejected { /* User */
+  background-color: #f4f6f7;
+  color: #7f8c8d;
+  border: 1px solid #eaeded;
+}
+
+/* Actions / Boutons */
 .card-actions {
   margin-top: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
+  border-top: 1px solid #f0f0f0;
 }
 
-
 .delete-btn {
-  padding: 10px 18px;
+  padding: 8px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -74,79 +125,43 @@ h2 {
   font-size: 0.9rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-width: 120px;
-}
-
-.delete-btn {
-  background-color: #f39c12;
+  gap: 5px;
   color: white;
+  background-color: #e74c3c; /* Rouge pour supprimer */
 }
 
 .delete-btn:hover {
-  background-color: #e67e22;
+  background-color: #c0392b;
   transform: translateY(-1px);
 }
 
-.contact-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.contact-btn:hover {
-  background-color: #2980b9;
-  transform: translateY(-1px);
-}
-
-.contact-btn:disabled {
-  background-color: #bdc3c7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.status {
-  padding: 6px 12px;
-  border-radius: 20px;
-  display: inline-block;
-  font-weight: 500;
-  font-size: 0.85rem;
-  margin: 5px 0;
-}
-
-.status.approved {
-  background-color: #e8f8ef;
-  color: #27ae60;
-}
-
-.status.rejected {
-  background-color: #fdecea;
-  color: #e74c3c;
-}
-
-.info-message {
-  text-align: center;
-  color: #7f8c8d;
-  font-style: italic;
-  margin-top: 30px;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
+/* =========================================
+   RESPONSIVE / MOBILE
+   ========================================= */
 @media (max-width: 768px) {
   .admin-magasin-container {
     padding: 15px;
-    margin: 15px;
+    /* Marge adaptée mobile (95px) */
+    margin: 95px 15px 20px 15px;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
   }
 
   .magasin-list {
+    /* Une seule colonne sur mobile */
     grid-template-columns: 1fr;
+  }
+
+  .magasin-card {
+    padding: 15px;
+  }
+
+  .delete-btn {
+    width: 100%; /* Bouton pleine largeur sur mobile */
+    justify-content: center;
+    padding: 12px;
   }
 }

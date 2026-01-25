@@ -1,6 +1,12 @@
+/* AJOUT SÉCURITÉ : Empêche tout débordement global */
+* {
+  box-sizing: border-box;
+}
+
 .profil-container {
   max-width: 500px;
-  margin: 40px auto;
+  /* CORRECTION : Marge du haut pour compenser le header fixe (110px) */
+  margin: 110px auto 40px auto; 
   padding: 30px 20px;
   background-color: #ffffff;
   border-radius: 20px;
@@ -51,26 +57,19 @@
   color: #fff;
 }
 
+/* Nettoyage des doublons de boutons en gardant votre style exact */
 .modify-btn,
 .delete-btn {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  margin: 10px 5px;
-  transition: background-color 0.3s ease;
-}
-
-.modify-btn,
-.delete-btn {
+  display: inline-block;
   padding: 8px 12px;
   background-color: #721a1a;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 10px 5px;
   transition: 0.3s;
 }
 
@@ -79,4 +78,34 @@
   background-color: white;
   color: #721a1a;
   border: 1px solid #721a1a;
+}
+
+/* =========================================
+   ADAPTATION TÉLÉPHONE (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+  .profil-container {
+    margin-top: 95px; /* Marge réduite pour mobile */
+    width: 92%;      /* Prend presque toute la largeur */
+    padding: 20px 15px;
+  }
+
+  .profil-info p {
+    font-size: 18px; /* Légère réduction pour mobile */
+  }
+
+  .profil-info strong {
+    font-size: 20px;
+  }
+
+  .profile-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  /* Empiler les boutons sur de très petits écrans si nécessaire */
+  .modify-btn, .delete-btn {
+    width: 100%;
+    margin: 5px 0;
+  }
 }

@@ -8,23 +8,24 @@
   <div class="magasin-list">
     <div class="magasin-card" *ngFor="let utilisateur of utilisateurs">
       <h4>{{ utilisateur.fname }} {{ utilisateur.lname }}</h4>
+      
       <p><strong>Email :</strong> {{ utilisateur.email }}</p>
-      <p><strong>Téléphone :</strong> {{ utilisateur.email || '—' }}</p>
+      
+      
       <p>
         <strong>Rôle :</strong>
         <span class="status" [ngClass]="{
           'approved': utilisateur.role === 'admin',
           'rejected': utilisateur.role !== 'admin'
         }">
-          {{ utilisateur.role }}
+          {{ utilisateur.role === 'admin' ? 'Administrateur' : 'Utilisateur' }}
         </span>
       </p>
 
       <div class="card-actions">
         <button class="delete-btn" (click)="supprimerUtilisateur(utilisateur.id)">
-          Supprimer
+          <i class="ri-delete-bin-line"></i> Supprimer
         </button>
-        
       </div>
     </div>
   </div>

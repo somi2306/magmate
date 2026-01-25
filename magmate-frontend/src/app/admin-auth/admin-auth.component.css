@@ -1,35 +1,42 @@
+/* admin-auth.component.css */
+
+/* AJOUT : Important pour que les paddings ne cassent pas la largeur */
+* {
+  box-sizing: border-box;
+}
 .admin-container {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999; 
+
+  background-color: rgba(118, 114, 114, 0.68); 
+  
+  backdrop-filter: blur(4px); /* Optionnel : floute légèrement le header derrière */
+  overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: #fafafa;
   font-family: "Roboto", sans-serif;
+  padding: 1rem;
 }
 
 .admin-card {
-  background-color: var(--card-color);
+  /* On s'assure que la carte elle-même est bien blanche et opaque */
+  background-color: #ffffff; 
   border-radius: 16px;
   width: 100%;
-  max-width: 380px;
-  box-shadow: var(--box-shadow);
-  border: 1px solid var(--border-color);
+  max-width: 380px; 
   padding: 2rem 1.5rem;
-  animation: slideIn 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid #eee;
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .admin-header {
@@ -51,6 +58,13 @@
 .qr-section {
   margin-bottom: 1.2rem;
   text-align: center;
+  /* S'assure que le QR code ne dépasse pas */
+  max-width: 100%; 
+}
+
+.qr-section img, .qr-section canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 .form-group {
@@ -70,6 +84,8 @@
   color: var(--text-color);
   outline: none;
   transition: border-color 0.2s;
+  /* Empêche l'input d'être trop petit */
+  min-width: 0; 
 }
 
 .input-2fa:focus {
@@ -88,6 +104,8 @@
   background-color: var(--primary-color);
   color: white;
   width: 120px;
+  /* Empêche le bouton de se réduire */
+  flex-shrink: 0; 
 }
 
 .btn:disabled {
@@ -102,10 +120,27 @@
   text-align: center;
 }
 
-/* Responsive */
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
 @media (max-width: 480px) {
+  .admin-container {
+    padding: 15px; /* Espace autour de la carte */
+  }
+
   .admin-card {
-    padding: 1rem 0.5rem;
-    max-width: 98vw;
+    padding: 1.5rem 1rem;
+    max-width: 92%; /* Empêche de coller aux bords */
+  }
+
+  .admin-header h2 {
+    font-size: 1.4rem; /* Légèrement plus petit pour éviter les retours à la ligne */
+  }
+
+.form-group {
+    flex-direction: column;
+  }
+  .btn {
+    width: 100%;
   }
 }

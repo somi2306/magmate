@@ -1,9 +1,16 @@
+/* AJOUT SÉCURITÉ */
+* {
+  box-sizing: border-box;
+}
+
 /* Assure une hauteur complète et un fond cohérent */
 html, body {
   min-height: 100vh;
   background-color: #edd1ab;
   margin: 0;
   padding: 0;
+  /* CORRECTION : Marge header fixe */
+  padding-top: 110px;
 }
 
 /* Conteneur du formulaire magasin */
@@ -185,4 +192,24 @@ html, body {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
+}
+
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  html, body {
+    padding-top: 95px;
+  }
+
+  .magasin-form-container {
+    margin-top: 95px; /* Marge réduite pour mobile */
+    width: 90%;      /* Prend toute la largeur de l'écran avec une petite marge */
+    padding: 20px;   /* Réduit légèrement l'espace interne */
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

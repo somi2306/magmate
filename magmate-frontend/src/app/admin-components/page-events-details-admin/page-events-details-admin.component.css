@@ -1,11 +1,16 @@
-.all{
-    background: var(--secondary-bg) ;
-    padding: 5%;
+/* page-events-details-admin.component.css */
+
+.all {
+  background: var(--secondary-bg);
+  padding: 5%;
 }
 
 .event-details-container {
   max-width: 900px;
-  margin: 32px auto;
+  
+  /* CORRECTION : Marge du haut pour éviter le header fixe (80px + 30px) */
+  margin: 110px auto 32px auto;
+  
   padding: 0 0 32px 0;
   font-family: 'Roboto', Arial, sans-serif;
   color: var(--text-color);
@@ -50,7 +55,7 @@
 
 .event-banner {
   height: 260px;
-  background-size: contain;      /* Affiche toute l'image sans la couper */
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   background-color: #f6f6f6;
@@ -62,7 +67,7 @@
   background: transparent;
   border-bottom: none;
   display: flex;
-  flex-direction:column ;
+  flex-direction: column;
   gap: 15px;
   flex-wrap: wrap;
 }
@@ -254,19 +259,43 @@
   background-color: #a73121;
 }
 
-@media (max-width: 700px) {
+/* =========================================
+   ADAPTATION MOBILE
+   ========================================= */
+@media (max-width: 768px) {
+  .all {
+    padding: 10px; /* Moins de padding sur mobile */
+  }
+
   .event-details-container {
-    margin: 12px;
+    /* Marge du haut ajustée pour mobile (Header 80px + 15px) */
+    margin: 95px auto 20px auto; 
+    width: 100%;
     padding: 0;
   }
+  
   .event-card {
-    margin-top: 12px;
+    margin-top: 0; /* Évite un double espacement */
+    border-radius: 12px;
   }
+
   .event-title {
-    font-size: 1.2rem;
+    font-size: 1.5rem; /* Titre légèrement réduit */
   }
+
   .event-banner {
-    height: 160px;
+    height: 200px; /* Hauteur adaptée */
+  }
+  
+  .event-header {
+    padding: 15px;
+  }
+  
+  .event-type {
+    top: 15px;
+    right: 15px;
+    font-size: 0.8rem;
+    padding: 5px 12px;
   }
 }
 

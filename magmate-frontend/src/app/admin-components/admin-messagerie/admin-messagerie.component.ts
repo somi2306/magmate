@@ -78,6 +78,11 @@ unreadCounts: { [conversationId: string]: number } = {};
     }
   }
 
+  openImage(url: string | undefined): void {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
   private async handleRecipientParam(recipientId: string) {
     try {
       // Vérifier si une conversation existe déjà avec ce destinataire
@@ -413,19 +418,31 @@ toggleEmojiPicker() {
   );
 } */
 getSafeMessage(content: string) {
-  return this.sanitizer.bypassSecurityTrustHtml(
-    twemoji.parse(content, {
-      base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
-      folder: 'svg',
-      ext: '.svg',
-      size: 'svg',
-      attributes: () => ({ 
-        class: 'emoji',
-        style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
-      })
-    })
-  );
-}
+    // CORRECTION : Vérification de sécurité
+    // Si content est null, undefined ou vide, on retourne une chaine vide sans appeler twemoji
+    if (!content) {
+      return '';
+    }
+
+    try {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        twemoji.parse(content, {
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
+          folder: 'svg',
+          ext: '.svg',
+          size: 'svg',
+          attributes: () => ({ 
+            class: 'emoji',
+            style: 'height: 20px; width: 20px; vertical-align: middle; margin: 0 2px;' 
+          })
+        })
+      );
+    } catch (error) {
+      console.warn('Erreur lors du parsing des emojis:', error);
+      // En cas d'erreur interne à twemoji, on retourne le texte brut pour ne pas casser l'affichage
+      return content;
+    }
+  }
 
 @ViewChild('fileInput') fileInput!: ElementRef;
 

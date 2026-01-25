@@ -1,11 +1,13 @@
-.all{
-    background: var(--secondary-bg) ;
-    padding: 5%;
+.all {
+  background: var(--secondary-bg);
+  padding: 5%;
+  /* Ajout de la marge pour compenser le header fixe sur toutes les vues */
+  padding-top: 110px; 
 }
 
 .event-details-container {
   max-width: 900px;
-  margin: 32px auto;
+  margin: 0 auto; /* Margin top géré par le parent .all */
   padding: 0 0 32px 0;
   font-family: 'Roboto', Arial, sans-serif;
   color: var(--text-color);
@@ -50,7 +52,7 @@
 
 .event-banner {
   height: 260px;
-  background-size: contain;      /* Affiche toute l'image sans la couper */
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   background-color: #f6f6f6;
@@ -62,7 +64,7 @@
   background: transparent;
   border-bottom: none;
   display: flex;
-  flex-direction:column ;
+  flex-direction: column;
   gap: 15px;
   flex-wrap: wrap;
 }
@@ -254,19 +256,44 @@
   background-color: #a73121;
 }
 
-@media (max-width: 700px) {
+/* ADAPTATION TÉLÉPHONE (Corrigée) */
+@media (max-width: 768px) {
+  .all {
+    padding: 3%;
+    padding-top: 95px; /* Margin pour mobile */
+  }
   .event-details-container {
-    margin: 12px;
+    width: 100%;
+    margin: 0;
     padding: 0;
   }
   .event-card {
-    margin-top: 12px;
+    margin-top: 15px;
+    border-radius: 12px;
   }
   .event-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   .event-banner {
-    height: 160px;
+    height: 180px;
+  }
+  .event-type {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    top: 15px;
+    right: 15px;
+  }
+  .navigation-bar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .creator-actions {
+    flex-direction: column;
+  }
+  .creator-actions button {
+    width: 100%;
+    justify-content: center;
   }
 }
 
