@@ -46,7 +46,12 @@ Le projet est divisé en deux applications distinctes :
     DB_PORT=
     DB_USERNAME=
     DB_PASSWORD=
-    DB_DATABASE=
+    DB_NAME=
+    pool_mode=
+    CLOUDINARY_API_KEY=
+    CLOUDINARY_API_SECRET=
+    CLOUDINARY_CLOUD_NAME=
+    FRONTEND_URL=
     ```
 
 3.  **Lancer les migrations** (TypeORM migrations) :
