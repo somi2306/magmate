@@ -127,5 +127,4 @@ Voici un aperçu de l'organisation des dossiers :
 | :--- | :--- |
 | `magmate-frontend/src/app` | Code source Angular (Composants, Services, Modules). |
 | `magmate-backend/src` | Code source NestJS (Contrôleurs, Services, Entités). |
-| `magmate-backend/uploads` | Dossier de stockage des images uploadées. |
 | `magmate-backend/src/migrations` | Scripts de migration de base de données TypeORM. |
